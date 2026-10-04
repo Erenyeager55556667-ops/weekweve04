@@ -1,0 +1,11 @@
+{
+  "appId": "com.weekweave.app",
+  "appName": "Weekweave",
+  "webDir": "www",
+  "backgroundColor": "#12141a",
+  "android": { "backgroundColor": "#12141a", "allowMixedContent": false },
+  "plugins": {
+    "StatusBar": { "style": "DARK", "backgroundColor": "#12141a", "overlaysWebView": false },
+    "SplashScreen": { "launchShowDuration": 0 }
+  }
+}
