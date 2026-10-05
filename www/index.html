@@ -442,6 +442,123 @@ a{color:inherit;}
 html,body{overscroll-behavior:none; -webkit-tap-highlight-color:transparent;}
 body{-webkit-user-select:none; user-select:none;}
 input,textarea,select{-webkit-user-select:text; user-select:text;}
+.i{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0;}
+[data-ic]{display:inline-flex; align-items:center; justify-content:center;}
+.hero-row{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+.quick-capsule{display:flex; gap:2px; padding:4px; border-radius:999px; background:var(--card); border:1px solid var(--border); box-shadow:var(--shadow); margin-top:6px; flex-shrink:0;}
+.quick-capsule button{width:40px; height:40px; border-radius:50%; border:none; background:none; color:var(--accent); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s, transform .2s;}
+.quick-capsule button:active{background:var(--accent-dim); transform:scale(.88);}
+.page-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+.add-round{width:44px; height:44px; border-radius:50%; border:none; background:var(--accent); color:var(--accent-text); display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow); transition:transform .25s; flex-shrink:0;}
+.add-round:active{transform:scale(.9) rotate(90deg);}
+.sec-label{font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--text-faint); margin:18px 2px 10px;}
+.notes-grid{column-count:2; column-gap:12px;}
+.note-card{break-inside:avoid; margin-bottom:12px; padding:14px 14px 12px; border-radius:var(--radius); background:var(--card); border:1px solid var(--border); position:relative; cursor:pointer; transition:transform .2s, opacity .28s;}
+.note-card.nc-on,.task.nc-on{background:color-mix(in srgb, var(--nc) 16%, var(--card)); border-color:color-mix(in srgb, var(--nc) 42%, var(--border));}
+.note-card:active{transform:scale(.98);}
+.n-title{font-weight:700; font-size:15px; margin-bottom:5px; padding-right:26px; word-break:break-word;}
+.n-text{font-size:13.5px; color:var(--text-dim); white-space:pre-wrap; word-break:break-word; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient:vertical; overflow:hidden;}
+.n-date{font-size:11px; color:var(--text-faint); margin-top:10px;}
+.pin-btn{position:absolute; top:8px; right:8px; width:28px; height:28px; border-radius:50%; border:none; background:none; color:var(--text-faint); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:color .2s, transform .25s;}
+.pin-btn .i{width:16px; height:16px;}
+.pin-btn.on{color:var(--accent); transform:rotate(-30deg);}
+.enter{animation:itemIn .45s cubic-bezier(.2,.8,.2,1) both; animation-delay:calc(var(--i,0) * 45ms);}
+@keyframes itemIn{from{opacity:0; transform:translateY(14px) scale(.97);} to{opacity:1; transform:none;}}
+.leaving{opacity:0 !important; transform:scale(.9) !important;}
+.task-prog{margin:4px 0 6px;}
+.tp-top{font-size:13px; color:var(--text-dim); margin-bottom:8px;}
+.tp-bar{height:6px; border-radius:6px; background:var(--card-2); overflow:hidden;}
+.tp-bar span{display:block; height:100%; width:0; border-radius:6px; background:linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #fff)); transition:width .6s cubic-bezier(.4,0,.2,1);}
+.task-list{display:flex; flex-direction:column; gap:10px;}
+.task{position:relative; display:flex; align-items:center; gap:12px; padding:12px 42px 12px 16px; border-radius:var(--radius); background:var(--card); border:1px solid var(--border); cursor:pointer; transition:opacity .28s, transform .28s;}
+.task::before{content:""; position:absolute; left:0; top:11px; bottom:11px; width:3px; border-radius:3px; background:var(--nc);}
+.task .pin-btn{top:50%; right:8px; transform:translateY(-50%);}
+.task .pin-btn.on{transform:translateY(-50%) rotate(-30deg);}
+.chk{width:26px; height:26px; border-radius:50%; border:2px solid var(--text-faint); background:none; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .25s, border-color .25s, transform .25s;}
+.chk svg{width:15px; height:15px; fill:none; stroke:var(--accent-text); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:24; stroke-dashoffset:24; transition:stroke-dashoffset .3s .1s;}
+.task.done .chk{background:var(--accent); border-color:var(--accent); transform:scale(1.08);}
+.task.done .chk svg{stroke-dashoffset:0;}
+.t-title{font-size:15px; font-weight:600; transition:color .25s; word-break:break-word;}
+.task.done .t-title{color:var(--text-faint); text-decoration:line-through;}
+.t-date{display:flex; align-items:center; gap:5px; font-size:11.5px; color:var(--text-dim); margin-top:3px;}
+.t-date .i{width:12px; height:12px;}
+.t-date.over{color:#ef4444;}
+.empty-state{text-align:center; padding:60px 20px; color:var(--text-dim);}
+.es-ico{width:64px; height:64px; margin:0 auto 14px; border-radius:50%; background:var(--accent-dim); color:var(--accent); display:flex; align-items:center; justify-content:center;}
+.es-ico .i{width:28px; height:28px;}
+.es-t{font-weight:700; color:var(--text); margin-bottom:4px;}
+.es-s{font-size:13px;}
+.nc-row{display:flex; gap:10px; flex-wrap:wrap;}
+.nc{width:32px; height:32px; border-radius:50%; border:2px solid transparent; background:var(--nc); cursor:pointer; transition:transform .2s, border-color .2s; box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);}
+.nc[data-c=""]{border:2px dashed var(--border); background:none;}
+.nc.on{border-color:var(--text); transform:scale(1.12);}
+.pin-toggle{display:flex; align-items:center; gap:6px;}
+.pin-toggle .i{width:16px; height:16px;}
+.pin-toggle.on{background:var(--accent-dim); color:var(--accent); border-color:var(--accent);}
+.cal-nav{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+.cal-month{font-family:var(--serif); font-size:19px; font-weight:600;}
+.cal-arrow{width:36px; height:36px; border-radius:50%; border:1px solid var(--border); background:var(--card-2); color:var(--text); display:flex; align-items:center; justify-content:center; cursor:pointer;}
+.cal-wd,.cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center;}
+.cal-wd span{font-size:11px; font-weight:600; color:var(--text-faint); padding:4px 0;}
+.cd{position:relative; aspect-ratio:1; border:none; background:none; border-radius:50%; color:var(--text); font:500 14px var(--sans); cursor:pointer; transition:background .2s, color .2s, transform .2s;}
+.cd.empty{pointer-events:none;}
+.cd:active{transform:scale(.88);}
+.cd.today{box-shadow:inset 0 0 0 1.5px var(--accent);}
+.cd.sel{background:var(--accent); color:var(--accent-text); font-weight:700;}
+.cd i{position:absolute; left:50%; bottom:5px; width:5px; height:5px; border-radius:50%; background:var(--accent); transform:translateX(-50%);}
+.cd i.all{opacity:.4;}
+.cd.sel i{background:var(--accent-text);}
+.cal-grid.next{animation:slideN .32s ease both;}
+.cal-grid.prev{animation:slideP .32s ease both;}
+@keyframes slideN{from{opacity:0; transform:translateX(26px);} to{opacity:1; transform:none;}}
+@keyframes slideP{from{opacity:0; transform:translateX(-26px);} to{opacity:1; transform:none;}}
+.cal-day{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);}
+.cal-day-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; font-weight:600; font-size:14px;}
+.cal-day-head .chip{border:none; cursor:pointer; font:inherit; font-size:12px;}
+.cal-task{display:flex; align-items:center; gap:10px; padding:9px 0; font-size:14px; cursor:pointer;}
+.cal-task i{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+.cal-task.done{color:var(--text-faint); text-decoration:line-through;}
+.cal-empty{font-size:13px; color:var(--text-faint); padding:6px 0;}
+[data-theme="light"] .quick-capsule button,[data-theme="light"] .es-ico,[data-theme="light"] .pin-btn.on,[data-theme="light"] .pin-toggle.on{color:color-mix(in srgb, var(--accent) 52%, #1a1e18);}
+.back-row{display:flex; justify-content:flex-end; margin-bottom:10px;}
+.back-btn{width:36px; height:36px; border-radius:50%; border:1px solid var(--border); background:var(--card-2); color:var(--text); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .2s, background .2s;}
+.back-btn:active{transform:scale(.88); background:var(--accent-dim);}
+.note-card,.task{border-radius:8px;}
+.note-card.nc-on,.task.nc-on{background:color-mix(in srgb, var(--nc) 30%, var(--card)); border-color:color-mix(in srgb, var(--nc) 60%, var(--border));}
+.nv-bar{display:flex; align-items:center; justify-content:flex-end; gap:6px; margin-bottom:12px;}
+.nv-bar button{width:38px; height:38px; border-radius:50%; border:1px solid var(--border); background:var(--card-2); color:var(--text-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .2s, background .25s, color .25s;}
+.nv-bar button:active{transform:scale(.88);}
+.nv-bar button.on{color:var(--accent); border-color:var(--accent); background:var(--accent-dim);}
+.nv-bar button.danger{color:#ef4444;}
+.nv-bar .back-btn{margin-left:8px; color:var(--text);}
+.nv-colors{display:flex; gap:9px; justify-content:flex-end; margin-bottom:14px;}
+.nc.sm{width:24px; height:24px;}
+.nv-card{padding:22px 20px 28px; border-radius:10px; border:1px solid color-mix(in srgb, var(--nc) 55%, var(--border)); background:color-mix(in srgb, var(--nc) 26%, var(--card)); min-height:52vh; transition:background .45s, border-color .45s;}
+.nv-title{font-family:var(--serif); font-size:27px; font-weight:600; line-height:1.2; margin-bottom:6px; word-break:break-word;}
+.nv-date{font-size:12px; color:var(--text-dim); margin-bottom:20px;}
+.nv-text{font-size:16.5px; line-height:1.8; white-space:pre-wrap; word-break:break-word;}
+.nv-edit input,.nv-edit textarea{width:100%; background:transparent; border:none; outline:none; color:var(--text);}
+.nv-edit input{font-family:var(--serif); font-size:24px; font-weight:600; padding:4px 0 10px; border-bottom:1px dashed var(--border); margin-bottom:12px;}
+.nv-edit textarea{min-height:42vh; font-size:16.5px; line-height:1.8; resize:none;}
+.nv-edit .modal-actions{margin-top:16px;}
+.nv-enter{animation:nvIn .38s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes nvIn{from{opacity:0; transform:translateX(26px);} to{opacity:1; transform:none;}}
+.date-btn{display:flex; align-items:center; gap:12px; padding:9px 12px; border-radius:12px; border:1px solid var(--border); background:var(--bg-elev); cursor:pointer; transition:border-color .25s;}
+.date-btn.open,.date-btn.has{border-color:color-mix(in srgb, var(--accent) 60%, var(--border));}
+.db-ico{width:34px; height:34px; border-radius:10px; background:var(--accent-dim); color:var(--accent); display:flex; align-items:center; justify-content:center;}
+.db-text{flex:1; font-weight:600; font-size:14px; color:var(--text-dim);}
+.date-btn.has .db-text{color:var(--text);}
+.db-clear{display:none; border:none; background:var(--card-2); color:var(--text-dim); width:24px; height:24px; border-radius:50%; cursor:pointer; font-size:11px;}
+.date-btn.has .db-clear{display:block;}
+.dp{max-height:0; overflow:hidden; opacity:0; border-radius:14px; background:var(--card-2); border:1px solid transparent; padding:0 12px; transition:max-height .4s ease, opacity .3s ease, margin .3s ease, padding .3s ease;}
+.dp.open{max-height:480px; opacity:1; margin-top:10px; padding:12px; border-color:var(--border);}
+.dp-chips{display:flex; gap:8px; margin-bottom:12px;}
+.dp-chips button{flex:1; border:1px solid var(--border); background:var(--card); color:var(--text); border-radius:999px; padding:7px 4px; font:600 12px var(--sans); cursor:pointer;}
+.cd.today{box-shadow:none; background:var(--accent-dim); color:var(--accent); font-weight:700;}
+.cd.sel{background:linear-gradient(145deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #000)); color:var(--accent-text); box-shadow:0 6px 14px color-mix(in srgb, var(--accent) 40%, transparent);}
+.cal-wd span{text-transform:uppercase; letter-spacing:.08em; font-size:10px;}
+.cal-grid{row-gap:6px;}
+[data-theme="light"] .db-ico,[data-theme="light"] .cd.today{color:color-mix(in srgb, var(--accent) 52%, #1a1e18);}
 </style>
 </head>
 <body data-theme="dark">
@@ -459,8 +576,9 @@ input,textarea,select{-webkit-user-select:text; user-select:text;}
   <main class="main">
 
     <section class="page" id="page-dashboard">
-      <div class="hero-hello" id="greetHello"></div>
-      <div class="hero-name" id="greetName"></div>
+      <div class="hero-row"><div class="hero-id"><div class="hero-hello" id="greetHello"></div>
+      <div class="hero-name" id="greetName"></div></div>
+      <div class="quick-capsule"><button onclick="goPage('tasks')" data-ic="tasks" aria-label="Tasks"></button><button onclick="goPage('notes')" data-ic="note" aria-label="Notes"></button><button onclick="openCalendar()" data-ic="calendar" aria-label="Calendar"></button></div></div>
       <div class="hero-date" id="todayDate"></div>
       <div class="hero-msg" id="motivationMsg"></div>
       <div class="card" style="margin-bottom:16px;">
@@ -520,6 +638,21 @@ input,textarea,select{-webkit-user-select:text; user-select:text;}
         </div>
         <div id="foodDaily"></div>
       </div>
+    </section>
+
+    <section class="page" id="page-notes">
+      <div class="back-row"><button class="back-btn" onclick="history.back()" data-ic="left" aria-label="Back to Home"></button></div>
+      <div class="page-head"><div><div class="page-title">Notes</div><div class="page-sub">Capture ideas, pin what matters</div></div><button class="add-round" onclick="openNoteForm()" data-ic="plus" aria-label="New note"></button></div>
+      <div id="notesList"></div>
+    </section>
+
+    <section class="page" id="page-note"><div id="noteView"></div></section>
+
+    <section class="page" id="page-tasks">
+      <div class="back-row"><button class="back-btn" onclick="history.back()" data-ic="left" aria-label="Back to Home"></button></div>
+      <div class="page-head"><div><div class="page-title">Tasks</div><div class="page-sub">Small steps, done one by one</div></div><button class="add-round" onclick="openTaskForm()" data-ic="plus" aria-label="New task"></button></div>
+      <div class="task-prog"><div class="tp-top" id="taskCount"></div><div class="tp-bar"><span id="taskProg"></span></div></div>
+      <div id="tasksList"></div>
     </section>
 
     <section class="page" id="page-settings">
@@ -592,10 +725,11 @@ function slotNow(map){ const h=new Date().getHours(); return map[h<12?0:h<18?1:2
 
 /* ---------- data ---------- */
 function defaultData(){
-  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true }, expenses:[], meals:{}, installWeek: iso(new Date()) };
+  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true }, expenses:[], meals:{}, notes:[], tasks:[], installWeek: iso(new Date()) };
 }
 function migrate(s){
   if(!s.installWeek) s.installWeek = iso(new Date());
+  s.notes = s.notes||[]; s.tasks = s.tasks||[];
   s.expenses = (s.expenses||[]).map(e=>{
     if(DAYS.includes(e.date)) e = {...e, date: iso(thisDay(DAYS.indexOf(e.date)))};
     return {...e, name: e.name || e.note || e.category, slot: e.slot || 'Morning'};
@@ -664,6 +798,7 @@ function showPage(name){
   $('page-'+name).classList.add('active');
   document.querySelectorAll('.nav-item,.bn-item').forEach(b=>b.classList.toggle('active', b.dataset.page===name));
   $('fabBtn').classList.toggle('hide', name!=='dashboard');
+  stagger = (name==='notes'||name==='tasks'||name==='note');
   renderAll(); window.scrollTo({top:0});
 }
 function goPage(name){
@@ -700,8 +835,8 @@ $('fabBtn').addEventListener('click', ()=>{
   openModal(`
     <div class="modal-head"><div class="modal-title">Quick add</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
     <div class="quickadd-grid">
-      <button class="quickadd-opt" onclick="closeModal(); setTimeout(()=>openExpenseForm(null,'${TODAY_ISO}','${slotNow(MONEY_SLOTS)}'),60);"><span class="qa-ico"><svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5z"/><circle cx="16" cy="13.5" r="1.2"/></svg></span>Expense</button>
-      <button class="quickadd-opt" onclick="closeModal(); setTimeout(()=>openMealForm('${TODAY_ISO}','${slotNow(FOOD_SLOTS)}'),60);"><span class="qa-ico"><svg viewBox="0 0 24 24"><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10"/><path d="M17 21V3c-2.5 1.5-3.5 4.5-3.5 8H17"/></svg></span>Meal</button>
+      <button class="quickadd-opt" onclick="closeModal(true); goPage('notes')"><span class="qa-ico">${ic('note')}</span>Notes</button>
+      <button class="quickadd-opt" onclick="closeModal(true); goPage('tasks')"><span class="qa-ico">${ic('tasks')}</span>Tasks</button>
     </div>`);
 });
 
@@ -925,8 +1060,193 @@ $('importFile').addEventListener('change', e=>{
 });
 $('resetBtn').addEventListener('click', ()=>{ if(confirm('This will erase all your data. Continue?')){ state = defaultData(); save(); applyTheme(); applyFirstDay(); resetWeekNav(); renderAll(); toast('Data reset'); } });
 
+
+/* ============================================================
+   NOTES, TASKS, CALENDAR
+   ============================================================ */
+const IC = {
+  note:'<path d="M6 3.5h12v12l-5 5H6z"/><path d="M18 15.5h-5v5M9.5 8.5h5M9.5 12h3"/>',
+  tasks:'<rect x="4" y="4" width="16" height="16" rx="4.5"/><path d="m8.5 12.2 2.5 2.6 4.6-5.2"/>',
+  calendar:'<rect x="4" y="5.5" width="16" height="14" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
+  pin:'<path d="M9 4h6l-1 5 3 3v1.5H7V12l3-3z"/><path d="M12 13.5V20"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+  trash:'<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>',
+  left:'<path d="m14.5 6-6 6 6 6"/>', right:'<path d="m9.5 6 6 6-6 6"/>'
+};
+const ic = n => `<svg viewBox="0 0 24 24" class="i">${IC[n]}</svg>`;
+function paintIcons(){ document.querySelectorAll('[data-ic]').forEach(el=>{ if(!el.firstChild) el.innerHTML = ic(el.dataset.ic); }); }
+const NCOLORS = ['','#e0a6a6','#e0c48a','#8faf8a','#9ac6c9','#8ea7d9','#d0a8e0'];
+let stagger = false, freshId = null, formColor = '', formPin = false;
+const dk = c => `color-mix(in srgb, ${c} 80%, #000)`;
+const swatches = sel => `<div class="nc-row" id="ncRow">${NCOLORS.map(c=>`<button type="button" class="nc ${c===sel?'on':''}" data-c="${c}" style="--nc:${c?dk(c):'transparent'}" onclick="pickColor('${c}')" aria-label="Color"></button>`).join('')}</div>`;
+function pickColor(c){ formColor=c; document.querySelectorAll('#ncRow .nc').forEach(b=>b.classList.toggle('on', b.dataset.c===c)); }
+function togglePinForm(btn){ formPin=!formPin; btn.classList.toggle('on',formPin); }
+const sortPinned = (a,b) => (b.pinned?1:0)-(a.pinned?1:0) || b.ts-a.ts;
+const emptyHTML = (icon,t,sub) => `<div class="empty-state"><div class="es-ico">${ic(icon)}</div><div class="es-t">${t}</div><div class="es-s">${sub}</div></div>`;
+const enterCls = id => (stagger||freshId===id) ? 'enter' : '';
+
+function pinItem(kind,id){ const it=state[kind].find(x=>x.id===id); if(!it) return; it.pinned=!it.pinned; freshId=id; save(); renderAll(); }
+function deleteItem(kind,id){
+  closeModal();
+  const el = document.querySelector(`[data-id="${id}"]`); if(el) el.classList.add('leaving');
+  setTimeout(()=>{ state[kind]=state[kind].filter(x=>x.id!==id); save(); renderAll(); toast('Deleted'); }, el?280:0);
+}
+Object.assign(window,{pickColor,togglePinForm,pinItem,deleteItem});
+
+/* ---- notes ---- */
+function noteCardHTML(n,i){
+  return `<div class="note-card ${n.color?'nc-on':''} ${enterCls(n.id)}" data-id="${n.id}" style="--nc:${n.color?dk(n.color):'var(--text-faint)'}; --i:${i}" onclick="openNote('${n.id}')">
+    <button class="pin-btn ${n.pinned?'on':''}" onclick="event.stopPropagation(); pinItem('notes','${n.id}')" aria-label="Pin">${ic('pin')}</button>
+    ${n.title?`<div class="n-title">${esc(n.title)}</div>`:''}<div class="n-text">${esc(n.text)}</div><div class="n-date">${fmt(new Date(n.ts))}</div></div>`;
+}
+function renderNotes(){
+  const L=[...state.notes].sort(sortPinned), pinned=L.filter(n=>n.pinned), rest=L.filter(n=>!n.pinned); let i=0;
+  const sec=(label,a)=>a.length?`${label?`<div class="sec-label">${label}</div>`:''}<div class="notes-grid">${a.map(n=>noteCardHTML(n,i++)).join('')}</div>`:'';
+  $('notesList').innerHTML = L.length ? sec(pinned.length?'Pinned':'',pinned)+sec(pinned.length?'Others':'',rest) : emptyHTML('note','No notes yet','Tap + to write your first note.');
+}
+function openNoteForm(id){
+  const n = id ? state.notes.find(x=>x.id===id) : null; formColor = n?n.color:''; formPin = n?!!n.pinned:false;
+  openModal(`<div class="modal-head"><div class="modal-title">${n?'Edit note':'New note'}</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="field"><label>Title</label><input id="nf-title" type="text" value="${esc(n&&n.title)}"></div>
+    <div class="field"><label>Note</label><textarea id="nf-text" rows="6">${esc(n&&n.text)}</textarea></div>
+    <div class="field"><label>Color</label>${swatches(formColor)}</div>
+    <div class="modal-actions"><button class="btn pin-toggle ${formPin?'on':''}" onclick="togglePinForm(this)">${ic('pin')}Pin</button><button class="btn primary full" onclick="saveNote('${id||''}')">Save</button>${n?`<button class="btn danger-outline" onclick="deleteItem('notes','${n.id}')">Delete</button>`:''}</div>`);
+}
+function saveNote(id){
+  const title=$('nf-title').value.trim(), text=$('nf-text').value.trim();
+  if(!title && !text){ toast('Write something first'); return; }
+  if(id){ Object.assign(state.notes.find(x=>x.id===id),{title,text,color:formColor,pinned:formPin}); freshId=id; }
+  else { const n={id:uid('n'),title,text,color:formColor,pinned:formPin,ts:Date.now()}; state.notes.push(n); freshId=n.id; }
+  save(); closeModal(); toast('Note saved'); renderAll();
+}
+Object.assign(window,{openNoteForm,saveNote});
+
+/* ---- tasks ---- */
+function taskRowHTML(t,i){
+  const over = t.date && !t.done && t.date < TODAY_ISO;
+  return `<div class="task ${t.done?'done':''} ${t.color?'nc-on':''} ${enterCls(t.id)}" data-id="${t.id}" style="--nc:${t.color?dk(t.color):'transparent'}; --i:${i}" onclick="openTaskForm('${t.id}')">
+    <button class="chk" onclick="event.stopPropagation(); toggleTask('${t.id}',this)" aria-label="Done"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"/></svg></button>
+    <div class="t-main"><div class="t-title">${esc(t.title)}</div>${t.date?`<div class="t-date ${over?'over':''}">${ic('calendar')}${fmt(new Date(t.date+'T00:00:00'))}</div>`:''}</div>
+    <button class="pin-btn ${t.pinned?'on':''}" onclick="event.stopPropagation(); pinItem('tasks','${t.id}')" aria-label="Pin">${ic('pin')}</button></div>`;
+}
+function renderTasks(){
+  const all=state.tasks, done=all.filter(t=>t.done).length;
+  $('taskCount').textContent = all.length ? `${done} of ${all.length} done` : 'Nothing planned yet';
+  $('taskProg').style.width = (all.length ? done/all.length*100 : 0)+'%';
+  const open=all.filter(t=>!t.done).sort(sortPinned), fin=all.filter(t=>t.done).sort((a,b)=>b.ts-a.ts);
+  const pinned=open.filter(t=>t.pinned), rest=open.filter(t=>!t.pinned); let i=0;
+  const sec=(l,a)=>a.length?`<div class="sec-label">${l}</div><div class="task-list">${a.map(t=>taskRowHTML(t,i++)).join('')}</div>`:'';
+  $('tasksList').innerHTML = all.length ? sec('Pinned',pinned)+sec('To do',rest)+sec('Completed',fin) : emptyHTML('tasks','No tasks yet','Tap + to add your first task.');
+}
+function toggleTask(id,btn){
+  const t=state.tasks.find(x=>x.id===id); if(!t) return; t.done=!t.done; save();
+  const row=btn.closest('.task'); if(row) row.classList.toggle('done',t.done);
+  setTimeout(renderAll, 520);
+}
+function openTaskForm(id,date){
+  const t = id ? state.tasks.find(x=>x.id===id) : null; formColor = t?t.color:''; formPin = t?!!t.pinned:false;
+  openModal(`<div class="modal-head"><div class="modal-title">${t?'Edit task':'New task'}</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="field"><label>Task</label><input id="tf-title" type="text" value="${esc(t&&t.title)}"></div>
+    <div class="field"><label>Date (optional)</label>${datePickerHTML(t?t.date:(date||''))}</div>
+    <div class="field"><label>Color</label>${swatches(formColor)}</div>
+    <div class="modal-actions"><button class="btn pin-toggle ${formPin?'on':''}" onclick="togglePinForm(this)">${ic('pin')}Pin</button><button class="btn primary full" onclick="saveTask('${id||''}')">Save</button>${t?`<button class="btn danger-outline" onclick="deleteItem('tasks','${t.id}')">Delete</button>`:''}</div>`);
+}
+function saveTask(id){
+  const title=$('tf-title').value.trim(), date=$('tf-date').value;
+  if(!title){ toast('Write the task first'); return; }
+  if(id){ Object.assign(state.tasks.find(x=>x.id===id),{title,date,color:formColor,pinned:formPin}); freshId=id; }
+  else { const t={id:uid('t'),title,date,color:formColor,pinned:formPin,done:false,ts:Date.now()}; state.tasks.push(t); freshId=t.id; }
+  save(); closeModal(); toast('Task saved'); renderAll();
+}
+Object.assign(window,{toggleTask,openTaskForm,saveTask});
+
+/* ---- calendar ---- */
+const cal = {y:0, m:0, sel:''};
+function openCalendar(){
+  const d=new Date(); cal.y=d.getFullYear(); cal.m=d.getMonth(); cal.sel=TODAY_ISO;
+  openModal(`<div class="modal-head"><div class="modal-title">Calendar</div><button class="icon-btn" onclick="closeModal()">✕</button></div><div id="calBody"></div>`);
+  calRender(0);
+}
+function calShift(n){ cal.m+=n; if(cal.m<0){cal.m=11;cal.y--;} if(cal.m>11){cal.m=0;cal.y++;} calRender(n); }
+function calPick(d){ cal.sel=d; calRender(0); }
+function calRender(dir){
+  const off=(new Date(cal.y,cal.m,1).getDay()-FD+7)%7, dim=new Date(cal.y,cal.m+1,0).getDate(), byDay={};
+  state.tasks.forEach(t=>{ if(t.date) (byDay[t.date]=byDay[t.date]||[]).push(t); });
+  let cells=''; for(let k=0;k<off;k++) cells+='<span class="cd empty"></span>';
+  for(let d=1;d<=dim;d++){ const k=`${cal.y}-${p2(cal.m+1)}-${p2(d)}`, ts=byDay[k]||[], pend=ts.some(t=>!t.done);
+    cells+=`<button class="cd ${k===TODAY_ISO?'today':''} ${k===cal.sel?'sel':''}" onclick="calPick('${k}')">${d}${ts.length?`<i class="${pend?'':'all'}"></i>`:''}</button>`; }
+  const sd=new Date(cal.sel+'T00:00:00'), list=byDay[cal.sel]||[];
+  $('calBody').innerHTML = `<div class="cal-nav"><button class="cal-arrow" onclick="calShift(-1)" aria-label="Previous month">${ic('left')}</button><div class="cal-month">${new Date(cal.y,cal.m,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</div><button class="cal-arrow" onclick="calShift(1)" aria-label="Next month">${ic('right')}</button></div>
+    <div class="cal-wd">${DAYS.map(d=>`<span>${d.slice(0,2)}</span>`).join('')}</div>
+    <div class="cal-grid ${dir>0?'next':dir<0?'prev':''}">${cells}</div>
+    <div class="cal-day"><div class="cal-day-head"><span>${NAMES[sd.getDay()]} ${fmt(sd)}</span><button class="chip accent" onclick="openTaskForm(null,'${cal.sel}')">+ Task</button></div>
+    ${list.length ? list.map(t=>`<div class="cal-task ${t.done?'done':''}" onclick="openTaskForm('${t.id}')"><i style="background:${t.color||'var(--accent)'}"></i>${esc(t.title)}</div>`).join('') : '<div class="cal-empty">No tasks on this day.</div>'}</div>`;
+}
+Object.assign(window,{openCalendar,calShift,calPick});
+
+
+/* ---- note reader page ---- */
+let viewId = null, nvEditing = false;
+function openNote(id){ viewId=id; nvEditing=false; goPage('note'); }
+function renderNoteView(){
+  if(currentPage!=='note') return;
+  const n = state.notes.find(x=>x.id===viewId), host = $('noteView');
+  if(!n){ host.innerHTML=''; return; }
+  const bar = `<div class="nv-bar"><button class="${n.pinned?'on':''}" onclick="nvPin()" aria-label="Pin">${ic('pin')}</button><button onclick="nvEdit()" aria-label="Edit">${ic('edit')}</button><button class="danger" onclick="nvDelete()" aria-label="Delete">${ic('trash')}</button><button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div>`;
+  const dots = `<div class="nv-colors">${NCOLORS.map(c=>`<button type="button" class="nc sm ${c===(n.color||'')?'on':''}" data-c="${c}" style="--nc:${c?dk(c):'transparent'}" onclick="nvColor('${c}')" aria-label="Color"></button>`).join('')}</div>`;
+  const body = nvEditing
+    ? `<div class="nv-edit"><input id="nv-title" type="text" placeholder="Title" value="${esc(n.title)}"><textarea id="nv-text" placeholder="Write your note...">${esc(n.text)}</textarea><div class="modal-actions"><button class="btn primary full" onclick="nvSave()">Save</button><button class="btn" onclick="nvCancel()">Cancel</button></div></div>`
+    : `${n.title?`<div class="nv-title">${esc(n.title)}</div>`:''}<div class="nv-date">${fmt(new Date(n.ts))}</div><div class="nv-text">${esc(n.text)}</div>`;
+  host.innerHTML = `<div class="nv-wrap ${stagger?'nv-enter':''}" style="--nc:${n.color?dk(n.color):'var(--card)'}">${bar}${dots}<div class="nv-card">${body}</div></div>`;
+}
+const curNote = () => state.notes.find(x=>x.id===viewId);
+function nvPin(){ const n=curNote(); n.pinned=!n.pinned; save(); renderNoteView(); }
+function nvEdit(){ nvEditing=true; renderNoteView(); }
+function nvCancel(){ nvEditing=false; renderNoteView(); }
+function nvSave(){
+  const n=curNote(), title=$('nv-title').value.trim(), text=$('nv-text').value.trim();
+  if(!title && !text){ toast('Write something first'); return; }
+  n.title=title; n.text=text; nvEditing=false; save(); toast('Note saved'); renderNoteView();
+}
+function nvColor(c){
+  const n=curNote(); n.color=c; save();
+  document.querySelector('.nv-wrap').style.setProperty('--nc', c?dk(c):'var(--card)');
+  document.querySelectorAll('.nv-colors .nc').forEach(b=>b.classList.toggle('on', b.dataset.c===c));
+}
+function nvDelete(){
+  if(!confirm('Delete this note?')) return;
+  state.notes = state.notes.filter(x=>x.id!==viewId); save(); viewId=null; toast('Deleted'); history.back();
+}
+Object.assign(window,{openNote,nvPin,nvEdit,nvCancel,nvSave,nvColor,nvDelete});
+
+/* ---- date picker (task form) ---- */
+const dp = {y:0, m:0};
+const dpLabel = k => { if(!k) return 'No date'; const d=new Date(k+'T00:00:00'); return `${NAMES[d.getDay()].slice(0,3)} ${fmt(d)}`; };
+function datePickerHTML(v){
+  return `<input type="hidden" id="tf-date" value="${esc(v)}">
+    <div class="date-btn ${v?'has':''}" id="dateBtn" onclick="dpToggle()"><span class="db-ico">${ic('calendar')}</span><span class="db-text" id="dbText">${dpLabel(v)}</span><button type="button" class="db-clear" onclick="event.stopPropagation(); dpPick('')" aria-label="Clear date">✕</button></div>
+    <div class="dp" id="dp"><div class="dp-chips"><button type="button" onclick="dpQuick(0)">Today</button><button type="button" onclick="dpQuick(1)">Tomorrow</button><button type="button" onclick="dpQuick(7)">Next week</button></div><div id="dpBody"></div></div>`;
+}
+function dpToggle(){
+  const open = $('dp').classList.toggle('open'); $('dateBtn').classList.toggle('open',open);
+  if(open){ const d=new Date(($('tf-date').value||TODAY_ISO)+'T00:00:00'); dp.y=d.getFullYear(); dp.m=d.getMonth(); dpRender(0); }
+}
+function dpShift(n){ dp.m+=n; if(dp.m<0){dp.m=11;dp.y--;} if(dp.m>11){dp.m=0;dp.y++;} dpRender(n); }
+function dpQuick(n){ const d=new Date(); d.setDate(d.getDate()+n); dpPick(iso(d)); }
+function dpPick(k){ $('tf-date').value=k; $('dbText').textContent=dpLabel(k); $('dateBtn').classList.toggle('has',!!k); $('dp').classList.remove('open'); $('dateBtn').classList.remove('open'); }
+function dpRender(dir){
+  const off=(new Date(dp.y,dp.m,1).getDay()-FD+7)%7, dim=new Date(dp.y,dp.m+1,0).getDate(), sel=$('tf-date').value;
+  let cells=''; for(let k=0;k<off;k++) cells+='<span class="cd empty"></span>';
+  for(let d=1;d<=dim;d++){ const k=`${dp.y}-${p2(dp.m+1)}-${p2(d)}`; cells+=`<button type="button" class="cd ${k===TODAY_ISO?'today':''} ${k===sel?'sel':''}" onclick="dpPick('${k}')">${d}</button>`; }
+  $('dpBody').innerHTML = `<div class="cal-nav"><button type="button" class="cal-arrow" onclick="dpShift(-1)" aria-label="Previous month">${ic('left')}</button><div class="cal-month">${new Date(dp.y,dp.m,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</div><button type="button" class="cal-arrow" onclick="dpShift(1)" aria-label="Next month">${ic('right')}</button></div>
+    <div class="cal-wd">${DAYS.map(d=>`<span>${d.slice(0,2)}</span>`).join('')}</div>
+    <div class="cal-grid ${dir>0?'next':dir<0?'prev':''}">${cells}</div>`;
+}
+Object.assign(window,{dpToggle,dpShift,dpQuick,dpPick});
+
 /* ---------- master render / init ---------- */
-function renderAll(){ renderDashboard(); renderMoney(); renderFood(); renderSettings(); }
+function renderAll(){ renderDashboard(); renderMoney(); renderFood(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); freshId=null; stagger=false; }
 /* ---------- native (Capacitor) integration ---------- */
 const CAP = (window.Capacitor && window.Capacitor.Plugins) ? window.Capacitor.Plugins : null;
 if(CAP && CAP.App){
@@ -939,6 +1259,7 @@ function syncStatusBar(){
   const dark = state.settings.theme==='dark';
   try{ CAP.StatusBar.setBackgroundColor({color: dark?'#12141a':'#f2f0e9'}); CAP.StatusBar.setStyle({style: dark?'DARK':'LIGHT'}); }catch(e){}
 }
+paintIcons();
 applyTheme();
 history.replaceState({page:'dashboard'}, '');
 showPage('dashboard');
