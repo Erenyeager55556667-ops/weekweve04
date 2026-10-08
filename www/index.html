@@ -684,6 +684,9 @@ input,textarea{text-align:start;}
 .pc-text{font-size:13px; color:var(--text-dim); line-height:1.6; margin-bottom:14px;}
 .pc-btns{display:flex; gap:10px; flex-wrap:wrap;}
 [data-theme="light"] .pp-ico,[data-theme="light"] .pc-ico,[data-theme="light"] .nfy-ico,[data-theme="light"] .nfy-undo{color:color-mix(in srgb, var(--accent) 52%, #1a1e18);}
+/* hide all scrollbars (scrolling still works) */
+*{scrollbar-width:none; -ms-overflow-style:none;}
+*::-webkit-scrollbar{display:none; width:0; height:0;}
 </style>
 </head>
 <body data-theme="dark">
