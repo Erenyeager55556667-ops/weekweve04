@@ -616,6 +616,74 @@ input,textarea,select{-webkit-user-select:text; user-select:text;}
 .up-row span{flex:1; font-weight:600; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .up-row em{font-style:normal; font-size:12px; color:var(--text-faint);}
 [data-theme="light"] .hp-link{color:color-mix(in srgb, var(--accent) 52%, #1a1e18);}
+.lock-btn{right:38px;}
+.note-card .n-title{padding-right:70px;}
+.n-hidden{filter:blur(6px); user-select:none; color:var(--text-dim); opacity:.8;}
+.note-card.locked{}
+.pp{text-align:center; padding:4px 0 6px;}
+.pp-sub{font-size:13px; color:var(--text-dim);}
+.pp-dots{display:flex; justify-content:center; gap:16px; margin:22px 0 26px;}
+.pp-dots i{width:15px; height:15px; border-radius:50%; border:2px solid var(--text-faint); transition:background .2s, border-color .2s, transform .2s;}
+.pp-dots i.on{background:var(--accent); border-color:var(--accent); transform:scale(1.15);}
+.pp-dots.shake{animation:ppShake .42s;}
+@keyframes ppShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-10px);}40%{transform:translateX(9px);}60%{transform:translateX(-6px);}80%{transform:translateX(4px);}}
+.pp-pad{display:grid; grid-template-columns:repeat(3,72px); gap:14px 20px; justify-content:center;}
+.pp-pad button{height:64px; border-radius:50%; border:1px solid var(--border); background:var(--card-2); color:var(--text); font:600 22px var(--sans); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s, transform .15s;}
+.pp-pad button:active{background:var(--accent-dim); transform:scale(.9);}
+.pp-forgot{margin-top:18px; border:none; background:none; color:var(--text-dim); font:500 13px var(--sans); cursor:pointer; text-decoration:underline;}
+input,textarea{text-align:start;}
+.pp{position:relative; text-align:center; padding:6px 0 4px;}
+.pp-x{position:absolute; top:0; right:0;}
+.pp-ico{width:68px; height:68px; margin:8px auto 14px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--accent); background:radial-gradient(circle, color-mix(in srgb, var(--accent) 30%, transparent), color-mix(in srgb, var(--accent) 8%, transparent)); box-shadow:0 0 0 9px color-mix(in srgb, var(--accent) 8%, transparent), 0 0 34px color-mix(in srgb, var(--accent) 35%, transparent); animation:ppPulse 2.8s ease-in-out infinite; transition:color .3s, background .3s;}
+.pp-ico .i{width:30px; height:30px; stroke-width:2;}
+.pp-ico.ok{color:#34c26b; background:radial-gradient(circle, rgba(52,194,107,.32), rgba(52,194,107,.1)); box-shadow:0 0 0 9px rgba(52,194,107,.1), 0 0 34px rgba(52,194,107,.4); animation:ppPop .45s cubic-bezier(.2,.9,.3,1.4);}
+@keyframes ppPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+@keyframes ppPop{0%{transform:scale(.7);}60%{transform:scale(1.18);}100%{transform:scale(1);}}
+.pp-title{font-family:var(--serif); font-size:22px; font-weight:600;}
+.pp-sub{font-size:13px; color:var(--text-dim); margin-top:4px;}
+.pp-dots{display:flex; justify-content:center; gap:18px; margin:24px 0 28px;}
+.pp-dots i{width:16px; height:16px; border-radius:50%; border:2px solid var(--text-faint); transition:background .2s, border-color .2s, transform .25s;}
+.pp-dots i.on{background:var(--accent); border-color:var(--accent); animation:dotPop .28s cubic-bezier(.2,.9,.3,1.5);}
+@keyframes dotPop{0%{transform:scale(.6);}100%{transform:scale(1);}}
+.pp-dots.ok i{background:#34c26b; border-color:#34c26b;}
+.pp-dots.bad i{background:#ef4444; border-color:#ef4444;}
+.pp-pad{display:grid; grid-template-columns:repeat(3,74px); gap:14px 22px; justify-content:center;}
+.pp-pad button{height:66px; border-radius:50%; border:1px solid color-mix(in srgb, var(--text) 10%, transparent); background:color-mix(in srgb, var(--text) 6%, transparent); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); color:var(--text); font:600 23px var(--sans); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s, transform .15s, box-shadow .15s;}
+.pp-pad button:active{background:var(--accent-dim); transform:scale(.88); box-shadow:0 0 18px color-mix(in srgb, var(--accent) 45%, transparent);}
+.pp-forgot{margin-top:20px; border:none; background:none; color:var(--text-dim); font:500 13px var(--sans); cursor:pointer;}
+.cf{text-align:center; padding:8px 4px 4px;}
+.cf-ico{width:64px; height:64px; margin:0 auto 14px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--accent); background:var(--accent-dim);}
+.cf-ico.danger{color:#ef4444; background:rgba(239,68,68,.14);}
+.cf-ico .i{width:28px; height:28px;}
+.cf-t{font-family:var(--serif); font-size:21px; font-weight:600; margin-bottom:8px;}
+.cf-s{font-size:14px; color:var(--text-dim); line-height:1.6; margin-bottom:20px;}
+.cf-btns{display:flex; gap:10px;}
+.cf-btns .btn{flex:1;}
+.danger-solid{background:#ef4444; color:#fff; border:none;}
+.nfy{position:fixed; top:calc(14px + env(safe-area-inset-top)); left:50%; width:min(92vw,420px); transform:translate(-50%,-160%); opacity:0; z-index:400; display:flex; align-items:center; gap:12px; padding:12px 14px 14px; border-radius:16px; background:var(--card); border:1px solid var(--border); box-shadow:0 14px 40px rgba(0,0,0,.4); overflow:hidden; transition:transform .5s cubic-bezier(.2,.9,.3,1.15), opacity .3s;}
+.nfy.show{transform:translate(-50%,0); opacity:1;}
+.nfy-ico{width:38px; height:38px; border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--accent-dim); color:var(--accent);}
+.nfy.danger .nfy-ico{background:rgba(239,68,68,.15); color:#ef4444;}
+.nfy.warn .nfy-ico{background:rgba(245,158,11,.16); color:#f59e0b;}
+.nfy-txt{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;}
+.nfy-txt b{font-size:14px;}
+.nfy-txt span{font-size:12.5px; color:var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.nfy-undo{border:none; background:var(--accent-dim); color:var(--accent); border-radius:999px; padding:8px 16px; font:700 13px var(--sans); cursor:pointer;}
+.nfy-bar{position:absolute; left:0; bottom:0; height:3px; width:100%; background:var(--accent); transform-origin:left; animation:nfyBar linear forwards;}
+.nfy.danger .nfy-bar{background:#ef4444;} .nfy.warn .nfy-bar{background:#f59e0b;}
+@keyframes nfyBar{from{transform:scaleX(1);} to{transform:scaleX(0);}}
+.pin-card{background:linear-gradient(160deg, color-mix(in srgb, var(--accent) 10%, var(--card)), var(--card) 60%);}
+.pc-head{display:flex; align-items:center; gap:14px; margin-bottom:12px;}
+.pc-ico{width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; color:var(--accent); background:var(--accent-dim);}
+.pc-ico .i{width:24px; height:24px;}
+.pc-title{font-weight:700; font-size:15px;}
+.pc-status{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-faint); margin-top:3px;}
+.pc-status i{width:7px; height:7px; border-radius:50%; background:var(--text-faint); transition:background .3s, box-shadow .3s;}
+.pc-status.on{color:#34c26b;}
+.pc-status.on i{background:#34c26b; box-shadow:0 0 8px #34c26b;}
+.pc-text{font-size:13px; color:var(--text-dim); line-height:1.6; margin-bottom:14px;}
+.pc-btns{display:flex; gap:10px; flex-wrap:wrap;}
+[data-theme="light"] .pp-ico,[data-theme="light"] .pc-ico,[data-theme="light"] .nfy-ico,[data-theme="light"] .nfy-undo{color:color-mix(in srgb, var(--accent) 52%, #1a1e18);}
 </style>
 </head>
 <body data-theme="dark">
@@ -739,6 +807,11 @@ input,textarea,select{-webkit-user-select:text; user-select:text;}
           <div class="field" style="display:flex; align-items:center; flex-direction:row; gap:10px;"><input type="checkbox" id="setNotifications" style="width:auto;"><label style="margin:0;">In-app notifications</label></div>
           <button class="btn primary sm" id="saveSettingsBtn">Save</button>
         </div>
+        <div class="card pin-card">
+          <div class="pc-head"><div class="pc-ico" data-ic="lock"></div><div><div class="pc-title">Notes passcode</div><div class="pc-status" id="pcStatus"><i></i><span>Not set</span></div></div></div>
+          <p class="pc-text">Lock notes with a 4-digit code. A locked note shows only its title until you enter the code.</p>
+          <div class="pc-btns"><button class="btn sm primary" id="pinBtn">Set passcode</button><button class="btn sm danger-outline" id="pinRemoveBtn" style="display:none">Remove passcode</button></div>
+        </div>
         <div class="card">
           <div class="card-title">Appearance</div>
           <div class="field"><label>Theme</label><div class="seg" id="segTheme"><span class="seg-pill"></span><button data-v="dark"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>Dark</button><button data-v="light"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>Light</button></div></div>
@@ -795,7 +868,7 @@ function slotNow(map){ const h=new Date().getHours(); return map[h<12?0:h<18?1:2
 
 /* ---------- data ---------- */
 function defaultData(){
-  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true }, expenses:[], meals:{}, notes:[], tasks:[], installWeek: iso(new Date()) };
+  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], installWeek: iso(new Date()) };
 }
 function migrate(s){
   if(!s.installWeek) s.installWeek = iso(new Date());
@@ -863,7 +936,7 @@ function applyTheme(){ document.body.setAttribute('data-theme', state.settings.t
    ============================================================ */
 let currentPage = 'dashboard';
 function showPage(name){
-  if(currentPage==='note' && name!=='note') nvAutoSave();
+  if(currentPage==='note' && name!=='note'){ nvAutoSave(); unlockedIds.clear(); }
   if(name==='money'){
     document.querySelectorAll('#page-money .cc').forEach(c=>c.classList.add('collapsed'));
     [...flip].filter(k=>k.startsWith('m:')).forEach(k=>flip.delete(k));
@@ -901,6 +974,8 @@ function openModal(html){
 }
 function closeModal(fromHistory){
   if(!modalOpen) return;
+  if(typeof cfResolve!=='undefined' && cfResolve){ const r=cfResolve; cfResolve=null; r(false); }
+  if(typeof pinResolve!=='undefined' && pinResolve){ const r=pinResolve; pinResolve=null; r(null); }
   modalOpen = false; overlay.classList.remove('open'); modalBody.innerHTML='';
   if(fromHistory!==true && history.state && history.state.modal) history.back();
 }
@@ -1038,7 +1113,7 @@ function renderMoney(){
       MONEY_SLOTS.map(slot=>{
         const items = ex.filter(e=>e.date===ws[i] && e.slot===slot);
         if(!items.length) return `<td><div class="meal-slot empty" onclick="openExpenseForm(null,'${ws[i]}','${slot}')">+ Add</div></td>`;
-        return slotBox('m:'+ws[i]+':'+slot, items.map(e=>`<div class="it" onclick="openExpenseForm('${e.id}')"><div class="m-name">${esc(e.name)}</div><div class="m-cost">${esc(e.category)} · ${e.amount} ${esc(c)}</div></div>`), `openExpenseForm(null,'${ws[i]}','${slot}')`);
+        return slotBox('m:'+ws[i]+':'+slot, items.map(e=>`<div class="it" onclick="openExpenseForm('${e.id}')"><div class="m-name" dir="auto">${esc(e.name)}</div><div class="m-cost">${esc(e.category)} · ${e.amount} ${esc(c)}</div></div>`), `openExpenseForm(null,'${ws[i]}','${slot}')`);
       }).join('')}</tr>`).join('')}</tbody>`;
 
   const spent = sum(ex.map(e=>e.amount)), budget = state.settings.budget, pct = budget? Math.min(100,spent/budget*100) : 0;
@@ -1069,7 +1144,7 @@ function renderFood(){
     DAYS.map((day,i)=>{ const meals = state.meals[ws[i]]||{};
       return `<tr><td class="day-cell">${day}<small>${fmt(dayDate(off,i))}</small></td>${FOOD_SLOTS.map(slot=>{ const list = meals[slot]||[];
         if(!list.length) return `<td><div class="meal-slot empty" onclick="openMealForm('${ws[i]}','${slot}')">+ Add</div></td>`;
-        return slotBox('f:'+ws[i]+':'+slot, list.map((m,j)=>`<div class="it" onclick="openMealForm('${ws[i]}','${slot}',${j})"><div class="m-name">${esc(m.name)}</div><div class="m-cost">${m.cost||0} ${esc(c)}</div></div>`), `openMealForm('${ws[i]}','${slot}')`); }).join('')}</tr>`; }).join('')}</tbody>`;
+        return slotBox('f:'+ws[i]+':'+slot, list.map((m,j)=>`<div class="it" onclick="openMealForm('${ws[i]}','${slot}',${j})"><div class="m-name" dir="auto">${esc(m.name)}</div><div class="m-cost">${m.cost||0} ${esc(c)}</div></div>`), `openMealForm('${ws[i]}','${slot}')`); }).join('')}</tr>`; }).join('')}</tbody>`;
   $('foodActual').textContent = `${sum(ws.map(mealCostOf))} ${c}`;
   $('foodDaily').innerHTML = DAYS.map((day,i)=>{ const a = mealCostOf(ws[i]);
     return `<div class="row"><div style="flex:1;"><div class="row-title">${day}</div><div class="row-sub">${fmt(dayDate(off,i))}</div></div><div class="chip ${ws[i]===TODAY_ISO?'accent':''}">${a} ${esc(c)}</div></div>`; }).join('');
@@ -1169,7 +1244,7 @@ Object.assign(window,{hpShift,hpTip});
 function renderSettings(){
   const s = state.settings;
   $('setName').value = s.name; $('setBudget').value = s.budget; $('setCurrency').value = s.currency;
-  setSeg('segFirst',s.firstDay); $('setNotifications').checked = s.notifications; setSeg('segTheme',s.theme);
+  setSeg('segFirst',s.firstDay); $('setNotifications').checked = s.notifications; setSeg('segTheme',s.theme); $('pinBtn').textContent = s.notesPin ? 'Change passcode' : 'Set passcode'; $('pcStatus').classList.toggle('on', !!s.notesPin); $('pcStatus').querySelector('span').textContent = s.notesPin ? 'Passcode is set' : 'Not set'; $('pinRemoveBtn').style.display = s.notesPin ? '' : 'none';
   $('accentSwatches').innerHTML = ACCENTS.map(c=>`<div class="swatch ${c===s.accent?'active':''}" style="background:${c}" onclick="pickAccent('${c}')"></div>`).join('');
 }
 window.pickAccent = c => { state.settings.accent=c; save(); applyTheme(); renderSettings(); };
@@ -1211,6 +1286,11 @@ const IC = {
   calendar:'<rect x="4" y="5.5" width="16" height="14" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
   pin:'<path d="M9 4h6l-1 5 3 3v1.5H7V12l3-3z"/><path d="M12 13.5V20"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
+  check:'<path d="m5.5 12.5 4.2 4.2 8.8-9"/>',
+  key:'<circle cx="8" cy="15" r="3.5"/><path d="m10.5 12.5 8-8M15.5 7.5l2.5 2.5M13 10l2.5 2.5"/>',
+  lock:'<rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>',
+  unlock:'<rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 6.6-1.6"/>',
+  back:'<path d="M20 6H9l-5 6 5 6h11z"/><path d="m12 9.5 5 5M17 9.5l-5 5"/>',
   edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
   trash:'<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>',
   left:'<path d="m14.5 6-6 6 6 6"/>', right:'<path d="m9.5 6 6 6-6 6"/>'
@@ -1238,8 +1318,8 @@ Object.assign(window,{pickColor,togglePinForm,pinItem,deleteItem});
 /* ---- notes ---- */
 function noteCardHTML(n,i){
   return `<div class="note-card ${n.color?'nc-on':''} ${enterCls(n.id)}" data-id="${n.id}" style="--nc:${n.color?dk(n.color):'var(--text-faint)'}; --i:${i}" onclick="openNote('${n.id}')">
-    <button class="pin-btn ${n.pinned?'on':''}" onclick="event.stopPropagation(); pinItem('notes','${n.id}')" aria-label="Pin">${ic('pin')}</button>
-    ${n.title?`<div class="n-title">${esc(n.title)}</div>`:''}<div class="n-text">${esc(n.text)}</div><div class="n-date">${fmt(new Date(n.ts))}</div></div>`;
+    <button class="pin-btn lock-btn ${n.locked?'on':''}" onclick="event.stopPropagation(); lockToggle('${n.id}')" aria-label="Lock">${ic(n.locked?'lock':'unlock')}</button><button class="pin-btn ${n.pinned?'on':''}" onclick="event.stopPropagation(); pinItem('notes','${n.id}')" aria-label="Pin">${ic('pin')}</button>
+    ${n.title?`<div class="n-title" dir="auto">${esc(n.title)}</div>`:(n.locked?'<div class="n-title">Locked note</div>':'')}${n.locked?'<div class="n-text n-hidden" aria-hidden="true">••••• •••• ••••••<br>••• ••••••• ••<br>•••• •••••</div>':`<div class="n-text" dir="auto">${esc(n.text)}</div>`}<div class="n-date">${fmt(new Date(n.ts))}</div></div>`;
 }
 function renderNotes(){
   const L=[...state.notes].sort(sortPinned), pinned=L.filter(n=>n.pinned), rest=L.filter(n=>!n.pinned); let i=0;
@@ -1268,7 +1348,7 @@ function taskRowHTML(t,i){
   const over = t.date && !t.done && t.date < TODAY_ISO;
   return `<div class="task ${t.done?'done':''} ${t.color?'nc-on':''} ${enterCls(t.id)}" data-id="${t.id}" style="--nc:${t.color?dk(t.color):'transparent'}; --i:${i}" onclick="openTaskForm('${t.id}')">
     <button class="chk" onclick="event.stopPropagation(); toggleTask('${t.id}',this)" aria-label="Done"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"/></svg></button>
-    <div class="t-main"><div class="t-title">${esc(t.title)}</div>${t.date?`<div class="t-date ${over?'over':''}">${ic('calendar')}${fmt(new Date(t.date+'T00:00:00'))}</div>`:''}</div>
+    <div class="t-main"><div class="t-title" dir="auto">${esc(t.title)}</div>${t.date?`<div class="t-date ${over?'over':''}">${ic('calendar')}${fmt(new Date(t.date+'T00:00:00'))}</div>`:''}</div>
     <button class="pin-btn ${t.pinned?'on':''}" onclick="event.stopPropagation(); pinItem('tasks','${t.id}')" aria-label="Pin">${ic('pin')}</button></div>`;
 }
 function renderTasks(){
@@ -1328,20 +1408,26 @@ Object.assign(window,{openCalendar,calShift,calPick});
 
 
 /* ---- note reader page ---- */
-let viewId = null, nvEditing = false, nvNew = false, nvDraft = {color:'',pinned:false}, lastTap = 0;
-function openNote(id){ viewId=id; nvEditing=false; nvNew=false; goPage('note'); }
-function newNote(){ viewId=null; nvNew=true; nvEditing=true; nvDraft={color:'',pinned:false}; goPage('note'); setTimeout(()=>{ const t=$('nv-title'); if(t) t.focus(); }, 450); }
+let viewId = null, nvEditing = false, nvNew = false, nvDraft = {color:'',pinned:false,locked:false}, lastTap = 0;
+const unlockedIds = new Set();
+async function openNote(id){
+  const n = state.notes.find(x=>x.id===id);
+  if(n && n.locked && !unlockedIds.has(id)){ if(!(await verifyPin('Unlock note'))) return; unlockedIds.add(id); }
+  viewId=id; nvEditing=false; nvNew=false; goPage('note');
+}
+function newNote(){ viewId=null; nvNew=true; nvEditing=true; nvDraft={color:'',pinned:false,locked:false}; goPage('note'); setTimeout(()=>{ const t=$('nv-title'); if(t) t.focus(); }, 450); }
 const curNote = () => state.notes.find(x=>x.id===viewId);
 const nvObj = () => nvNew ? nvDraft : curNote();
 function renderNoteView(){
   if(currentPage!=='note') return;
   const n = nvObj(), host = $('noteView');
   if(!n){ host.innerHTML=''; return; }
-  const bar = `<div class="nv-bar"><button class="${n.pinned?'on':''}" onclick="nvPin(this)" aria-label="Pin">${ic('pin')}</button>${nvNew?'':`<button onclick="nvEdit()" aria-label="Edit">${ic('edit')}</button><button class="danger" onclick="nvDelete()" aria-label="Delete">${ic('trash')}</button>`}<button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div>`;
+  if(!nvNew && n.locked && !unlockedIds.has(viewId)){ host.innerHTML=`<div class="nv-wrap nv-enter"><div class="nv-bar"><button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div><div class="nv-card"><div class="empty-state"><div class="es-ico">${ic('lock')}</div><div class="es-t" dir="auto">${esc(n.title||'Locked note')}</div><div class="es-s">This note is locked.</div><button class="btn primary" style="margin-top:16px" onclick="nvUnlockView()">Unlock</button></div></div></div>`; return; }
+  const bar = `<div class="nv-bar"><button class="${n.locked?'on':''}" onclick="nvLock(this)" aria-label="Lock">${ic(n.locked?'lock':'unlock')}</button><button class="${n.pinned?'on':''}" onclick="nvPin(this)" aria-label="Pin">${ic('pin')}</button>${nvNew?'':`<button onclick="nvEdit()" aria-label="Edit">${ic('edit')}</button><button class="danger" onclick="nvDelete()" aria-label="Delete">${ic('trash')}</button>`}<button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div>`;
   const dots = `<div class="nv-colors">${NCOLORS.map(c=>`<button type="button" class="nc sm ${c===(n.color||'')?'on':''}" data-c="${c}" style="--nc:${c?dk(c):'transparent'}" onclick="nvColor('${c}')" aria-label="Color"></button>`).join('')}</div>`;
   const card = nvEditing
     ? `<div class="nv-card"><div class="nv-edit"><input id="nv-title" type="text" placeholder="Title" value="${esc(n.title)}"><textarea id="nv-text" placeholder="Write your note...">${esc(n.text)}</textarea><div class="modal-actions"><button class="btn primary full" onclick="nvSave()">Save</button><button class="btn" onclick="nvCancel()">Cancel</button></div></div></div>`
-    : `<div class="nv-card" onclick="nvTap()">${n.title?`<div class="nv-title">${esc(n.title)}</div>`:''}<div class="nv-date">${fmt(new Date(n.ts))}</div><div class="nv-text">${esc(n.text)}</div></div>`;
+    : `<div class="nv-card" onclick="nvTap()">${n.title?`<div class="nv-title" dir="auto">${esc(n.title)}</div>`:''}<div class="nv-date">${fmt(new Date(n.ts))}</div><div class="nv-text" dir="auto">${esc(n.text)}</div></div>`;
   host.innerHTML = `<div class="nv-wrap ${stagger?'nv-enter':''}" style="--nc:${n.color?dk(n.color):'var(--card)'}">${bar}${dots}${card}</div>`;
 }
 function nvTap(){ const now=Date.now(); if(now-lastTap<320){ lastTap=0; nvEdit(); } else lastTap=now; }
@@ -1351,7 +1437,7 @@ function nvCancel(){ if(nvNew){ nvNew=false; nvEditing=false; history.back(); } 
 function nvSave(){
   const title=$('nv-title').value.trim(), text=$('nv-text').value.trim();
   if(!title && !text){ toast('Write something first'); return; }
-  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,ts:Date.now()}; state.notes.push(n); viewId=n.id; nvNew=false; }
+  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,ts:Date.now()}; state.notes.push(n); viewId=n.id; nvNew=false; }
   else { const n=curNote(); n.title=title; n.text=text; }
   nvEditing=false; save(); toast('Note saved'); renderNoteView();
 }
@@ -1359,7 +1445,7 @@ function nvAutoSave(){
   if(!nvEditing) return;
   const t=$('nv-title'), x=$('nv-text'); if(!t||!x) return;
   const title=t.value.trim(), text=x.value.trim(); if(!title && !text) { nvNew=false; nvEditing=false; return; }
-  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,ts:Date.now()}; state.notes.push(n); freshId=n.id; }
+  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,ts:Date.now()}; state.notes.push(n); freshId=n.id; }
   else { const n=curNote(); if(n){ n.title=title; n.text=text; } }
   nvNew=false; nvEditing=false; save();
 }
@@ -1369,8 +1455,11 @@ function nvColor(c){
   document.querySelectorAll('.nv-colors .nc').forEach(b=>b.classList.toggle('on', b.dataset.c===c));
 }
 function nvDelete(){
-  if(!confirm('Delete this note?')) return;
-  nvEditing=false; state.notes = state.notes.filter(x=>x.id!==viewId); save(); viewId=null; toast('Deleted'); history.back();
+  const del=curNote(); if(!del) return; const idx=state.notes.indexOf(del);
+  unlockedIds.delete(viewId); nvEditing=false; state.notes.splice(idx,1); save(); viewId=null; history.back();
+  notify({tone:'danger', icon:'trash', title:'Note deleted', sub: del.title || 'Untitled note', duration:6000,
+    undo:()=>{ state.notes.splice(Math.min(idx,state.notes.length),0,del); save(); renderAll(); toast('Note restored'); }});
+
 }
 Object.assign(window,{openNote,newNote,nvTap,nvPin,nvEdit,nvCancel,nvSave,nvColor,nvDelete});
 
@@ -1398,6 +1487,121 @@ function dpRender(dir){
     <div class="cal-grid ${dir>0?'next':dir<0?'prev':''}">${cells}</div>`;
 }
 Object.assign(window,{dpToggle,dpShift,dpQuick,dpPick});
+
+
+/* ============================================================
+   NOTES PASSCODE
+   ============================================================ */
+let pinResolve = null, pinBuf = '', pinCfg = null, pinBusy = false;
+async function H(p){
+  const str = 'weekweave:'+p;
+  if(window.crypto && crypto.subtle){
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  }
+  let h1=5381,h2=52711; for(const ch of str){ h1=(h1*33)^ch.charCodeAt(0); h2=(h2*31+ch.charCodeAt(0))|0; } return 'f'+(h1>>>0).toString(16)+(h2>>>0).toString(16);
+}
+const checkPin = async x => (await H(x)) === state.settings.notesPin;
+function padHTML(c){
+  return `<div class="pp"><button class="icon-btn pp-x" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="pp-ico" id="ppIco">${ic('lock')}</div><div class="pp-title">${c.title}</div><div class="pp-sub">${c.sub||''}</div>
+    <div class="pp-dots" id="ppDots"><i></i><i></i><i></i><i></i></div>
+    <div class="pp-pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="pinKey('${n}')">${n}</button>`).join('')}<span></span><button onclick="pinKey('0')">0</button><button onclick="pinKey('b')" aria-label="Delete"><svg viewBox="0 0 24 24" class="i"><path d="M20 6H9l-5 6 5 6h11z"/><path d="m12 9.5 5 5M17 9.5l-5 5"/></svg></button></div>
+    ${c.forgot?'<button class="pp-forgot" onclick="forgotPin()">Forgot passcode?</button>':''}</div>`;
+
+}
+function askPin(cfg){
+  if(pinResolve){ const r=pinResolve; pinResolve=null; r(null); }
+  pinCfg=cfg; pinBuf=''; pinBusy=false;
+  return new Promise(res=>{ pinResolve=res; openModal(padHTML(cfg)); });
+}
+function paintDots(){ document.querySelectorAll('#ppDots i').forEach((d,i)=>d.classList.toggle('on', i<pinBuf.length)); }
+async function pinKey(k){
+  if(pinBusy) return;
+  if(k==='b') pinBuf=pinBuf.slice(0,-1); else if(pinBuf.length<4) pinBuf+=k;
+  paintDots();
+  if(pinBuf.length<4) return;
+  pinBusy=true; await new Promise(r=>setTimeout(r,160));
+  const v=pinBuf; let ok=true; if(pinCfg.verify) ok = await pinCfg.verify(v);
+  if(ok){
+    const d=$('ppDots'), ico=$('ppIco'); if(d) d.classList.add('ok'); if(ico){ ico.classList.add('ok'); ico.innerHTML=ic('check'); }
+    await new Promise(r=>setTimeout(r,420));
+    const r=pinResolve; pinResolve=null; pinBusy=false; if(r) r(v);
+  }
+  else { const d=$('ppDots'); if(d){ d.classList.remove('shake'); void d.offsetWidth; d.classList.add('shake','bad'); } if(navigator.vibrate) navigator.vibrate(60); setTimeout(()=>{ pinBuf=''; paintDots(); pinBusy=false; const d2=$('ppDots'); if(d2) d2.classList.remove('bad'); },480); }
+}
+async function setupPin(){
+  const p1 = await askPin({title:'Create passcode', sub:'Choose 4 digits to lock your notes'}); if(!p1) return false;
+  const p2 = await askPin({title:'Confirm passcode', sub:'Enter the same 4 digits again', verify: async x=>x===p1}); if(!p2) return false;
+  state.settings.notesPin = await H(p1); save(); closeModal(); return true;
+}
+async function changePin(){
+  const old = await askPin({title:'Current passcode', sub:'Enter your current code to continue', forgot:true, verify:checkPin}); if(!old) return false;
+  return setupPin();
+}
+async function verifyPin(title){
+  const p = await askPin({title, sub:'Enter your 4-digit passcode', forgot:true, verify:checkPin});
+  if(p) closeModal(true);
+  return !!p;
+}
+let cfResolve = null, nfyTimer = null, nfyUndoFn = null;
+function askConfirm(c){
+  if(pinResolve){ const r=pinResolve; pinResolve=null; r(null); }
+  return new Promise(res=>{ cfResolve=res; openModal(`<div class="cf"><div class="cf-ico ${c.tone||''}">${ic(c.icon||'key')}</div><div class="cf-t">${c.title}</div><div class="cf-s">${c.sub}</div><div class="cf-btns"><button class="btn" onclick="cfDone(false)">Cancel</button><button class="btn ${c.tone==='danger'?'danger-solid':'primary'}" onclick="cfDone(true)">${c.ok}</button></div></div>`); });
+}
+function cfDone(v){ const r=cfResolve; cfResolve=null; closeModal(); if(r) r(v); }
+function notify(o){
+  let el=$('nfy'); if(!el){ el=document.createElement('div'); el.id='nfy'; document.body.appendChild(el); }
+  clearTimeout(nfyTimer); const dur=o.duration||5000;
+  el.className='nfy '+(o.tone||'');
+  el.innerHTML=`<div class="nfy-ico">${ic(o.icon||'check')}</div><div class="nfy-txt"><b>${esc(o.title)}</b>${o.sub?`<span>${esc(o.sub)}</span>`:''}</div>${o.undo?'<button class="nfy-undo" onclick="nfyUndo()">Undo</button>':''}<i class="nfy-bar" style="animation-duration:${dur}ms"></i>`;
+  nfyUndoFn=o.undo||null; void el.offsetWidth; el.classList.add('show'); nfyTimer=setTimeout(nfyHide,dur);
+}
+function nfyHide(){ const el=$('nfy'); if(el) el.classList.remove('show'); nfyUndoFn=null; }
+function nfyUndo(){ const f=nfyUndoFn; nfyHide(); if(f) f(); }
+async function forgotPin(){
+  const cnt = state.notes.filter(n=>n.locked).length;
+  const yes = await askConfirm({tone:'danger', icon:'key', title:'Forgot your passcode?', sub: cnt ? `The passcode will be removed and the content of ${cnt} locked note${cnt>1?'s':''} will be erased for good. Titles are kept.` : 'The passcode will be removed. You have no locked notes.', ok: cnt?'Erase & remove':'Remove'});
+  if(!yes) return;
+  state.notes.forEach(n=>{ if(n.locked){ n.text=''; n.locked=false; } });
+  state.settings.notesPin=''; unlockedIds.clear(); save(); renderAll();
+  notify({tone:'warn', icon:'key', title:'Passcode removed', sub: cnt ? `${cnt} locked note${cnt>1?'s were':' was'} erased` : 'Notes can be locked again with a new code', duration:6500});
+}
+async function removePin(){
+  const ok = await askPin({title:'Remove passcode', sub:'Enter your passcode to continue', verify:checkPin}); if(!ok) return false;
+  const yes = await askConfirm({icon:'unlock', title:'Remove passcode?', sub:'Your locked notes will be unlocked. Their content is kept.', ok:'Remove'}); if(!yes) return false;
+  state.notes.forEach(n=>{ n.locked=false; }); state.settings.notesPin=''; unlockedIds.clear(); save(); renderAll();
+  notify({tone:'warn', icon:'unlock', title:'Passcode removed', sub:'Your notes are no longer locked'});
+  return true;
+}
+async function lockToggle(id){
+  const n = state.notes.find(x=>x.id===id); if(!n) return;
+  if(!n.locked){
+    if(!state.settings.notesPin && !(await setupPin())) return;
+    n.locked=true; unlockedIds.delete(id); save(); toast('Note locked'); renderAll();
+  } else {
+    if(!(await verifyPin('Remove lock'))) return;
+    n.locked=false; save(); toast('Lock removed');
+    viewId=id; nvEditing=false; nvNew=false; goPage('note');
+  }
+}
+async function nvLock(btn){
+  const n = nvObj();
+  if(!n.locked){
+    if(!state.settings.notesPin && !(await setupPin())) return;
+    n.locked=true; btn.classList.add('on'); btn.innerHTML=ic('lock'); toast('Note locked');
+    if(!nvNew){ save(); unlockedIds.delete(viewId); setTimeout(()=>history.back(), 420); }
+  } else {
+    if(!(await verifyPin('Remove lock'))) return;
+    n.locked=false; if(!nvNew) save(); btn.classList.remove('on'); btn.innerHTML=ic('unlock'); toast('Lock removed');
+  }
+}
+async function nvUnlockView(){ if(await verifyPin('Unlock note')){ unlockedIds.add(viewId); renderNoteView(); } }
+$('pinBtn').addEventListener('click', async ()=>{ const ok = state.settings.notesPin ? await changePin() : await setupPin(); if(ok){ toast('Passcode saved'); renderSettings(); } });
+$('pinRemoveBtn').addEventListener('click', async ()=>{ if(await removePin()) renderSettings(); });
+Object.assign(window,{pinKey,forgotPin,lockToggle,nvLock,nvUnlockView,cfDone,nfyUndo});
+const rtlFix = () => document.querySelectorAll('input[type=text],textarea').forEach(e=>{ if(e.dir!=='auto') e.dir='auto'; });
+new MutationObserver(rtlFix).observe(document.body,{childList:true,subtree:true}); rtlFix();
 
 /* ---------- master render / init ---------- */
 function renderAll(){ renderDashboard(); renderMoney(); renderFood(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); freshId=null; stagger=false; }
