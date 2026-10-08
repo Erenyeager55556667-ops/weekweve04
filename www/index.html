@@ -559,6 +559,63 @@ input,textarea,select{-webkit-user-select:text; user-select:text;}
 .cal-wd span{text-transform:uppercase; letter-spacing:.08em; font-size:10px;}
 .cal-grid{row-gap:6px;}
 [data-theme="light"] .db-ico,[data-theme="light"] .cd.today{color:color-mix(in srgb, var(--accent) 52%, #1a1e18);}
+.nv-card[onclick]{cursor:pointer;}
+.seg4{grid-template-columns:repeat(4,1fr);}
+.seg4 .seg-pill{width:calc((100% - 8px)/4);}
+.seg4 button{font-size:12.5px; padding:9px 4px;}
+.hp-in{animation:hpIn .65s cubic-bezier(.2,.8,.2,1) both; animation-delay:calc(var(--i,0) * 90ms);}
+@keyframes hpIn{from{opacity:0; transform:translateY(24px);} to{opacity:1; transform:none;}}
+.hp-period{margin:6px 0 4px;}
+.hp-nav{display:flex; align-items:center; justify-content:space-between; margin-top:14px;}
+.hp-label{font-family:var(--serif); font-size:19px; font-weight:600;}
+.hp-label.swap{animation:lblIn .38s cubic-bezier(.2,.8,.2,1);}
+@keyframes lblIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+.hp-panel{position:relative; overflow:hidden; margin-top:16px; padding:20px 18px 18px; border-radius:24px; background:linear-gradient(160deg, color-mix(in srgb, var(--accent) 11%, var(--card)), var(--card) 58%); border:1px solid color-mix(in srgb, var(--accent) 22%, var(--border)); box-shadow:var(--shadow);}
+.hp-panel::before{content:""; position:absolute; right:-70px; top:-70px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%); pointer-events:none;}
+.hp-head{position:relative; display:flex; align-items:center; justify-content:space-between;}
+.hp-title{font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim);}
+.hp-delta{font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; background:var(--card-2); color:var(--text-dim); transition:background .3s, color .3s;}
+.hp-delta:empty{display:none;}
+.hp-delta.up{background:rgba(239,68,68,.15); color:#ef4444;}
+.hp-delta.down{background:rgba(52,194,107,.16); color:#34c26b;}
+.hp-total{position:relative; margin-top:10px; display:flex; align-items:baseline; gap:8px;}
+.hp-total span{font-family:var(--serif); font-size:44px; font-weight:600; letter-spacing:-1px; line-height:1;}
+.hp-total small{font-size:14px; color:var(--text-dim); font-weight:600;}
+.hp-sub{position:relative; font-size:12px; color:var(--text-faint); margin-top:6px;}
+.hp-chart{position:relative; display:flex; align-items:flex-end; gap:4px; height:170px; margin-top:20px; padding-top:22px; background:repeating-linear-gradient(to top, color-mix(in srgb, var(--border) 70%, transparent) 0 1px, transparent 1px 25%);}
+.hb{position:relative; flex:1; height:100%; display:flex; align-items:flex-end; cursor:pointer;}
+.hb i{display:block; width:100%; height:calc(var(--h,0) * 1%); min-height:2px; border-radius:7px 7px 3px 3px; background:linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 40%, transparent)); opacity:.7; transition:height .9s cubic-bezier(.2,.8,.2,1) var(--d,0ms), opacity .3s;}
+.hb.cur i,.hb.on i{opacity:1; box-shadow:0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);}
+.hb-tip{position:absolute; left:50%; bottom:calc(var(--h,0) * 1% + 8px); transform:translateX(-50%) scale(.8); padding:3px 8px; border-radius:8px; background:var(--text); color:var(--bg); font:700 11px var(--sans); white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s, bottom .9s cubic-bezier(.2,.8,.2,1) var(--d,0ms); z-index:2;}
+.hb.on .hb-tip{opacity:1; transform:translateX(-50%) scale(1);}
+.hp-axis{display:flex; gap:4px; margin-top:8px;}
+.hp-axis span{flex:1; text-align:center; font-size:10px; color:var(--text-faint); white-space:nowrap; overflow:visible;}
+.hp-stack{display:flex; height:10px; border-radius:999px; overflow:hidden; margin-top:20px; background:var(--card-2); gap:2px;}
+.hp-stack span{display:block; width:0; height:100%; transition:width 1s cubic-bezier(.2,.8,.2,1);}
+.hp-legend{margin-top:12px; display:flex; flex-direction:column; gap:8px;}
+.lg{display:flex; align-items:center; gap:8px; font-size:13px;}
+.lg i{width:9px; height:9px; border-radius:50%;}
+.lg span{flex:1;}
+.lg b{color:var(--text-dim); font-weight:600;}
+.hp-empty{font-size:13px; color:var(--text-faint); padding:4px 0;}
+.hp-kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px; padding-top:16px; border-top:1px solid var(--border);}
+.hp-kpis div{display:flex; flex-direction:column; gap:3px; min-width:0;}
+.hp-kpis b{font-size:14px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.hp-kpis span{font-size:11px; color:var(--text-faint);}
+.hp-link{border:none; background:none; color:var(--accent); font:600 12.5px var(--sans); cursor:pointer;}
+.hp-task-top{position:relative; display:flex; align-items:center; gap:22px; margin-top:14px;}
+.hp-counts{display:flex; flex-direction:column; gap:10px; flex:1;}
+.hp-counts div{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-dim);}
+.hp-counts i{width:9px; height:9px; border-radius:50%;}
+.hp-counts b{font-size:18px; color:var(--text); min-width:24px;}
+.ring-fg{transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1);}
+.hp-up{position:relative; margin-top:16px; display:flex; flex-direction:column; gap:8px;}
+.up-row{display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background:var(--card-2); font-size:14px; cursor:pointer; transition:transform .2s;}
+.up-row:active{transform:scale(.98);}
+.up-row i{width:4px; height:18px; border-radius:3px;}
+.up-row span{flex:1; font-weight:600; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.up-row em{font-style:normal; font-size:12px; color:var(--text-faint);}
+[data-theme="light"] .hp-link{color:color-mix(in srgb, var(--accent) 52%, #1a1e18);}
 </style>
 </head>
 <body data-theme="dark">
@@ -581,25 +638,38 @@ input,textarea,select{-webkit-user-select:text; user-select:text;}
       <div class="quick-capsule"><button onclick="goPage('tasks')" data-ic="tasks" aria-label="Tasks"></button><button onclick="goPage('notes')" data-ic="note" aria-label="Notes"></button><button onclick="openCalendar()" data-ic="calendar" aria-label="Calendar"></button></div></div>
       <div class="hero-date" id="todayDate"></div>
       <div class="hero-msg" id="motivationMsg"></div>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-title">Money this week</div>
-        <div class="progress-hero">
-          <div class="ring-wrap">
-            <svg width="120" height="120" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"></circle><circle class="ring-fg" id="dashRing" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="314"></circle></svg>
-            <div class="ring-label" id="dashRingLabel">0%</div>
-          </div>
-          <div class="hero-stats">
-            <div><div class="hero-stat-num" id="hBudget"></div><div class="hero-stat-label">Budget</div></div>
-            <div><div class="hero-stat-num" id="hSpent"></div><div class="hero-stat-label">Spent</div></div>
-            <div><div class="hero-stat-num" id="hLeft"></div><div class="hero-stat-label">Left</div></div>
-          </div>
+      <div class="hp-period hp-in" style="--i:0">
+        <div class="seg seg4" id="segPeriod"><span class="seg-pill"></span><button data-v="day">Day</button><button data-v="week">Week</button><button data-v="month">Month</button><button data-v="year">Year</button></div>
+        <div class="hp-nav"><button class="cal-arrow" onclick="hpShift(-1)" data-ic="left" aria-label="Previous"></button><div class="hp-label" id="hpLabel"></div><button class="cal-arrow" onclick="hpShift(1)" data-ic="right" aria-label="Next"></button></div>
+      </div>
+
+      <div class="hp-panel hp-in" style="--i:1">
+        <div class="hp-head"><span class="hp-title">Spending</span><span class="hp-delta" id="hpDelta"></span></div>
+        <div class="hp-total"><span id="hpTotal">0</span><small id="hpCur">MAD</small></div>
+        <div class="hp-sub" id="hpSub"></div>
+        <div class="hp-chart" id="hpChart"></div>
+        <div class="hp-axis" id="hpAxis"></div>
+        <div class="hp-stack" id="hpStack"></div>
+        <div class="hp-legend" id="hpLegend"></div>
+        <div class="hp-kpis">
+          <div><b id="kAvg">-</b><span id="kAvgL">Avg / day</span></div>
+          <div><b id="kPeak">-</b><span>Peak</span></div>
+          <div><b id="kTop">-</b><span>Top category</span></div>
         </div>
       </div>
-      <div class="grid grid-2" style="margin-bottom:16px;">
-        <div class="card card-tight"><div class="card-title">Today's spending</div><div class="hero-stat-num" id="hToday" style="font-size:22px;"></div><div class="hero-stat-label" id="hTodaySub"></div></div>
-        <div class="card card-tight"><div class="card-title">Food spent</div><div class="hero-stat-num" id="hFood" style="font-size:22px;"></div><div class="hero-stat-label" id="hFoodSub"></div></div>
+
+      <div class="hp-panel hp-in" style="--i:2">
+        <div class="hp-head"><span class="hp-title">Tasks</span><button class="hp-link" onclick="goPage('tasks')">View all</button></div>
+        <div class="hp-task-top">
+          <div class="ring-wrap"><svg width="104" height="104" viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"></circle><circle class="ring-fg" id="hpRing" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="314"></circle></svg><div class="ring-label"><span id="hpRingNum">0</span>%</div></div>
+          <div class="hp-counts">
+            <div><i style="background:var(--accent)"></i><b id="tcDone">0</b><span>Done</span></div>
+            <div><i style="background:#f59e0b"></i><b id="tcPend">0</b><span>Pending</span></div>
+            <div><i style="background:#ef4444"></i><b id="tcOver">0</b><span>Overdue</span></div>
+          </div>
+        </div>
+        <div class="hp-up" id="hpUp"></div>
       </div>
-      <div class="card"><div class="card-title">Where it went</div><div id="hBreakdown"></div></div>
     </section>
 
     <section class="page" id="page-money">
@@ -642,7 +712,7 @@ input,textarea,select{-webkit-user-select:text; user-select:text;}
 
     <section class="page" id="page-notes">
       <div class="back-row"><button class="back-btn" onclick="history.back()" data-ic="left" aria-label="Back to Home"></button></div>
-      <div class="page-head"><div><div class="page-title">Notes</div><div class="page-sub">Capture ideas, pin what matters</div></div><button class="add-round" onclick="openNoteForm()" data-ic="plus" aria-label="New note"></button></div>
+      <div class="page-head"><div><div class="page-title">Notes</div><div class="page-sub">Capture ideas, pin what matters</div></div><button class="add-round" onclick="newNote()" data-ic="plus" aria-label="New note"></button></div>
       <div id="notesList"></div>
     </section>
 
@@ -793,12 +863,18 @@ function applyTheme(){ document.body.setAttribute('data-theme', state.settings.t
    ============================================================ */
 let currentPage = 'dashboard';
 function showPage(name){
+  if(currentPage==='note' && name!=='note') nvAutoSave();
+  if(name==='money'){
+    document.querySelectorAll('#page-money .cc').forEach(c=>c.classList.add('collapsed'));
+    [...flip].filter(k=>k.startsWith('m:')).forEach(k=>flip.delete(k));
+  }
   currentPage = name;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   $('page-'+name).classList.add('active');
   document.querySelectorAll('.nav-item,.bn-item').forEach(b=>b.classList.toggle('active', b.dataset.page===name));
   $('fabBtn').classList.toggle('hide', name!=='dashboard');
   stagger = (name==='notes'||name==='tasks'||name==='note');
+  if(name==='dashboard') hpReplay();
   renderAll(); window.scrollTo({top:0});
 }
 function goPage(name){
@@ -922,11 +998,11 @@ Object.assign(window,{openMealForm,saveMeal,clearMeal});
 /* ============================================================
    MONEY
    ============================================================ */
-const collapsed = new Set();
-function toggleSlot(btn,key){ const box=btn.closest('.slot-box'); const o=box.classList.toggle('open'); if(o) collapsed.delete(key); else collapsed.add(key); }
+const flip = new Set();
+function toggleSlot(btn,key){ const box=btn.closest('.slot-box'); const o=box.classList.toggle('open'); if(o !== key.startsWith('f:')) flip.add(key); else flip.delete(key); }
 window.toggleSlot = toggleSlot;
 function slotBox(key, items, addCall){
-  const n = items.length, open = !collapsed.has(key);
+  const n = items.length, open = key.startsWith('f:') !== flip.has(key);
   return `<td><div class="meal-slot slot-box${open?' open':''}">${items.join('')}${n>1?`<span class="more-badge">+${n-1} more</span>`:''}<div class="slot-side">${n>1?`<div class="exp-btn" onclick="toggleSlot(this,'${key}')"><svg viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg></div>`:''}<div class="add-dot" onclick="${addCall}">+</div></div></div></td>`;
 }
 const SEG_COLORS = ['#3b82f6','#34c26b','#f59e0b','#a855f7','#ef4444'];
@@ -1002,6 +1078,77 @@ function renderFood(){
 /* ============================================================
    HOME  (food + money analysis, current week)
    ============================================================ */
+const hp = {p:'week', off:0, lastLabel:''};
+const addDays = (d,n) => { const x=new Date(d); x.setDate(x.getDate()+n); return x; };
+function hpRange(p,off){
+  const t=new Date(); t.setHours(0,0,0,0);
+  if(p==='day'){ const s=addDays(t,off); return {s, e:addDays(s,1), label: off===0?'Today':off===-1?'Yesterday':off===1?'Tomorrow':`${NAMES[s.getDay()].slice(0,3)} ${fmt(s)}`}; }
+  if(p==='week'){ const s=addDays(startOf(t),off*7), e=addDays(s,7); return {s, e, label: off===0?'This week':`${fmt(s).slice(0,5)} – ${fmt(addDays(e,-1)).slice(0,5)}`}; }
+  if(p==='month'){ const s=new Date(t.getFullYear(),t.getMonth()+off,1); return {s, e:new Date(s.getFullYear(),s.getMonth()+1,1), label:s.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}; }
+  const s=new Date(t.getFullYear()+off,0,1); return {s, e:new Date(s.getFullYear()+1,0,1), label:String(s.getFullYear())};
+}
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function hpBuckets(p,r,ex){
+  const tot = f => sum(ex.filter(f).map(e=>e.amount));
+  if(p==='day') return MONEY_SLOTS.map(sl=>({label:sl.slice(0,3), full:sl, val:tot(e=>e.slot===sl)}));
+  if(p==='week') return DAYS.map((d,i)=>{ const k=iso(addDays(r.s,i)); return {label:d.slice(0,3), full:d, val:tot(e=>e.date===k), cur:k===TODAY_ISO}; });
+  if(p==='month'){ const y=r.s.getFullYear(), m=r.s.getMonth(), n=new Date(y,m+1,0).getDate();
+    return Array.from({length:n},(_,i)=>{ const k=`${y}-${p2(m+1)}-${p2(i+1)}`; return {label:(i===0||(i+1)%5===0)?String(i+1):'', full:`${i+1} ${MONTHS[m]}`, val:tot(e=>e.date===k), cur:k===TODAY_ISO}; }); }
+  const y=r.s.getFullYear(), nowM=new Date();
+  return MONTHS.map((mn,m)=>({label:mn[0], full:mn, val:tot(e=>e.date.startsWith(`${y}-${p2(m+1)}`)), cur:y===nowM.getFullYear()&&m===nowM.getMonth()}));
+}
+function hpDrawBars(bk){
+  const el=$('hpChart'), mx=Math.max(1,...bk.map(b=>b.val));
+  const same = el.children.length===bk.length && el.dataset.p===hp.p;
+  if(!same){ el.innerHTML = bk.map((b,i)=>`<div class="hb" style="--d:${Math.min(i*26,600)}ms" onclick="hpTip(this)"><span class="hb-tip"></span><i></i></div>`).join(''); el.dataset.p=hp.p; }
+  const apply = ()=>[...el.children].forEach((k,i)=>{ const b=bk[i];
+    k.classList.toggle('cur',!!b.cur); k.querySelector('.hb-tip').textContent=b.val;
+    k.style.setProperty('--h', b.val ? Math.max(4,b.val/mx*100) : 0); });
+  if(!same) requestAnimationFrame(()=>requestAnimationFrame(apply)); else apply();
+  $('hpAxis').innerHTML = bk.map(b=>`<span>${b.label}</span>`).join('');
+}
+function hpTip(el){ const on=el.classList.contains('on'); document.querySelectorAll('#hpChart .hb.on').forEach(x=>x.classList.remove('on')); if(!on) el.classList.add('on'); }
+function hpShift(n){ hp.off+=n; hpSwap(); renderDashboard(); }
+function hpSwap(){ const l=$('hpLabel'); l.classList.remove('swap'); void l.offsetWidth; l.classList.add('swap'); }
+function hpReplay(){
+  document.querySelectorAll('#page-dashboard .hp-in').forEach(e=>{ e.classList.remove('hp-in'); void e.offsetWidth; e.classList.add('hp-in'); });
+  $('hpChart').innerHTML=''; $('hpStack').innerHTML=''; $('hpTotal')._v=0; $('hpRingNum')._v=0;
+  const r=$('hpRing'); r.style.transition='none'; r.style.strokeDashoffset=314; void r.getBoundingClientRect(); r.style.transition='';
+}
+function hpRender(){
+  const c=cur(), r=hpRange(hp.p,hp.off), rp=hpRange(hp.p,hp.off-1);
+  const inR=(e,rr)=>e.date>=iso(rr.s) && e.date<iso(rr.e);
+  const ex=state.expenses.filter(e=>inR(e,r)), prev=sum(state.expenses.filter(e=>inR(e,rp)).map(e=>e.amount));
+  const total=sum(ex.map(e=>e.amount)), bk=hpBuckets(hp.p,r,ex);
+  setSeg('segPeriod',hp.p);
+  if(hp.lastLabel!==r.label){ $('hpLabel').textContent=r.label; if(hp.lastLabel) hpSwap(); hp.lastLabel=r.label; }
+  $('hpCur').textContent=c; animateNum($('hpTotal'),Math.round(total));
+  const dl=$('hpDelta');
+  if(!prev && !total){ dl.textContent=''; dl.className='hp-delta'; }
+  else if(!prev){ dl.textContent='New'; dl.className='hp-delta up'; }
+  else { const d=Math.round((total-prev)/prev*100); dl.textContent=(d>=0?'▲ ':'▼ ')+Math.abs(d)+'%'; dl.className='hp-delta '+(d>0?'up':d<0?'down':''); }
+  $('hpSub').textContent = `vs previous ${hp.p} · ${prev} ${c}`;
+  hpDrawBars(bk);
+  const unit = {day:'slot',week:'day',month:'day',year:'month'}[hp.p];
+  $('kAvgL').textContent=`Avg / ${unit}`; $('kAvg').textContent=`${Math.round(total/bk.length)} ${c}`;
+  const peak=bk.reduce((a,b)=>b.val>a.val?b:a,bk[0]); $('kPeak').textContent = total? peak.full : '-';
+  const cats={}; ex.forEach(e=>cats[e.category]=(cats[e.category]||0)+e.amount);
+  const cl=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+  $('kTop').textContent = cl.length ? cl[0][0] : '-';
+  const st=$('hpStack'), segs=cl.map(([k,v])=>({k,v,w:v/total*100,col:COLORS[k]||'#9aa0ad'}));
+  if(st.children.length!==segs.length){ st.innerHTML=segs.map(()=>'<span></span>').join(''); }
+  const applyStack=()=>[...st.children].forEach((x,i)=>{ x.style.width=segs[i].w+'%'; x.style.background=segs[i].col; });
+  if(st.dataset.n!==String(segs.length)){ st.dataset.n=segs.length; requestAnimationFrame(()=>requestAnimationFrame(applyStack)); } else applyStack();
+  $('hpLegend').innerHTML = cl.length ? cl.slice(0,3).map(([k,v])=>`<div class="lg"><i style="background:${COLORS[k]||'#9aa0ad'}"></i><span>${esc(k)}</span><b>${v} ${esc(c)}</b></div>`).join('') : '<div class="hp-empty">No spending in this period.</div>';
+  /* tasks */
+  const tk = t => t.date || iso(new Date(t.ts));
+  const tin = state.tasks.filter(t=>tk(t)>=iso(r.s) && tk(t)<iso(r.e));
+  const done=tin.filter(t=>t.done).length, over=tin.filter(t=>!t.done && tk(t)<TODAY_ISO).length, pct=tin.length?Math.round(done/tin.length*100):0;
+  $('hpRing').style.strokeDashoffset = 314*(1-pct/100); animateNum($('hpRingNum'),pct);
+  $('tcDone').textContent=done; $('tcPend').textContent=tin.length-done; $('tcOver').textContent=over;
+  const up=tin.filter(t=>!t.done).sort((a,b)=>tk(a).localeCompare(tk(b))).slice(0,3);
+  $('hpUp').innerHTML = up.length ? up.map(t=>`<div class="up-row" onclick="goPage('tasks')"><i style="background:${t.color?dk(t.color):'var(--accent)'}"></i><span>${esc(t.title)}</span><em>${fmt(new Date(tk(t)+'T00:00:00')).slice(0,5)}</em></div>`).join('') : `<div class="hp-empty">${tin.length?'All done for this period.':'No tasks in this period.'}</div>`;
+}
 function renderDashboard(){
   const h = new Date().getHours(), c = cur();
   const nm = (state.settings.name||'').trim();
@@ -1009,18 +1156,12 @@ function renderDashboard(){
   $('greetName').textContent = nm; $('greetName').style.display = nm?'':'none';
   $('greetHello').style.marginBottom = nm?'':'8px';
   $('todayDate').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
-  const ws = weekIsos(0), ex = weekExpenses(0), spent = sum(ex.map(e=>e.amount)), budget = state.settings.budget;
+  const spent = sum(weekExpenses(curWeek()).map(e=>e.amount)), budget = state.settings.budget;
   const pct = budget? Math.min(100,Math.round(spent/budget*100)) : 0;
   $('motivationMsg').textContent = !budget? 'Set a weekly budget in Settings to track it here.' : pct>=100? "You're over this week's budget." : pct>=80? 'Careful — most of the budget is used.' : "You're on track this week.";
-  $('dashRing').style.strokeDashoffset = 314*(1-pct/100); $('dashRingLabel').textContent = pct+'%';
-  $('hBudget').textContent = `${budget} ${c}`; $('hSpent').textContent = `${spent} ${c}`; $('hLeft').textContent = `${budget-spent} ${c}`;
-  const todayIdx = ws.indexOf(TODAY_ISO), todayTotal = sum(ex.filter(e=>e.date===TODAY_ISO).map(e=>e.amount));
-  $('hToday').textContent = `${todayTotal} ${c}`; $('hTodaySub').textContent = `${ex.filter(e=>e.date===TODAY_ISO).length} expense(s)`;
-  const foodCost = sum(ws.map(mealCostOf)), mealCount = sum(ws.map(d=>Object.values(state.meals[d]||{}).reduce((a,l)=>a+l.length,0)));
-  $('hFood').textContent = `${foodCost} ${c}`; $('hFoodSub').textContent = `${mealCount} meal(s) planned`;
-  $('hBreakdown').innerHTML = breakdownHTML(ex);
-
+  hpRender();
 }
+Object.assign(window,{hpShift,hpTip});
 
 /* ============================================================
    SETTINGS
@@ -1187,38 +1328,51 @@ Object.assign(window,{openCalendar,calShift,calPick});
 
 
 /* ---- note reader page ---- */
-let viewId = null, nvEditing = false;
-function openNote(id){ viewId=id; nvEditing=false; goPage('note'); }
+let viewId = null, nvEditing = false, nvNew = false, nvDraft = {color:'',pinned:false}, lastTap = 0;
+function openNote(id){ viewId=id; nvEditing=false; nvNew=false; goPage('note'); }
+function newNote(){ viewId=null; nvNew=true; nvEditing=true; nvDraft={color:'',pinned:false}; goPage('note'); setTimeout(()=>{ const t=$('nv-title'); if(t) t.focus(); }, 450); }
+const curNote = () => state.notes.find(x=>x.id===viewId);
+const nvObj = () => nvNew ? nvDraft : curNote();
 function renderNoteView(){
   if(currentPage!=='note') return;
-  const n = state.notes.find(x=>x.id===viewId), host = $('noteView');
+  const n = nvObj(), host = $('noteView');
   if(!n){ host.innerHTML=''; return; }
-  const bar = `<div class="nv-bar"><button class="${n.pinned?'on':''}" onclick="nvPin()" aria-label="Pin">${ic('pin')}</button><button onclick="nvEdit()" aria-label="Edit">${ic('edit')}</button><button class="danger" onclick="nvDelete()" aria-label="Delete">${ic('trash')}</button><button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div>`;
+  const bar = `<div class="nv-bar"><button class="${n.pinned?'on':''}" onclick="nvPin(this)" aria-label="Pin">${ic('pin')}</button>${nvNew?'':`<button onclick="nvEdit()" aria-label="Edit">${ic('edit')}</button><button class="danger" onclick="nvDelete()" aria-label="Delete">${ic('trash')}</button>`}<button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div>`;
   const dots = `<div class="nv-colors">${NCOLORS.map(c=>`<button type="button" class="nc sm ${c===(n.color||'')?'on':''}" data-c="${c}" style="--nc:${c?dk(c):'transparent'}" onclick="nvColor('${c}')" aria-label="Color"></button>`).join('')}</div>`;
-  const body = nvEditing
-    ? `<div class="nv-edit"><input id="nv-title" type="text" placeholder="Title" value="${esc(n.title)}"><textarea id="nv-text" placeholder="Write your note...">${esc(n.text)}</textarea><div class="modal-actions"><button class="btn primary full" onclick="nvSave()">Save</button><button class="btn" onclick="nvCancel()">Cancel</button></div></div>`
-    : `${n.title?`<div class="nv-title">${esc(n.title)}</div>`:''}<div class="nv-date">${fmt(new Date(n.ts))}</div><div class="nv-text">${esc(n.text)}</div>`;
-  host.innerHTML = `<div class="nv-wrap ${stagger?'nv-enter':''}" style="--nc:${n.color?dk(n.color):'var(--card)'}">${bar}${dots}<div class="nv-card">${body}</div></div>`;
+  const card = nvEditing
+    ? `<div class="nv-card"><div class="nv-edit"><input id="nv-title" type="text" placeholder="Title" value="${esc(n.title)}"><textarea id="nv-text" placeholder="Write your note...">${esc(n.text)}</textarea><div class="modal-actions"><button class="btn primary full" onclick="nvSave()">Save</button><button class="btn" onclick="nvCancel()">Cancel</button></div></div></div>`
+    : `<div class="nv-card" onclick="nvTap()">${n.title?`<div class="nv-title">${esc(n.title)}</div>`:''}<div class="nv-date">${fmt(new Date(n.ts))}</div><div class="nv-text">${esc(n.text)}</div></div>`;
+  host.innerHTML = `<div class="nv-wrap ${stagger?'nv-enter':''}" style="--nc:${n.color?dk(n.color):'var(--card)'}">${bar}${dots}${card}</div>`;
 }
-const curNote = () => state.notes.find(x=>x.id===viewId);
-function nvPin(){ const n=curNote(); n.pinned=!n.pinned; save(); renderNoteView(); }
-function nvEdit(){ nvEditing=true; renderNoteView(); }
-function nvCancel(){ nvEditing=false; renderNoteView(); }
+function nvTap(){ const now=Date.now(); if(now-lastTap<320){ lastTap=0; nvEdit(); } else lastTap=now; }
+function nvPin(btn){ const n=nvObj(); n.pinned=!n.pinned; if(!nvNew) save(); btn.classList.toggle('on',n.pinned); }
+function nvEdit(){ nvEditing=true; renderNoteView(); setTimeout(()=>{ const x=$('nv-text'); if(x){ x.focus(); x.setSelectionRange(x.value.length,x.value.length); } }, 80); }
+function nvCancel(){ if(nvNew){ nvNew=false; nvEditing=false; history.back(); } else { nvEditing=false; renderNoteView(); } }
 function nvSave(){
-  const n=curNote(), title=$('nv-title').value.trim(), text=$('nv-text').value.trim();
+  const title=$('nv-title').value.trim(), text=$('nv-text').value.trim();
   if(!title && !text){ toast('Write something first'); return; }
-  n.title=title; n.text=text; nvEditing=false; save(); toast('Note saved'); renderNoteView();
+  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,ts:Date.now()}; state.notes.push(n); viewId=n.id; nvNew=false; }
+  else { const n=curNote(); n.title=title; n.text=text; }
+  nvEditing=false; save(); toast('Note saved'); renderNoteView();
+}
+function nvAutoSave(){
+  if(!nvEditing) return;
+  const t=$('nv-title'), x=$('nv-text'); if(!t||!x) return;
+  const title=t.value.trim(), text=x.value.trim(); if(!title && !text) { nvNew=false; nvEditing=false; return; }
+  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,ts:Date.now()}; state.notes.push(n); freshId=n.id; }
+  else { const n=curNote(); if(n){ n.title=title; n.text=text; } }
+  nvNew=false; nvEditing=false; save();
 }
 function nvColor(c){
-  const n=curNote(); n.color=c; save();
+  const n=nvObj(); n.color=c; if(!nvNew) save();
   document.querySelector('.nv-wrap').style.setProperty('--nc', c?dk(c):'var(--card)');
   document.querySelectorAll('.nv-colors .nc').forEach(b=>b.classList.toggle('on', b.dataset.c===c));
 }
 function nvDelete(){
   if(!confirm('Delete this note?')) return;
-  state.notes = state.notes.filter(x=>x.id!==viewId); save(); viewId=null; toast('Deleted'); history.back();
+  nvEditing=false; state.notes = state.notes.filter(x=>x.id!==viewId); save(); viewId=null; toast('Deleted'); history.back();
 }
-Object.assign(window,{openNote,nvPin,nvEdit,nvCancel,nvSave,nvColor,nvDelete});
+Object.assign(window,{openNote,newNote,nvTap,nvPin,nvEdit,nvCancel,nvSave,nvColor,nvDelete});
 
 /* ---- date picker (task form) ---- */
 const dp = {y:0, m:0};
@@ -1260,6 +1414,7 @@ function syncStatusBar(){
   try{ CAP.StatusBar.setBackgroundColor({color: dark?'#12141a':'#f2f0e9'}); CAP.StatusBar.setStyle({style: dark?'DARK':'LIGHT'}); }catch(e){}
 }
 paintIcons();
+$('segPeriod').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b||hp.p===b.dataset.v) return; hp.p=b.dataset.v; hp.off=0; hpSwap(); renderDashboard(); });
 applyTheme();
 history.replaceState({page:'dashboard'}, '');
 showPage('dashboard');
