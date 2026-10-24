@@ -687,6 +687,27 @@ input,textarea{text-align:start;}
 /* hide all scrollbars (scrolling still works) */
 *{scrollbar-width:none; -ms-overflow-style:none;}
 *::-webkit-scrollbar{display:none; width:0; height:0;}
+.cat-row{display:flex; gap:10px; overflow-x:auto; padding:2px 0 6px; margin:6px 0 4px;}
+.cat-chip{flex-shrink:0; display:flex; align-items:center; justify-content:center; padding:10px 20px; border-radius:999px; border:1.5px solid transparent; background:color-mix(in srgb, var(--c) 16%, transparent); color:var(--c); font:700 14px var(--sans); cursor:pointer; transition:background .25s, border-color .25s, transform .2s;}
+.cat-chip:active{transform:scale(.94);}
+.cat-chip.on{background:color-mix(in srgb, var(--c) 30%, transparent); border-color:var(--c);}
+.cat-chip.add{padding:10px 14px; background:var(--card-2); color:var(--text-dim);}
+.n-cat{display:flex; align-items:center; gap:7px; font-size:12px; color:var(--text-dim); margin-bottom:8px;}
+.n-cat i{width:8px; height:8px; border-radius:50%;}
+.nv-meta{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;}
+.nv-meta .nv-colors{margin:0;}
+.cat-wrap{position:relative;}
+.cat-btn2{display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:var(--card-2); color:var(--text); font:600 13px var(--sans); cursor:pointer;}
+.cat-btn2 i{width:10px; height:10px; border-radius:50%; transition:background .3s;}
+.cat-btn2 .chev{width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s;}
+.cat-btn2.open .chev{transform:rotate(180deg);}
+.cat-menu{position:absolute; top:calc(100% + 8px); left:0; min-width:210px; padding:6px; border-radius:16px; background:var(--card); border:1px solid var(--border); box-shadow:0 16px 40px rgba(0,0,0,.4); z-index:30; opacity:0; transform:translateY(-8px) scale(.96); transform-origin:top left; pointer-events:none; transition:opacity .22s, transform .25s cubic-bezier(.2,.9,.3,1.2);}
+.cat-menu.open{opacity:1; transform:none; pointer-events:auto;}
+.cat-item{display:flex; align-items:center; gap:12px; width:100%; padding:12px 14px; border:none; background:none; color:var(--text); font:600 15px var(--sans); border-radius:11px; cursor:pointer; text-align:left;}
+.cat-item i{width:11px; height:11px; border-radius:50%;}
+.cat-item.on{background:color-mix(in srgb, var(--text) 8%, transparent);}
+.cat-item:active{background:var(--accent-dim);}
+[data-theme="light"] .cat-chip{color:color-mix(in srgb, var(--c) 55%, #000);}
 </style>
 </head>
 <body data-theme="dark">
@@ -696,8 +717,7 @@ input,textarea{text-align:start;}
     <nav class="nav" id="sideNav">
       <button class="nav-item" data-page="dashboard"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg></span>Home</button>
       <button class="nav-item" data-page="money"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5z"/><circle cx="16" cy="13.5" r="1.2"/></svg></span>Money</button>
-      <button class="nav-item" data-page="food"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10"/><path d="M17 21V3c-2.5 1.5-3.5 4.5-3.5 8H17"/></svg></span>Food</button>
-      <button class="nav-item" data-page="settings"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>Settings</button>
+            <button class="nav-item" data-page="settings"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>Settings</button>
     </nav>
     <div class="sidebar-foot">Your week, held together.</div>
   </aside>
@@ -768,22 +788,12 @@ input,textarea{text-align:start;}
       </div>
     </section>
 
-    <section class="page" id="page-food">
-      <div class="page-head"><div><div class="page-title">Food</div><div class="page-sub">Plan meals for the week</div></div></div>
-      <div class="strip-wrap" id="foodStrip"></div>
-      <div class="card" style="overflow-x:auto; margin-bottom:18px;"><table class="food-table" id="foodTable"></table></div>
-      <div class="card card-tight">
-        <div class="card-title">Weekly food cost</div>
-        <div style="display:flex; gap:24px; margin-bottom:12px;">
-          <div><div class="hero-stat-num" id="foodActual" style="font-size:20px;"></div><div class="hero-stat-label">Spent this week</div></div>
-        </div>
-        <div id="foodDaily"></div>
-      </div>
-    </section>
+    
 
     <section class="page" id="page-notes">
       <div class="back-row"><button class="back-btn" onclick="history.back()" data-ic="left" aria-label="Back to Home"></button></div>
       <div class="page-head"><div><div class="page-title">Notes</div><div class="page-sub">Capture ideas, pin what matters</div></div><button class="add-round" onclick="newNote()" data-ic="plus" aria-label="New note"></button></div>
+      <div class="cat-row" id="catRow"></div>
       <div id="notesList"></div>
     </section>
 
@@ -836,8 +846,7 @@ input,textarea{text-align:start;}
 <nav class="bottom-nav"><div class="bottom-nav-inner" id="bottomNav">
   <button class="bn-item" data-page="dashboard"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg></span>Home</button>
   <button class="bn-item" data-page="money"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5z"/><circle cx="16" cy="13.5" r="1.2"/></svg></span>Money</button>
-  <button class="bn-item" data-page="food"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10"/><path d="M17 21V3c-2.5 1.5-3.5 4.5-3.5 8H17"/></svg></span>Food</button>
-  <button class="bn-item" data-page="settings"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>Settings</button>
+    <button class="bn-item" data-page="settings"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>Settings</button>
 </div></nav>
 <div class="overlay" id="overlay"><div class="modal" id="modalBody"></div></div>
 <div class="toast" id="toast"></div>
@@ -847,7 +856,6 @@ let FD = 1;
 const NAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 const MONEY_SLOTS = ["Morning","Afternoon","Evening"];
-const FOOD_SLOTS = ["Breakfast","Lunch","Dinner"];
 const EXP_CATS = ["Food","Transport","Bills","Shopping","Entertainment","Other"];
 const STORAGE_KEY = "weekweave-data-v1";
 const ACCENTS = ["#8faf8a","#8ea7d9","#d0a8e0","#e0a6a6","#e0c48a","#9ac6c9"];
@@ -871,11 +879,12 @@ function slotNow(map){ const h=new Date().getHours(); return map[h<12?0:h<18?1:2
 
 /* ---------- data ---------- */
 function defaultData(){
-  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], installWeek: iso(new Date()) };
+  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], installWeek: iso(new Date()) };
 }
 function migrate(s){
   if(!s.installWeek) s.installWeek = iso(new Date());
   s.notes = s.notes||[]; s.tasks = s.tasks||[];
+  if(!Array.isArray(s.noteCats)) s.noteCats = [{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}];
   s.expenses = (s.expenses||[]).map(e=>{
     if(DAYS.includes(e.date)) e = {...e, date: iso(thisDay(DAYS.indexOf(e.date)))};
     return {...e, name: e.name || e.note || e.category, slot: e.slot || 'Morning'};
@@ -1039,39 +1048,7 @@ Object.assign(window,{openExpenseForm,saveExpense,deleteExpense});
 /* ============================================================
    MEAL FORM
    ============================================================ */
-function openMealForm(date, slot, idx=-1){
-  const list = (state.meals[date] && state.meals[date][slot]) || [];
-  const meal = idx>=0 ? (list[idx]||{}) : {};
-  const d = new Date(date+'T00:00:00');
-  openModal(`
-    <div class="modal-head"><div class="modal-title">${NAMES[d.getDay()]} ${fmt(d)} — ${slot}</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
-    <div class="field"><label>Meal name</label><input id="f-name" type="text" value="${esc(meal.name)}"></div>
-    <div class="field-row">
-      <div class="field"><label>Estimated cost (${esc(cur())})</label><input id="f-cost" type="number" value="${meal.cost??''}"></div>
-      <div class="field"><label>Calories (optional)</label><input id="f-cal" type="number" value="${esc(meal.calories)}"></div>
-    </div>
-    <div class="field-row"><div class="field"><label>Protein g (optional)</label><input id="f-protein" type="number" value="${esc(meal.protein)}"></div></div>
-    <div class="field"><label>Notes</label><textarea id="f-notes">${esc(meal.notes)}</textarea></div>
-    <div class="modal-actions">
-      <button class="btn primary full" onclick="saveMeal('${date}','${slot}',${idx})">Save meal</button>
-      ${idx>=0?`<button class="btn danger-outline" onclick="clearMeal('${date}','${slot}',${idx})">Delete</button>`:''}
-    </div>`);
-}
-function saveMeal(date, slot, idx){
-  const name = $('f-name').value.trim();
-  if(!name){ toast('Enter a meal name'); return; }
-  const m = { name, cost:parseFloat($('f-cost').value)||0, calories:$('f-cal').value||undefined, protein:$('f-protein').value||undefined, notes:$('f-notes').value };
-  if(!state.meals[date]) state.meals[date] = {};
-  if(!state.meals[date][slot]) state.meals[date][slot] = [];
-  if(idx>=0) state.meals[date][slot][idx] = m; else state.meals[date][slot].push(m);
-  save(); closeModal(); toast('Meal saved'); renderAll();
-}
-function clearMeal(date, slot, idx){
-  const a = state.meals[date] && state.meals[date][slot];
-  if(a){ a.splice(idx,1); if(!a.length) delete state.meals[date][slot]; }
-  save(); closeModal(); toast('Meal deleted'); renderAll();
-}
-Object.assign(window,{openMealForm,saveMeal,clearMeal});
+
 
 /* ============================================================
    MONEY
@@ -1139,20 +1116,6 @@ function breakdownHTML(ex){
 /* ============================================================
    FOOD
    ============================================================ */
-const mealCostOf = d => sum(Object.values(state.meals[d]||{}).map(l=>sum(l.map(m=>m.cost||0))));
-function renderFood(){
-  renderStrip($('foodStrip'));
-  const off = ui.sel, ws = weekIsos(off), c = cur();
-  $('foodTable').innerHTML = `<thead><tr><th>Day</th>${FOOD_SLOTS.map(s=>`<th>${s}</th>`).join('')}</tr></thead><tbody>${
-    DAYS.map((day,i)=>{ const meals = state.meals[ws[i]]||{};
-      return `<tr><td class="day-cell">${day}<small>${fmt(dayDate(off,i))}</small></td>${FOOD_SLOTS.map(slot=>{ const list = meals[slot]||[];
-        if(!list.length) return `<td><div class="meal-slot empty" onclick="openMealForm('${ws[i]}','${slot}')">+ Add</div></td>`;
-        return slotBox('f:'+ws[i]+':'+slot, list.map((m,j)=>`<div class="it" onclick="openMealForm('${ws[i]}','${slot}',${j})"><div class="m-name" dir="auto">${esc(m.name)}</div><div class="m-cost">${m.cost||0} ${esc(c)}</div></div>`), `openMealForm('${ws[i]}','${slot}')`); }).join('')}</tr>`; }).join('')}</tbody>`;
-  $('foodActual').textContent = `${sum(ws.map(mealCostOf))} ${c}`;
-  $('foodDaily').innerHTML = DAYS.map((day,i)=>{ const a = mealCostOf(ws[i]);
-    return `<div class="row"><div style="flex:1;"><div class="row-title">${day}</div><div class="row-sub">${fmt(dayDate(off,i))}</div></div><div class="chip ${ws[i]===TODAY_ISO?'accent':''}">${a} ${esc(c)}</div></div>`; }).join('');
-}
-
 /* ============================================================
    HOME  (food + money analysis, current week)
    ============================================================ */
@@ -1320,14 +1283,16 @@ Object.assign(window,{pickColor,togglePinForm,pinItem,deleteItem});
 
 /* ---- notes ---- */
 function noteCardHTML(n,i){
-  return `<div class="note-card ${n.color?'nc-on':''} ${enterCls(n.id)}" data-id="${n.id}" style="--nc:${n.color?dk(n.color):'var(--text-faint)'}; --i:${i}" onclick="openNote('${n.id}')">
+  return `<div class="note-card ${ncol(n)?'nc-on':''} ${enterCls(n.id)}" data-id="${n.id}" style="--nc:${ncol(n)?dk(ncol(n)):'var(--text-faint)'}; --i:${i}" onclick="openNote('${n.id}')">
     <button class="pin-btn lock-btn ${n.locked?'on':''}" onclick="event.stopPropagation(); lockToggle('${n.id}')" aria-label="Lock">${ic(n.locked?'lock':'unlock')}</button><button class="pin-btn ${n.pinned?'on':''}" onclick="event.stopPropagation(); pinItem('notes','${n.id}')" aria-label="Pin">${ic('pin')}</button>
-    ${n.title?`<div class="n-title" dir="auto">${esc(n.title)}</div>`:(n.locked?'<div class="n-title">Locked note</div>':'')}${n.locked?'<div class="n-text n-hidden" aria-hidden="true">••••• •••• ••••••<br>••• ••••••• ••<br>•••• •••••</div>':`<div class="n-text" dir="auto">${esc(n.text)}</div>`}<div class="n-date">${fmt(new Date(n.ts))}</div></div>`;
+    ${n.title?`<div class="n-title" dir="auto">${esc(n.title)}</div>`:(n.locked?'<div class="n-title">Locked note</div>':'')}${catLine(n)}${n.locked?'<div class="n-text n-hidden" aria-hidden="true">••••• •••• ••••••<br>••• ••••••• ••<br>•••• •••••</div>':`<div class="n-text" dir="auto">${esc(n.text)}</div>`}<div class="n-date">${fmt(new Date(n.ts))}</div></div>`;
 }
 function renderNotes(){
-  const L=[...state.notes].sort(sortPinned), pinned=L.filter(n=>n.pinned), rest=L.filter(n=>!n.pinned); let i=0;
+  renderCats();
+  const all = catFilter==='all' ? state.notes : state.notes.filter(n=>n.cat===catFilter);
+  const L=[...all].sort(sortPinned), pinned=L.filter(n=>n.pinned), rest=L.filter(n=>!n.pinned); let i=0;
   const sec=(label,a)=>a.length?`${label?`<div class="sec-label">${label}</div>`:''}<div class="notes-grid">${a.map(n=>noteCardHTML(n,i++)).join('')}</div>`:'';
-  $('notesList').innerHTML = L.length ? sec(pinned.length?'Pinned':'',pinned)+sec(pinned.length?'Others':'',rest) : emptyHTML('note','No notes yet','Tap + to write your first note.');
+  $('notesList').innerHTML = L.length ? sec(pinned.length?'Pinned':'',pinned)+sec(pinned.length?'Others':'',rest) : (catFilter==='all' ? emptyHTML('note','No notes yet','Tap + to write your first note.') : emptyHTML('note','No notes in this category','Tap + to add one.'));
 }
 function openNoteForm(id){
   const n = id ? state.notes.find(x=>x.id===id) : null; formColor = n?n.color:''; formPin = n?!!n.pinned:false;
@@ -1411,14 +1376,14 @@ Object.assign(window,{openCalendar,calShift,calPick});
 
 
 /* ---- note reader page ---- */
-let viewId = null, nvEditing = false, nvNew = false, nvDraft = {color:'',pinned:false,locked:false}, lastTap = 0;
+let viewId = null, nvEditing = false, nvNew = false, nvDraft = {color:'',pinned:false,locked:false,cat:''}, lastTap = 0;
 const unlockedIds = new Set();
 async function openNote(id){
   const n = state.notes.find(x=>x.id===id);
   if(n && n.locked && !unlockedIds.has(id)){ if(!(await verifyPin('Unlock note'))) return; unlockedIds.add(id); }
   viewId=id; nvEditing=false; nvNew=false; goPage('note');
 }
-function newNote(){ viewId=null; nvNew=true; nvEditing=true; nvDraft={color:'',pinned:false,locked:false}; goPage('note'); setTimeout(()=>{ const t=$('nv-title'); if(t) t.focus(); }, 450); }
+function newNote(){ viewId=null; nvNew=true; nvEditing=true; nvDraft={color:'',pinned:false,locked:false,cat:(catFilter!=='all'?catFilter:'')}; goPage('note'); setTimeout(()=>{ const t=$('nv-title'); if(t) t.focus(); }, 450); }
 const curNote = () => state.notes.find(x=>x.id===viewId);
 const nvObj = () => nvNew ? nvDraft : curNote();
 function renderNoteView(){
@@ -1427,11 +1392,11 @@ function renderNoteView(){
   if(!n){ host.innerHTML=''; return; }
   if(!nvNew && n.locked && !unlockedIds.has(viewId)){ host.innerHTML=`<div class="nv-wrap nv-enter"><div class="nv-bar"><button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div><div class="nv-card"><div class="empty-state"><div class="es-ico">${ic('lock')}</div><div class="es-t" dir="auto">${esc(n.title||'Locked note')}</div><div class="es-s">This note is locked.</div><button class="btn primary" style="margin-top:16px" onclick="nvUnlockView()">Unlock</button></div></div></div>`; return; }
   const bar = `<div class="nv-bar"><button class="${n.locked?'on':''}" onclick="nvLock(this)" aria-label="Lock">${ic(n.locked?'lock':'unlock')}</button><button class="${n.pinned?'on':''}" onclick="nvPin(this)" aria-label="Pin">${ic('pin')}</button>${nvNew?'':`<button onclick="nvEdit()" aria-label="Edit">${ic('edit')}</button><button class="danger" onclick="nvDelete()" aria-label="Delete">${ic('trash')}</button>`}<button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div>`;
-  const dots = `<div class="nv-colors">${NCOLORS.map(c=>`<button type="button" class="nc sm ${c===(n.color||'')?'on':''}" data-c="${c}" style="--nc:${c?dk(c):'transparent'}" onclick="nvColor('${c}')" aria-label="Color"></button>`).join('')}</div>`;
+  const dots = `<div class="nv-colors" id="nvColors" style="${catOf(n)?'display:none':''}">${NCOLORS.map(c=>`<button type="button" class="nc sm ${c===(n.color||'')?'on':''}" data-c="${c}" style="--nc:${c?dk(c):'transparent'}" onclick="nvColor('${c}')" aria-label="Color"></button>`).join('')}</div>`;
   const card = nvEditing
     ? `<div class="nv-card"><div class="nv-edit"><input id="nv-title" type="text" placeholder="Title" value="${esc(n.title)}"><textarea id="nv-text" placeholder="Write your note...">${esc(n.text)}</textarea><div class="modal-actions"><button class="btn primary full" onclick="nvSave()">Save</button><button class="btn" onclick="nvCancel()">Cancel</button></div></div></div>`
     : `<div class="nv-card" onclick="nvTap()">${n.title?`<div class="nv-title" dir="auto">${esc(n.title)}</div>`:''}<div class="nv-date">${fmt(new Date(n.ts))}</div><div class="nv-text" dir="auto">${esc(n.text)}</div></div>`;
-  host.innerHTML = `<div class="nv-wrap ${stagger?'nv-enter':''}" style="--nc:${n.color?dk(n.color):'var(--card)'}">${bar}${dots}${card}</div>`;
+  host.innerHTML = `<div class="nv-wrap ${stagger?'nv-enter':''}" style="--nc:${ncol(n)?dk(ncol(n)):'var(--card)'}">${bar}${catMeta(n,dots)}${card}</div>`;
 }
 function nvTap(){ const now=Date.now(); if(now-lastTap<320){ lastTap=0; nvEdit(); } else lastTap=now; }
 function nvPin(btn){ const n=nvObj(); n.pinned=!n.pinned; if(!nvNew) save(); btn.classList.toggle('on',n.pinned); }
@@ -1440,7 +1405,7 @@ function nvCancel(){ if(nvNew){ nvNew=false; nvEditing=false; history.back(); } 
 function nvSave(){
   const title=$('nv-title').value.trim(), text=$('nv-text').value.trim();
   if(!title && !text){ toast('Write something first'); return; }
-  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,ts:Date.now()}; state.notes.push(n); viewId=n.id; nvNew=false; }
+  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,cat:nvDraft.cat||'',ts:Date.now()}; state.notes.push(n); viewId=n.id; nvNew=false; }
   else { const n=curNote(); n.title=title; n.text=text; }
   nvEditing=false; save(); toast('Note saved'); renderNoteView();
 }
@@ -1448,7 +1413,7 @@ function nvAutoSave(){
   if(!nvEditing) return;
   const t=$('nv-title'), x=$('nv-text'); if(!t||!x) return;
   const title=t.value.trim(), text=x.value.trim(); if(!title && !text) { nvNew=false; nvEditing=false; return; }
-  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,ts:Date.now()}; state.notes.push(n); freshId=n.id; }
+  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,cat:nvDraft.cat||'',ts:Date.now()}; state.notes.push(n); freshId=n.id; }
   else { const n=curNote(); if(n){ n.title=title; n.text=text; } }
   nvNew=false; nvEditing=false; save();
 }
@@ -1606,8 +1571,65 @@ Object.assign(window,{pinKey,forgotPin,lockToggle,nvLock,nvUnlockView,cfDone,nfy
 const rtlFix = () => document.querySelectorAll('input[type=text],textarea').forEach(e=>{ if(e.dir!=='auto') e.dir='auto'; });
 new MutationObserver(rtlFix).observe(document.body,{childList:true,subtree:true}); rtlFix();
 
+
+/* ============================================================
+   NOTE CATEGORIES
+   ============================================================ */
+let catFilter = 'all', catTimer = null, catLong = false;
+const catOf = n => (state.noteCats||[]).find(c=>c.id===n.cat);
+const ncol = n => { const c=catOf(n); return c ? c.color : (n.color||''); };
+const catLine = n => { const c=catOf(n); return c ? `<div class="n-cat"><i style="background:${dk(c.color)}"></i>${esc(c.name)}</div>` : ''; };
+function renderCats(){
+  if(catFilter!=='all' && !state.noteCats.some(c=>c.id===catFilter)) catFilter='all';
+  const row=$('catRow'), sc=row.scrollLeft;
+  row.innerHTML = `<button class="cat-chip ${catFilter==='all'?'on':''}" style="--c:var(--accent)" onclick="setFilter('all')">All</button>`
+    + state.noteCats.map(c=>`<button class="cat-chip ${catFilter===c.id?'on':''}" style="--c:${c.color}" onpointerdown="catHold('${c.id}')" onpointerup="catRelease('${c.id}')" onpointerleave="catCancel()" onpointercancel="catCancel()" oncontextmenu="return false">${esc(c.name)}</button>`).join('')
+    + `<button class="cat-chip add" onclick="openCatForm()" aria-label="New category">${ic('plus')}</button>`;
+  row.scrollLeft=sc;
+}
+function setFilter(id){ catFilter=id; stagger=true; renderAll(); }
+function catHold(id){ catLong=false; clearTimeout(catTimer); catTimer=setTimeout(()=>{ catLong=true; if(navigator.vibrate) navigator.vibrate(30); openCatForm(id); }, 520); }
+function catRelease(id){ clearTimeout(catTimer); if(!catLong) setFilter(id); catLong=false; }
+function catCancel(){ clearTimeout(catTimer); }
+const catSw = sel => `<div class="nc-row" id="ncRow">${NCOLORS.slice(1).map(c=>`<button type="button" class="nc ${c===sel?'on':''}" data-c="${c}" style="--nc:${dk(c)}" onclick="pickColor('${c}')" aria-label="Color"></button>`).join('')}</div>`;
+function openCatForm(id){
+  const c = id ? state.noteCats.find(x=>x.id===id) : null; formColor = c ? c.color : NCOLORS[3];
+  openModal(`<div class="modal-head"><div class="modal-title">${c?'Edit category':'New category'}</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="field"><label>Name</label><input id="cf-name" type="text" value="${esc(c&&c.name)}"></div>
+    <div class="field"><label>Color</label>${catSw(formColor)}</div>
+    <div class="modal-actions"><button class="btn primary full" onclick="saveCat('${id||''}')">Save</button>${c?`<button class="btn danger-outline" onclick="deleteCat('${c.id}')">Delete</button>`:''}</div>`);
+}
+function saveCat(id){
+  const name=$('cf-name').value.trim(); if(!name){ toast('Enter a category name'); return; }
+  if(id){ Object.assign(state.noteCats.find(x=>x.id===id),{name,color:formColor}); }
+  else { const c={id:uid('c'),name,color:formColor}; state.noteCats.push(c); }
+  save(); closeModal(); toast('Category saved'); renderAll();
+}
+function deleteCat(id){
+  const c=state.noteCats.find(x=>x.id===id); if(!c) return;
+  state.notes.forEach(n=>{ if(n.cat===id){ n.cat=''; n.color=c.color; } });
+  state.noteCats=state.noteCats.filter(x=>x.id!==id); if(catFilter===id) catFilter='all';
+  save(); closeModal(); toast('Category deleted'); renderAll();
+}
+function catMeta(n,dots){
+  const c=catOf(n);
+  const items = [{id:'',name:'No category',color:''}].concat(state.noteCats).map(k=>`<button type="button" class="cat-item ${k.id===(n.cat||'')?'on':''}" data-id="${k.id}" onclick="nvCat('${k.id}')"><i style="background:${k.color?dk(k.color):'var(--text-faint)'}"></i>${esc(k.name)}</button>`).join('');
+  return `<div class="nv-meta"><div class="cat-wrap"><button type="button" class="cat-btn2" onclick="nvCatToggle(event)"><i id="ncDot" style="background:${c?dk(c.color):'var(--text-faint)'}"></i><span id="ncName">${esc(c?c.name:'No category')}</span><svg viewBox="0 0 24 24" class="chev"><path d="m7 10 5 5 5-5"/></svg></button><div class="cat-menu" id="ncMenu">${items}</div></div>${dots}</div>`;
+}
+function nvCatToggle(e){ e.stopPropagation(); $('ncMenu').classList.toggle('open'); document.querySelector('.cat-btn2').classList.toggle('open'); }
+function nvCat(id){
+  const n=nvObj(); n.cat=id; if(!nvNew) save();
+  const c=catOf(n);
+  $('ncDot').style.background = c?dk(c.color):'var(--text-faint)'; $('ncName').textContent = c?c.name:'No category';
+  document.querySelector('.nv-wrap').style.setProperty('--nc', ncol(n)?dk(ncol(n)):'var(--card)');
+  $('nvColors').style.display = c?'none':'';
+  document.querySelectorAll('.cat-item').forEach(b=>b.classList.toggle('on', b.dataset.id===id));
+  $('ncMenu').classList.remove('open'); document.querySelector('.cat-btn2').classList.remove('open');
+}
+document.addEventListener('click', e=>{ const m=document.getElementById('ncMenu'); if(m && m.classList.contains('open') && !e.target.closest('.cat-wrap')){ m.classList.remove('open'); const b=document.querySelector('.cat-btn2'); if(b) b.classList.remove('open'); } });
+Object.assign(window,{setFilter,catHold,catRelease,catCancel,openCatForm,saveCat,deleteCat,nvCat,nvCatToggle});
 /* ---------- master render / init ---------- */
-function renderAll(){ renderDashboard(); renderMoney(); renderFood(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); freshId=null; stagger=false; }
+function renderAll(){ renderDashboard(); renderMoney(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); freshId=null; stagger=false; }
 /* ---------- native (Capacitor) integration ---------- */
 const CAP = (window.Capacitor && window.Capacitor.Plugins) ? window.Capacitor.Plugins : null;
 if(CAP && CAP.App){
