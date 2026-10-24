@@ -708,6 +708,15 @@ input,textarea{text-align:start;}
 .cat-item.on{background:color-mix(in srgb, var(--text) 8%, transparent);}
 .cat-item:active{background:var(--accent-dim);}
 [data-theme="light"] .cat-chip{color:color-mix(in srgb, var(--c) 55%, #000);}
+.nv-meta{flex-wrap:nowrap; gap:10px;}
+.cat-wrap{flex-shrink:0;}
+.cat-btn2{max-width:132px; padding:6px 10px; gap:6px; font-size:12px; white-space:nowrap; background:color-mix(in srgb, var(--text) 5%, transparent);}
+.cat-btn2 i{width:8px; height:8px; flex-shrink:0;}
+.cat-btn2 span{overflow:hidden; text-overflow:ellipsis; max-width:76px;}
+.cat-btn2 .chev{width:12px; height:12px; flex-shrink:0;}
+.nv-meta .nv-colors{gap:6px; min-width:0; flex-shrink:1;}
+.nv-meta .nc.sm{width:20px; height:20px; flex-shrink:0; border-width:2px;}
+.nv-meta .nc.sm.on{transform:scale(1.1);}
 </style>
 </head>
 <body data-theme="dark">
@@ -1614,13 +1623,13 @@ function deleteCat(id){
 function catMeta(n,dots){
   const c=catOf(n);
   const items = [{id:'',name:'No category',color:''}].concat(state.noteCats).map(k=>`<button type="button" class="cat-item ${k.id===(n.cat||'')?'on':''}" data-id="${k.id}" onclick="nvCat('${k.id}')"><i style="background:${k.color?dk(k.color):'var(--text-faint)'}"></i>${esc(k.name)}</button>`).join('');
-  return `<div class="nv-meta"><div class="cat-wrap"><button type="button" class="cat-btn2" onclick="nvCatToggle(event)"><i id="ncDot" style="background:${c?dk(c.color):'var(--text-faint)'}"></i><span id="ncName">${esc(c?c.name:'No category')}</span><svg viewBox="0 0 24 24" class="chev"><path d="m7 10 5 5 5-5"/></svg></button><div class="cat-menu" id="ncMenu">${items}</div></div>${dots}</div>`;
+  return `<div class="nv-meta"><div class="cat-wrap"><button type="button" class="cat-btn2" onclick="nvCatToggle(event)"><i id="ncDot" style="background:${c?dk(c.color):'var(--text-faint)'}"></i><span id="ncName">${esc(c?c.name:'None')}</span><svg viewBox="0 0 24 24" class="chev"><path d="m7 10 5 5 5-5"/></svg></button><div class="cat-menu" id="ncMenu">${items}</div></div>${dots}</div>`;
 }
 function nvCatToggle(e){ e.stopPropagation(); $('ncMenu').classList.toggle('open'); document.querySelector('.cat-btn2').classList.toggle('open'); }
 function nvCat(id){
   const n=nvObj(); n.cat=id; if(!nvNew) save();
   const c=catOf(n);
-  $('ncDot').style.background = c?dk(c.color):'var(--text-faint)'; $('ncName').textContent = c?c.name:'No category';
+  $('ncDot').style.background = c?dk(c.color):'var(--text-faint)'; $('ncName').textContent = c?c.name:'None';
   document.querySelector('.nv-wrap').style.setProperty('--nc', ncol(n)?dk(ncol(n)):'var(--card)');
   $('nvColors').style.display = c?'none':'';
   document.querySelectorAll('.cat-item').forEach(b=>b.classList.toggle('on', b.dataset.id===id));
