@@ -717,6 +717,15 @@ input,textarea{text-align:start;}
 .nv-meta .nv-colors{gap:6px; min-width:0; flex-shrink:1;}
 .nv-meta .nc.sm{width:20px; height:20px; flex-shrink:0; border-width:2px;}
 .nv-meta .nc.sm.on{transform:scale(1.1);}
+.note-wrap{position:relative; overflow:hidden; border-radius:8px; margin-bottom:12px; break-inside:avoid; --p:0;}
+.note-wrap .note-card{margin-bottom:0; position:relative; z-index:1; touch-action:pan-y; transition:transform .32s cubic-bezier(.2,.8,.2,1), opacity .28s;}
+.note-actions{position:absolute; top:0; right:0; bottom:0; width:104px; display:flex; align-items:center; justify-content:center; gap:10px; background:color-mix(in srgb, var(--text) 5%, var(--card));}
+.note-actions button{width:42px; height:42px; border-radius:50%; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:var(--p); transform:scale(calc(.55 + .45 * var(--p)));}
+.na-pin{background:var(--accent-dim); color:var(--accent);}
+.na-pin.on{background:var(--accent); color:var(--accent-text);}
+.na-del{background:rgba(239,68,68,.16); color:#ef4444;}
+.tc-dot{width:10px; height:10px; border-radius:50%; flex-shrink:0; display:inline-block;}
+.cat-btn .tc-dot{margin-right:0;}
 </style>
 </head>
 <body data-theme="dark">
@@ -811,6 +820,7 @@ input,textarea{text-align:start;}
     <section class="page" id="page-tasks">
       <div class="back-row"><button class="back-btn" onclick="history.back()" data-ic="left" aria-label="Back to Home"></button></div>
       <div class="page-head"><div><div class="page-title">Tasks</div><div class="page-sub">Small steps, done one by one</div></div><button class="add-round" onclick="openTaskForm()" data-ic="plus" aria-label="New task"></button></div>
+      <div class="cat-row" id="tCatRow"></div>
       <div class="task-prog"><div class="tp-top" id="taskCount"></div><div class="tp-bar"><span id="taskProg"></span></div></div>
       <div id="tasksList"></div>
     </section>
@@ -888,11 +898,12 @@ function slotNow(map){ const h=new Date().getHours(); return map[h<12?0:h<18?1:2
 
 /* ---------- data ---------- */
 function defaultData(){
-  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], installWeek: iso(new Date()) };
+  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], taskCats:[{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}], installWeek: iso(new Date()) };
 }
 function migrate(s){
   if(!s.installWeek) s.installWeek = iso(new Date());
   s.notes = s.notes||[]; s.tasks = s.tasks||[];
+  if(!Array.isArray(s.taskCats)) s.taskCats = [{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}];
   if(!Array.isArray(s.noteCats)) s.noteCats = [{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}];
   s.expenses = (s.expenses||[]).map(e=>{
     if(DAYS.includes(e.date)) e = {...e, date: iso(thisDay(DAYS.indexOf(e.date)))};
@@ -1197,7 +1208,7 @@ function hpRender(){
   $('hpRing').style.strokeDashoffset = 314*(1-pct/100); animateNum($('hpRingNum'),pct);
   $('tcDone').textContent=done; $('tcPend').textContent=tin.length-done; $('tcOver').textContent=over;
   const up=tin.filter(t=>!t.done).sort((a,b)=>tk(a).localeCompare(tk(b))).slice(0,3);
-  $('hpUp').innerHTML = up.length ? up.map(t=>`<div class="up-row" onclick="goPage('tasks')"><i style="background:${t.color?dk(t.color):'var(--accent)'}"></i><span>${esc(t.title)}</span><em>${fmt(new Date(tk(t)+'T00:00:00')).slice(0,5)}</em></div>`).join('') : `<div class="hp-empty">${tin.length?'All done for this period.':'No tasks in this period.'}</div>`;
+  $('hpUp').innerHTML = up.length ? up.map(t=>`<div class="up-row" onclick="goPage('tasks')"><i style="background:${tcol(t)?dk(tcol(t)):'var(--accent)'}"></i><span>${esc(t.title)}</span><em>${fmt(new Date(tk(t)+'T00:00:00')).slice(0,5)}</em></div>`).join('') : `<div class="hp-empty">${tin.length?'All done for this period.':'No tasks in this period.'}</div>`;
 }
 function renderDashboard(){
   const h = new Date().getHours(), c = cur();
@@ -1292,12 +1303,12 @@ Object.assign(window,{pickColor,togglePinForm,pinItem,deleteItem});
 
 /* ---- notes ---- */
 function noteCardHTML(n,i){
-  return `<div class="note-card ${ncol(n)?'nc-on':''} ${enterCls(n.id)}" data-id="${n.id}" style="--nc:${ncol(n)?dk(ncol(n)):'var(--text-faint)'}; --i:${i}" onclick="openNote('${n.id}')">
+  return `<div class="note-wrap ${enterCls(n.id)}" data-id="${n.id}" style="--i:${i}"><div class="note-actions"><button class="na-pin ${n.pinned?'on':''}" onclick="swipePin('${n.id}')" aria-label="Pin">${ic('pin')}</button><button class="na-del" onclick="swipeDel('${n.id}')" aria-label="Delete">${ic('trash')}</button></div><div class="note-card ${ncol(n)?'nc-on':''}" style="--nc:${ncol(n)?dk(ncol(n)):'var(--text-faint)'}" onclick="openNote('${n.id}')">
     <button class="pin-btn lock-btn ${n.locked?'on':''}" onclick="event.stopPropagation(); lockToggle('${n.id}')" aria-label="Lock">${ic(n.locked?'lock':'unlock')}</button><button class="pin-btn ${n.pinned?'on':''}" onclick="event.stopPropagation(); pinItem('notes','${n.id}')" aria-label="Pin">${ic('pin')}</button>
-    ${n.title?`<div class="n-title" dir="auto">${esc(n.title)}</div>`:(n.locked?'<div class="n-title">Locked note</div>':'')}${catLine(n)}${n.locked?'<div class="n-text n-hidden" aria-hidden="true">••••• •••• ••••••<br>••• ••••••• ••<br>•••• •••••</div>':`<div class="n-text" dir="auto">${esc(n.text)}</div>`}<div class="n-date">${fmt(new Date(n.ts))}</div></div>`;
+    ${n.title?`<div class="n-title" dir="auto">${esc(n.title)}</div>`:(n.locked?'<div class="n-title">Locked note</div>':'')}${catLine(n)}${n.locked?'<div class="n-text n-hidden" aria-hidden="true">••••• •••• ••••••<br>••• ••••••• ••<br>•••• •••••</div>':`<div class="n-text" dir="auto">${esc(n.text)}</div>`}<div class="n-date">${fmt(new Date(n.ts))}</div></div></div>`;
 }
 function renderNotes(){
-  renderCats();
+  swOpen=null; renderCats();
   const all = catFilter==='all' ? state.notes : state.notes.filter(n=>n.cat===catFilter);
   const L=[...all].sort(sortPinned), pinned=L.filter(n=>n.pinned), rest=L.filter(n=>!n.pinned); let i=0;
   const sec=(label,a)=>a.length?`${label?`<div class="sec-label">${label}</div>`:''}<div class="notes-grid">${a.map(n=>noteCardHTML(n,i++)).join('')}</div>`:'';
@@ -1323,13 +1334,14 @@ Object.assign(window,{openNoteForm,saveNote});
 /* ---- tasks ---- */
 function taskRowHTML(t,i){
   const over = t.date && !t.done && t.date < TODAY_ISO;
-  return `<div class="task ${t.done?'done':''} ${t.color?'nc-on':''} ${enterCls(t.id)}" data-id="${t.id}" style="--nc:${t.color?dk(t.color):'transparent'}; --i:${i}" onclick="openTaskForm('${t.id}')">
+  return `<div class="task ${t.done?'done':''} ${tcol(t)?'nc-on':''} ${enterCls(t.id)}" data-id="${t.id}" style="--nc:${tcol(t)?dk(tcol(t)):'transparent'}; --i:${i}" onclick="openTaskForm('${t.id}')">
     <button class="chk" onclick="event.stopPropagation(); toggleTask('${t.id}',this)" aria-label="Done"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"/></svg></button>
-    <div class="t-main"><div class="t-title" dir="auto">${esc(t.title)}</div>${t.date?`<div class="t-date ${over?'over':''}">${ic('calendar')}${fmt(new Date(t.date+'T00:00:00'))}</div>`:''}</div>
+    <div class="t-main"><div class="t-title" dir="auto">${esc(t.title)}</div>${tCatLine(t)}${t.date?`<div class="t-date ${over?'over':''}">${ic('calendar')}${fmt(new Date(t.date+'T00:00:00'))}</div>`:''}</div>
     <button class="pin-btn ${t.pinned?'on':''}" onclick="event.stopPropagation(); pinItem('tasks','${t.id}')" aria-label="Pin">${ic('pin')}</button></div>`;
 }
 function renderTasks(){
-  const all=state.tasks, done=all.filter(t=>t.done).length;
+  renderTCats();
+  const all = tFilter==='all' ? state.tasks : state.tasks.filter(t=>t.cat===tFilter), done=all.filter(t=>t.done).length;
   $('taskCount').textContent = all.length ? `${done} of ${all.length} done` : 'Nothing planned yet';
   $('taskProg').style.width = (all.length ? done/all.length*100 : 0)+'%';
   const open=all.filter(t=>!t.done).sort(sortPinned), fin=all.filter(t=>t.done).sort((a,b)=>b.ts-a.ts);
@@ -1343,18 +1355,19 @@ function toggleTask(id,btn){
   setTimeout(renderAll, 520);
 }
 function openTaskForm(id,date){
-  const t = id ? state.tasks.find(x=>x.id===id) : null; formColor = t?t.color:''; formPin = t?!!t.pinned:false;
+  const t = id ? state.tasks.find(x=>x.id===id) : null; formColor = t?t.color:''; formPin = t?!!t.pinned:false; const cur0 = t ? (t.cat||'') : (tFilter!=='all'?tFilter:'');
   openModal(`<div class="modal-head"><div class="modal-title">${t?'Edit task':'New task'}</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
     <div class="field"><label>Task</label><input id="tf-title" type="text" value="${esc(t&&t.title)}"></div>
     <div class="field"><label>Date (optional)</label>${datePickerHTML(t?t.date:(date||''))}</div>
-    <div class="field"><label>Color</label>${swatches(formColor)}</div>
+    <div class="field"><label>Category</label>${tcPicker(cur0)}</div>
+    <div class="field" id="tfColor" style="${cur0?'display:none':''}"><label>Color</label>${swatches(formColor)}</div>
     <div class="modal-actions"><button class="btn pin-toggle ${formPin?'on':''}" onclick="togglePinForm(this)">${ic('pin')}Pin</button><button class="btn primary full" onclick="saveTask('${id||''}')">Save</button>${t?`<button class="btn danger-outline" onclick="deleteItem('tasks','${t.id}')">Delete</button>`:''}</div>`);
 }
 function saveTask(id){
   const title=$('tf-title').value.trim(), date=$('tf-date').value;
   if(!title){ toast('Write the task first'); return; }
-  if(id){ Object.assign(state.tasks.find(x=>x.id===id),{title,date,color:formColor,pinned:formPin}); freshId=id; }
-  else { const t={id:uid('t'),title,date,color:formColor,pinned:formPin,done:false,ts:Date.now()}; state.tasks.push(t); freshId=t.id; }
+  if(id){ Object.assign(state.tasks.find(x=>x.id===id),{title,date,color:formColor,pinned:formPin,cat:$('tf-cat').value}); freshId=id; }
+  else { const t={id:uid('t'),title,date,color:formColor,pinned:formPin,cat:$('tf-cat').value,done:false,ts:Date.now()}; state.tasks.push(t); freshId=t.id; }
   save(); closeModal(); toast('Task saved'); renderAll();
 }
 Object.assign(window,{toggleTask,openTaskForm,saveTask});
@@ -1379,7 +1392,7 @@ function calRender(dir){
     <div class="cal-wd">${DAYS.map(d=>`<span>${d.slice(0,2)}</span>`).join('')}</div>
     <div class="cal-grid ${dir>0?'next':dir<0?'prev':''}">${cells}</div>
     <div class="cal-day"><div class="cal-day-head"><span>${NAMES[sd.getDay()]} ${fmt(sd)}</span><button class="chip accent" onclick="openTaskForm(null,'${cal.sel}')">+ Task</button></div>
-    ${list.length ? list.map(t=>`<div class="cal-task ${t.done?'done':''}" onclick="openTaskForm('${t.id}')"><i style="background:${t.color||'var(--accent)'}"></i>${esc(t.title)}</div>`).join('') : '<div class="cal-empty">No tasks on this day.</div>'}</div>`;
+    ${list.length ? list.map(t=>`<div class="cal-task ${t.done?'done':''}" onclick="openTaskForm('${t.id}')"><i style="background:${tcol(t)?dk(tcol(t)):'var(--accent)'}"></i>${esc(t.title)}</div>`).join('') : '<div class="cal-empty">No tasks on this day.</div>'}</div>`;
 }
 Object.assign(window,{openCalendar,calShift,calPick});
 
@@ -1388,6 +1401,8 @@ Object.assign(window,{openCalendar,calShift,calPick});
 let viewId = null, nvEditing = false, nvNew = false, nvDraft = {color:'',pinned:false,locked:false,cat:''}, lastTap = 0;
 const unlockedIds = new Set();
 async function openNote(id){
+  if(swBlock) return;
+  const openW=document.querySelector('.note-wrap.swiped'); if(openW){ swClose(openW); return; }
   const n = state.notes.find(x=>x.id===id);
   if(n && n.locked && !unlockedIds.has(id)){ if(!(await verifyPin('Unlock note'))) return; unlockedIds.add(id); }
   viewId=id; nvEditing=false; nvNew=false; goPage('note');
@@ -1637,6 +1652,92 @@ function nvCat(id){
 }
 document.addEventListener('click', e=>{ const m=document.getElementById('ncMenu'); if(m && m.classList.contains('open') && !e.target.closest('.cat-wrap')){ m.classList.remove('open'); const b=document.querySelector('.cat-btn2'); if(b) b.classList.remove('open'); } });
 Object.assign(window,{setFilter,catHold,catRelease,catCancel,openCatForm,saveCat,deleteCat,nvCat,nvCatToggle});
+
+/* ============================================================
+   TASK CATEGORIES (separate from notes)  +  NOTE SWIPE ACTIONS
+   ============================================================ */
+let tFilter = 'all';
+const tCatOf = t => (state.taskCats||[]).find(c=>c.id===t.cat);
+const tcol = t => { const c=tCatOf(t); return c ? c.color : (t.color||''); };
+const tCatLine = t => { const c=tCatOf(t); return c ? `<div class="n-cat"><i style="background:${dk(c.color)}"></i>${esc(c.name)}</div>` : ''; };
+function renderTCats(){
+  if(tFilter!=='all' && !state.taskCats.some(c=>c.id===tFilter)) tFilter='all';
+  const row=$('tCatRow'), sc=row.scrollLeft;
+  row.innerHTML = `<button class="cat-chip ${tFilter==='all'?'on':''}" style="--c:var(--accent)" onclick="setTFilter('all')">All</button>`
+    + state.taskCats.map(c=>`<button class="cat-chip ${tFilter===c.id?'on':''}" style="--c:${c.color}" onpointerdown="tHold('${c.id}')" onpointerup="tRelease('${c.id}')" onpointerleave="catCancel()" onpointercancel="catCancel()" oncontextmenu="return false">${esc(c.name)}</button>`).join('')
+    + `<button class="cat-chip add" onclick="openTCatForm()" aria-label="New category">${ic('plus')}</button>`;
+  row.scrollLeft=sc;
+}
+function setTFilter(id){ tFilter=id; stagger=true; renderAll(); }
+function tHold(id){ catLong=false; clearTimeout(catTimer); catTimer=setTimeout(()=>{ catLong=true; if(navigator.vibrate) navigator.vibrate(30); openTCatForm(id); }, 520); }
+function tRelease(id){ clearTimeout(catTimer); if(!catLong) setTFilter(id); catLong=false; }
+function openTCatForm(id){
+  const c = id ? state.taskCats.find(x=>x.id===id) : null; formColor = c ? c.color : NCOLORS[5];
+  openModal(`<div class="modal-head"><div class="modal-title">${c?'Edit category':'New category'}</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="field"><label>Name</label><input id="cf-name" type="text" value="${esc(c&&c.name)}"></div>
+    <div class="field"><label>Color</label>${catSw(formColor)}</div>
+    <div class="modal-actions"><button class="btn primary full" onclick="saveTCat('${id||''}')">Save</button>${c?`<button class="btn danger-outline" onclick="deleteTCat('${c.id}')">Delete</button>`:''}</div>`);
+}
+function saveTCat(id){
+  const name=$('cf-name').value.trim(); if(!name){ toast('Enter a category name'); return; }
+  if(id) Object.assign(state.taskCats.find(x=>x.id===id),{name,color:formColor}); else state.taskCats.push({id:uid('tc'),name,color:formColor});
+  save(); closeModal(); toast('Category saved'); renderAll();
+}
+function deleteTCat(id){
+  const c=state.taskCats.find(x=>x.id===id); if(!c) return;
+  state.tasks.forEach(t=>{ if(t.cat===id){ t.cat=''; t.color=c.color; } });
+  state.taskCats=state.taskCats.filter(x=>x.id!==id); if(tFilter===id) tFilter='all';
+  save(); closeModal(); toast('Category deleted'); renderAll();
+}
+function tcPicker(sel){
+  const c=state.taskCats.find(x=>x.id===sel), col=k=>k.color?dk(k.color):'var(--text-faint)';
+  return `<input type="hidden" id="tf-cat" value="${esc(sel||'')}"><button type="button" class="cat-btn" id="tcBtn" onclick="toggleTc()"><i class="tc-dot" id="tcDot" style="background:${c?dk(c.color):'var(--text-faint)'}"></i><span id="tcName">${esc(c?c.name:'None')}</span><svg class="chev" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg></button><div class="cat-panel" id="tcPanel">${[{id:'',name:'None',color:''}].concat(state.taskCats).map(k=>`<button type="button" class="cat-opt ${k.id===(sel||'')?'on':''}" data-id="${k.id}" style="--c:${col(k)}" onclick="pickTc('${k.id}')"><i class="tc-dot" style="background:${col(k)}"></i>${esc(k.name)}</button>`).join('')}</div>`;
+}
+function toggleTc(){ $('tcBtn').classList.toggle('open'); $('tcPanel').classList.toggle('open'); }
+function pickTc(id){
+  const c=state.taskCats.find(x=>x.id===id);
+  $('tf-cat').value=id; $('tcName').textContent=c?c.name:'None'; $('tcDot').style.background=c?dk(c.color):'var(--text-faint)';
+  document.querySelectorAll('#tcPanel .cat-opt').forEach(b=>b.classList.toggle('on', b.dataset.id===id));
+  $('tfColor').style.display = id ? 'none' : ''; toggleTc();
+}
+Object.assign(window,{setTFilter,tHold,tRelease,openTCatForm,saveTCat,deleteTCat,toggleTc,pickTc});
+
+/* ---- swipe a note card to reveal Pin / Delete ---- */
+const ACT_W = 104; let sw = null, swOpen = null, swBlock = false;
+function swClose(w){ if(!w) return; w.classList.remove('swiped'); const c=w.querySelector('.note-card'); c.style.transition=''; c.style.transform=''; w.style.setProperty('--p',0); if(swOpen===w) swOpen=null; }
+function swOpenIt(w){ if(swOpen && swOpen!==w) swClose(swOpen); w.classList.add('swiped'); const c=w.querySelector('.note-card'); c.style.transition=''; c.style.transform=`translateX(${-ACT_W}px)`; w.style.setProperty('--p',1); swOpen=w; }
+(()=>{
+  const list=$('notesList');
+  list.addEventListener('pointerdown', e=>{
+    const card=e.target.closest('.note-card'); if(!card || e.target.closest('button')) return;
+    const wrap=card.closest('.note-wrap'); if(swOpen && swOpen!==wrap) swClose(swOpen);
+    sw={wrap,card,x:e.clientX,y:e.clientY,base:wrap.classList.contains('swiped')?-ACT_W:0,moved:false,dir:null,id:e.pointerId}; swBlock=false;
+  });
+  list.addEventListener('pointermove', e=>{
+    if(!sw || e.pointerId!==sw.id) return;
+    const dx=e.clientX-sw.x, dy=e.clientY-sw.y;
+    if(!sw.dir && (Math.abs(dx)>8 || Math.abs(dy)>8)){ sw.dir = Math.abs(dx)>Math.abs(dy) ? 'h' : 'v'; if(sw.dir==='h'){ try{ sw.card.setPointerCapture(e.pointerId); }catch(_){} } }
+    if(sw.dir!=='h') return;
+    swBlock=true; sw.moved=true;
+    const x=Math.max(-ACT_W-24, Math.min(0, sw.base+dx));
+    sw.card.style.transition='none'; sw.card.style.transform=`translateX(${x}px)`; sw.wrap.style.setProperty('--p', Math.min(1,-x/ACT_W).toFixed(3));
+  });
+  const end=()=>{ if(!sw) return; const s0=sw; sw=null; if(!s0.moved) return;
+    const m=s0.card.style.transform.match(/-?[\d.]+/), x=m?parseFloat(m[0]):0;
+    if(x < -ACT_W*0.45) swOpenIt(s0.wrap); else swClose(s0.wrap); };
+  list.addEventListener('pointerup', end); list.addEventListener('pointercancel', end);
+  document.addEventListener('pointerdown', e=>{ if(swOpen && !e.target.closest('.note-wrap')) swClose(swOpen); });
+})();
+function swipePin(id){ swOpen=null; pinItem('notes',id); }
+async function swipeDel(id){
+  const n=state.notes.find(x=>x.id===id); if(!n) return;
+  if(n.locked && !(await verifyPin('Delete locked note'))) return;
+  const idx=state.notes.indexOf(n), el=document.querySelector(`.note-wrap[data-id="${id}"]`); if(el) el.classList.add('leaving');
+  setTimeout(()=>{ const k=state.notes.indexOf(n); if(k>-1) state.notes.splice(k,1); save(); renderAll();
+    notify({tone:'danger', icon:'trash', title:'Note deleted', sub:n.title||'Untitled note', duration:6000,
+      undo:()=>{ state.notes.splice(Math.min(idx,state.notes.length),0,n); save(); renderAll(); toast('Note restored'); }}); }, el?280:0);
+}
+Object.assign(window,{swipePin,swipeDel});
 /* ---------- master render / init ---------- */
 function renderAll(){ renderDashboard(); renderMoney(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); freshId=null; stagger=false; }
 /* ---------- native (Capacitor) integration ---------- */
