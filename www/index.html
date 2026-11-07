@@ -726,6 +726,67 @@ input,textarea{text-align:start;}
 .na-del{background:rgba(239,68,68,.16); color:#ef4444;}
 .tc-dot{width:10px; height:10px; border-radius:50%; flex-shrink:0; display:inline-block;}
 .cat-btn .tc-dot{margin-right:0;}
+.seg3{grid-template-columns:repeat(3,1fr);}
+.seg3 .seg-pill{width:calc((100% - 8px)/3);}
+.hab-week{display:flex; align-items:center; gap:6px; margin:10px 0 16px;}
+.hab-week .cal-arrow{flex-shrink:0; width:32px; height:32px;}
+.hw-days{flex:1; display:grid; grid-template-columns:repeat(7,1fr); gap:4px; min-width:0;}
+.hd{display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 0 6px; border-radius:14px; border:1px solid transparent; background:var(--card-2); color:var(--text-dim); cursor:pointer; transition:background .25s, border-color .25s, transform .2s;}
+.hd span{font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.04em;}
+.hd b{font-size:15px; color:var(--text);}
+.hd i{width:5px; height:5px; border-radius:50%; background:transparent; transition:background .3s;}
+.hd i.on{background:var(--accent);}
+.hd.today b{color:var(--accent);}
+.hd.on{background:linear-gradient(160deg, color-mix(in srgb, var(--accent) 34%, var(--card-2)), color-mix(in srgb, var(--accent) 14%, var(--card-2))); border-color:color-mix(in srgb, var(--accent) 60%, transparent); transform:translateY(-2px); box-shadow:0 6px 16px color-mix(in srgb, var(--accent) 25%, transparent);}
+.hd:active{transform:scale(.92);}
+.hab-list{display:flex; flex-direction:column; gap:12px;}
+.habit{position:relative; display:flex; align-items:center; gap:14px; padding:16px 16px 16px 20px; border-radius:18px; background:linear-gradient(135deg, color-mix(in srgb, var(--hc) 20%, var(--card)), var(--card) 72%); border:1px solid color-mix(in srgb, var(--hc) 38%, var(--border)); cursor:pointer; overflow:hidden; transition:box-shadow .4s, border-color .4s;}
+.habit::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--hc);}
+.habit.done{box-shadow:0 0 26px color-mix(in srgb, var(--hc) 28%, transparent); border-color:color-mix(in srgb, var(--hc) 65%, var(--border));}
+.h-main{flex:1; min-width:0;}
+.h-name{font-size:16px; font-weight:700; margin-bottom:5px; word-break:break-word;}
+.h-streak{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-dim);}
+.h-streak .i{width:14px; height:14px; color:var(--hc);}
+.h-streak b{color:var(--text);}
+.h-dots{display:flex; gap:5px; margin-top:12px;}
+.hdot{width:10px; height:10px; border-radius:50%; border:1.5px solid color-mix(in srgb, var(--hc) 60%, transparent); transition:background .3s, transform .3s;}
+.hdot.done{background:var(--hc); border-color:var(--hc);}
+.hdot.miss{border-color:color-mix(in srgb, var(--text) 25%, transparent);}
+.hdot.off{border:none; background:color-mix(in srgb, var(--text) 12%, transparent); height:2px; align-self:center; border-radius:2px;}
+.hdot.now{border-color:var(--hc); border-style:dashed;}
+.hchk{position:relative; flex-shrink:0; width:48px; height:48px; border-radius:50%; border:2px solid color-mix(in srgb, var(--hc) 70%, transparent); background:color-mix(in srgb, var(--hc) 8%, transparent); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .3s, border-color .3s, transform .3s cubic-bezier(.2,.9,.3,1.4), box-shadow .3s;}
+.hchk svg{width:24px; height:24px; fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:26; stroke-dashoffset:26; transition:stroke-dashoffset .4s .12s;}
+.habit.done .hchk{background:var(--hc); border-color:var(--hc); transform:scale(1.08); box-shadow:0 0 20px color-mix(in srgb, var(--hc) 60%, transparent);}
+.habit.done .hchk svg{stroke-dashoffset:0;}
+.hchk:active{transform:scale(.9);}
+.hchk.burst::after{content:""; position:absolute; inset:-3px; border-radius:50%; border:2px solid var(--hc); animation:hBurst .65s ease-out forwards; pointer-events:none;}
+@keyframes hBurst{from{transform:scale(.85); opacity:.9;} to{transform:scale(2.1); opacity:0;}}
+.rd-row{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
+.rd{height:40px; border-radius:12px; border:1px solid var(--border); background:var(--card-2); color:var(--text-dim); font:700 13px var(--sans); cursor:pointer; transition:background .2s, color .2s, border-color .2s, transform .2s;}
+.rd.on{background:var(--accent-dim); border-color:var(--accent); color:var(--accent);}
+.rd:active{transform:scale(.9);}
+.rd-hint{font-size:11.5px; color:var(--text-faint); margin-top:8px;}
+[data-theme="light"] .rd.on,[data-theme="light"] .hd.today b{color:color-mix(in srgb, var(--accent) 52%, #1a1e18);}
+.hf-row,.rng-row{display:flex; gap:8px; overflow-x:auto; padding:2px 0 4px;}
+.hf-row .cat-chip{padding:7px 14px; font-size:12.5px;}
+.rng-wrap{display:flex; align-items:center; gap:10px; margin-top:8px;}
+.rng-row{flex:1; min-width:0;}
+.rng-chip{flex-shrink:0; padding:8px 14px; border-radius:999px; border:1.5px solid transparent; background:var(--card-2); color:var(--text-dim); font:700 12.5px var(--sans); cursor:pointer; transition:background .25s, color .25s, border-color .25s;}
+.rng-chip.on{background:var(--accent-dim); color:var(--accent); border-color:var(--accent);}
+.rng-custom{flex-shrink:0; width:40px; height:40px; border-radius:50%; border:1.5px solid var(--border); background:var(--card-2); color:var(--text-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .25s, border-color .25s, color .25s, transform .2s;}
+.rng-custom.on{border-color:var(--accent); color:var(--accent); background:var(--accent-dim);}
+.rng-custom:active{transform:scale(.88);}
+.hg{position:relative; flex:1; height:100%; display:flex; align-items:flex-end; gap:2px; cursor:pointer;}
+.hg i{flex:1; display:block; height:calc(var(--h,0) * 1%); border-radius:4px 4px 2px 2px; transition:height .9s cubic-bezier(.2,.8,.2,1) var(--d,0ms), opacity .3s; opacity:.85;}
+.hg i.g{background:linear-gradient(180deg,#4ade80,#15a34a);}
+.hg i.r{background:linear-gradient(180deg,#f87171,#d92b2b);}
+.hg.cur i,.hg.on i{opacity:1; box-shadow:0 0 12px rgba(255,255,255,.12);}
+.hg .hb-tip{bottom:calc(var(--m,0) * 1% + 8px);}
+.hg.on .hb-tip{opacity:1; transform:translateX(-50%) scale(1);}
+.hg:first-child .hb-tip{left:0; transform:translateX(0) scale(.8);} .hg:first-child.on .hb-tip{transform:translateX(0) scale(1);}
+.hg:last-child .hb-tip{left:auto; right:0; transform:translateX(0) scale(.8);} .hg:last-child.on .hb-tip{transform:translateX(0) scale(1);}
+.hp-kpis .kg{color:#4ade80;} .hp-kpis .kr{color:#f87171;}
+.ru-row{grid-template-columns:repeat(4,1fr);}
 </style>
 </head>
 <body data-theme="dark">
@@ -735,6 +796,7 @@ input,textarea{text-align:start;}
     <nav class="nav" id="sideNav">
       <button class="nav-item" data-page="dashboard"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg></span>Home</button>
       <button class="nav-item" data-page="money"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5z"/><circle cx="16" cy="13.5" r="1.2"/></svg></span>Money</button>
+      <button class="nav-item" data-page="habits"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 3c.8 2.8 4 4.3 4 8.6a4 4 0 0 1-8 0c0-1.6.7-2.7 1.7-3.7.2 1 .7 1.6 1.5 1.8C11.3 7.6 11.2 5.2 12 3z"/></svg></span>Habits</button>
             <button class="nav-item" data-page="settings"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>Settings</button>
     </nav>
     <div class="sidebar-foot">Your week, held together.</div>
@@ -825,6 +887,26 @@ input,textarea{text-align:start;}
       <div id="tasksList"></div>
     </section>
 
+    <section class="page" id="page-habits">
+      <div class="page-head"><div><div class="page-title">Habits</div><div class="page-sub">Build streaks, one day at a time</div></div><button class="add-round" onclick="openHabitForm()" data-ic="plus" aria-label="New habit"></button></div>
+      <div class="hab-week" id="habWeek"></div>
+      <div id="habList"></div>
+      <div class="hp-panel" style="margin-top:18px">
+        <div class="hf-row" id="hbFocus"></div>
+        <div class="rng-wrap"><div class="rng-row" id="hbRange"></div><button class="rng-custom" id="rngCustom" onclick="openRangeForm()" data-ic="edit" aria-label="Custom range"></button></div>
+        <div class="hp-sub" id="hbSpan" style="margin-top:10px"></div>
+        <div class="hp-head" style="margin-top:16px"><span class="hp-title" id="hbTitle">All habits</span><span class="hp-delta" id="hbRate"></span></div>
+        <div class="hp-total"><span id="hbDone">0</span><small id="hbOf">done</small></div>
+        <div class="hp-chart" id="hbChart"></div>
+        <div class="hp-axis" id="hbAxis"></div>
+        <div class="hp-kpis">
+          <div><b class="kg" id="kbDone">-</b><span>Done</span></div>
+          <div><b class="kr" id="kbMiss">-</b><span>Not done</span></div>
+          <div><b id="kbBest">-</b><span>Best streak</span></div>
+        </div>
+      </div>
+    </section>
+
     <section class="page" id="page-settings">
       <div class="page-head"><div><div class="page-title">Settings</div></div></div>
       <div class="grid grid-2">
@@ -865,6 +947,7 @@ input,textarea{text-align:start;}
 <nav class="bottom-nav"><div class="bottom-nav-inner" id="bottomNav">
   <button class="bn-item" data-page="dashboard"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg></span>Home</button>
   <button class="bn-item" data-page="money"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><path d="M4 7.5V17a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H6.5A2.5 2.5 0 0 1 4 7.5z"/><circle cx="16" cy="13.5" r="1.2"/></svg></span>Money</button>
+  <button class="bn-item" data-page="habits"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 3c.8 2.8 4 4.3 4 8.6a4 4 0 0 1-8 0c0-1.6.7-2.7 1.7-3.7.2 1 .7 1.6 1.5 1.8C11.3 7.6 11.2 5.2 12 3z"/></svg></span>Habits</button>
     <button class="bn-item" data-page="settings"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span>Settings</button>
 </div></nav>
 <div class="overlay" id="overlay"><div class="modal" id="modalBody"></div></div>
@@ -898,11 +981,12 @@ function slotNow(map){ const h=new Date().getHours(); return map[h<12?0:h<18?1:2
 
 /* ---------- data ---------- */
 function defaultData(){
-  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], taskCats:[{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}], installWeek: iso(new Date()) };
+  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], habits:[], habitLog:{}, taskCats:[{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}], installWeek: iso(new Date()) };
 }
 function migrate(s){
   if(!s.installWeek) s.installWeek = iso(new Date());
   s.notes = s.notes||[]; s.tasks = s.tasks||[];
+  s.habits = s.habits||[]; s.habitLog = s.habitLog||{};
   if(!Array.isArray(s.taskCats)) s.taskCats = [{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}];
   if(!Array.isArray(s.noteCats)) s.noteCats = [{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}];
   s.expenses = (s.expenses||[]).map(e=>{
@@ -980,6 +1064,7 @@ function showPage(name){
   $('fabBtn').classList.toggle('hide', name!=='dashboard');
   stagger = (name==='notes'||name==='tasks'||name==='note');
   if(name==='dashboard') hpReplay();
+  if(name==='habits'){ hab.sel=TODAY_ISO; $('hbChart').innerHTML=''; stagger=true; }
   renderAll(); window.scrollTo({top:0});
 }
 function goPage(name){
@@ -1274,6 +1359,7 @@ const IC = {
   plus:'<path d="M12 5v14M5 12h14"/>',
   check:'<path d="m5.5 12.5 4.2 4.2 8.8-9"/>',
   key:'<circle cx="8" cy="15" r="3.5"/><path d="m10.5 12.5 8-8M15.5 7.5l2.5 2.5M13 10l2.5 2.5"/>',
+  flame:'<path d="M12 3c.8 2.8 4 4.3 4 8.6a4 4 0 0 1-8 0c0-1.6.7-2.7 1.7-3.7.2 1 .7 1.6 1.5 1.8C11.3 7.6 11.2 5.2 12 3z"/>',
   lock:'<rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>',
   unlock:'<rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 6.6-1.6"/>',
   back:'<path d="M20 6H9l-5 6 5 6h11z"/><path d="m12 9.5 5 5M17 9.5l-5 5"/>',
@@ -1738,8 +1824,159 @@ async function swipeDel(id){
       undo:()=>{ state.notes.splice(Math.min(idx,state.notes.length),0,n); save(); renderAll(); toast('Note restored'); }}); }, el?280:0);
 }
 Object.assign(window,{swipePin,swipeDel});
+
+/* ============================================================
+   HABITS
+   ============================================================ */
+const hab = {sel:'', n:6, u:'w', custom:false, focus:'all'};
+let habDays = [];
+const habStart = h => iso(new Date(h.ts));
+const habSched = (h,d) => d>=habStart(h) && (!h.days || !h.days.length || h.days.includes(new Date(d+'T00:00:00').getDay()));
+const habDone = (h,d) => ((state.habitLog||{})[d]||[]).includes(h.id);
+function habStreak(h){
+  let n=0; const t=new Date(); t.setHours(0,0,0,0);
+  for(let i=0;i<400;i++){ const d=iso(addDays(t,-i)); if(d<habStart(h)) break; if(!habSched(h,d)) continue; if(habDone(h,d)) n++; else if(i===0) continue; else break; }
+  return n;
+}
+function habBest(h){
+  let best=0, cur0=0; const t=new Date(); t.setHours(0,0,0,0);
+  for(let i=399;i>=0;i--){ const d=iso(addDays(t,-i)); if(d<habStart(h) || !habSched(h,d)) continue; if(habDone(h,d)){ cur0++; if(cur0>best) best=cur0; } else cur0=0; }
+  return best;
+}
+function habDots(h){
+  const t=new Date(); t.setHours(0,0,0,0); let o='';
+  for(let k=13;k>=0;k--){ const d=iso(addDays(t,-k)); const st = !habSched(h,d) ? 'off' : habDone(h,d) ? 'done' : (d===TODAY_ISO?'now':'miss'); o+=`<i class="hdot ${st}"></i>`; }
+  return o;
+}
+function renderHabWeek(){
+  const ws=startOf(new Date(hab.sel+'T00:00:00'));
+  let h=`<button class="cal-arrow" onclick="habWeekShift(-1)" aria-label="Previous week">${ic('left')}</button><div class="hw-days">`;
+  for(let i=0;i<7;i++){ const d=addDays(ws,i), k=iso(d), any=((state.habitLog||{})[k]||[]).length>0;
+    h+=`<button class="hd ${k===hab.sel?'on':''} ${k===TODAY_ISO?'today':''}" onclick="habPick('${k}')"><span>${DAYS[i].slice(0,3)}</span><b>${d.getDate()}</b><i class="${any?'on':''}"></i></button>`; }
+  $('habWeek').innerHTML = h+`</div><button class="cal-arrow" onclick="habWeekShift(1)" aria-label="Next week">${ic('right')}</button>`;
+}
+function habPick(k){ hab.sel=k; stagger=true; renderHabits(); stagger=false; }
+function habWeekShift(n){ hab.sel=iso(addDays(new Date(hab.sel+'T00:00:00'),n*7)); renderHabits(); }
+function habCardHTML(h,i){
+  const done=habDone(h,hab.sel);
+  return `<div class="habit ${done?'done':''} ${enterCls(h.id)}" data-id="${h.id}" style="--hc:${dk(h.color)}; --i:${i}" onclick="openHabitForm('${h.id}')">
+    <div class="h-main"><div class="h-name" dir="auto">${esc(h.name)}</div>
+    <div class="h-streak">${ic('flame')}<b>${habStreak(h)}</b> day streak</div><div class="h-dots">${habDots(h)}</div></div>
+    <button class="hchk" onclick="event.stopPropagation(); toggleHabit('${h.id}',this)" aria-label="Done"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"/></svg></button></div>`;
+}
+function renderHabits(){
+  if(!hab.sel) hab.sel=TODAY_ISO;
+  renderHabWeek();
+  const hs=state.habits.filter(h=>habSched(h,hab.sel));
+  $('habList').innerHTML = hs.length ? `<div class="hab-list">${hs.map((h,i)=>habCardHTML(h,i)).join('')}</div>`
+    : (state.habits.length ? emptyHTML('flame','Nothing scheduled','No habits are planned for this day.') : emptyHTML('flame','No habits yet','Tap + to start your first habit.'));
+  drawHabChart();
+}
+function toggleHabit(id,btn){
+  if(hab.sel>TODAY_ISO){ toast("You can't check off a future day"); return; }
+  const h=state.habits.find(x=>x.id===id); if(!h) return;
+  const log=state.habitLog[hab.sel]||[], k=log.indexOf(id);
+  if(k>-1) log.splice(k,1); else log.push(id);
+  if(log.length) state.habitLog[hab.sel]=log; else delete state.habitLog[hab.sel];
+  save();
+  const done=habDone(h,hab.sel), card=btn.closest('.habit');
+  card.classList.toggle('done',done); btn.classList.remove('burst'); void btn.offsetWidth; if(done) btn.classList.add('burst');
+  card.querySelector('.h-streak b').textContent=habStreak(h); card.querySelector('.h-dots').innerHTML=habDots(h);
+  const dayBtn=document.querySelector('.hd.on i'); if(dayBtn) dayBtn.classList.toggle('on',((state.habitLog||{})[hab.sel]||[]).length>0);
+  drawHabChart();
+}
+const HAB_PRESETS = [{k:'1W',n:1,u:'w'},{k:'2W',n:2,u:'w'},{k:'6W',n:6,u:'w'},{k:'12W',n:12,u:'w'},{k:'6M',n:6,u:'m'},{k:'1Y',n:1,u:'y'},{k:'2Y',n:2,u:'y'}];
+function habRange(){
+  const t=new Date(); t.setHours(0,0,0,0); let s0;
+  if(hab.u==='d') s0=addDays(t,-(hab.n-1));
+  else if(hab.u==='w') s0=addDays(t,-(hab.n*7-1));
+  else if(hab.u==='m') s0=addDays(new Date(t.getFullYear(),t.getMonth()-hab.n,t.getDate()),1);
+  else s0=addDays(new Date(t.getFullYear()-hab.n,t.getMonth(),t.getDate()),1);
+  return {s:s0, e:t, days:Math.round((t-s0)/864e5)+1};
+}
+function habBuckets(){
+  const r=habRange(), hs = hab.focus==='all' ? state.habits : state.habits.filter(h=>h.id===hab.focus);
+  const calc=(a,b)=>{ let done=0, miss=0; for(let d=new Date(a); d<=b; d=addDays(d,1)){ const k=iso(d); if(k>TODAY_ISO) break;
+    hs.forEach(h=>{ if(habSched(h,k)){ if(habDone(h,k)) done++; else if(k<TODAY_ISO) miss++; } }); } return {done,miss}; };
+  const g = r.days<=14 ? 'd' : r.days<=98 ? 'w' : 'm', out=[];
+  if(g==='d'){ for(let d=new Date(r.s); d<=r.e; d=addDays(d,1)){ out.push({...calc(d,d), label: r.days<=7 ? NAMES[d.getDay()].slice(0,3) : String(d.getDate()), full:`${NAMES[d.getDay()].slice(0,3)} ${fmt(d)}`, cur:iso(d)===TODAY_ISO}); } }
+  else if(g==='w'){ const n=Math.ceil(r.days/7), stride=Math.ceil(n/6);
+    for(let k=n-1;k>=0;k--){ const e=addDays(r.e,-7*k); let a=addDays(e,-6); if(a<r.s) a=new Date(r.s);
+      out.push({...calc(a,e), label:((n-1-k)%stride===0)?`${p2(a.getDate())}/${p2(a.getMonth()+1)}`:'', full:`${fmt(a).slice(0,5)} – ${fmt(e).slice(0,5)}`, cur:k===0}); } }
+  else { let y=r.s.getFullYear(), m=r.s.getMonth();
+    while(y<r.e.getFullYear() || (y===r.e.getFullYear() && m<=r.e.getMonth())){
+      let a=new Date(y,m,1), e=new Date(y,m+1,0); if(a<r.s) a=new Date(r.s); if(e>r.e) e=new Date(r.e);
+      out.push({...calc(a,e), label:'', full:`${MONTHS[m]} ${y}`, mi:m, cur:y===r.e.getFullYear()&&m===r.e.getMonth()});
+      m++; if(m>11){ m=0; y++; } }
+    out.forEach(b=>{ b.label = out.length<=12 ? MONTHS[b.mi].slice(0,3) : MONTHS[b.mi][0]; }); }
+  return {bk:out, g, r, hs};
+}
+function drawHabChart(){
+  const {bk,g,r,hs}=habBuckets();
+  if(hab.focus!=='all' && !state.habits.some(h=>h.id===hab.focus)) hab.focus='all';
+  const fo=$('hbFocus'), sc=fo.scrollLeft;
+  fo.innerHTML = `<button class="cat-chip ${hab.focus==='all'?'on':''}" style="--c:var(--accent)" onclick="habFocusSet('all')">All habits</button>` + state.habits.map(h=>`<button class="cat-chip ${hab.focus===h.id?'on':''}" style="--c:${h.color}" onclick="habFocusSet('${h.id}')">${esc(h.name)}</button>`).join(''); fo.scrollLeft=sc;
+  const rg=$('hbRange'); const sc2=rg.scrollLeft;
+  const act=HAB_PRESETS.find(x=>!hab.custom && x.n===hab.n && x.u===hab.u);
+  rg.innerHTML = HAB_PRESETS.map(x=>`<button class="rng-chip ${act&&act.k===x.k?'on':''}" onclick="habRangeSet(${x.n},'${x.u}')">${x.k}</button>`).join('') + (hab.custom?`<button class="rng-chip on">${hab.n}${hab.u.toUpperCase()}</button>`:'');
+  rg.scrollLeft=sc2; $('rngCustom').classList.toggle('on',hab.custom);
+  const done=sum(bk.map(b=>b.done)), miss=sum(bk.map(b=>b.miss)), tot=done+miss;
+  const cur0 = hab.focus==='all' ? null : state.habits.find(h=>h.id===hab.focus);
+  $('hbTitle').textContent = cur0 ? cur0.name : 'All habits';
+  $('hbSpan').textContent = `${fmt(r.s)} – ${fmt(r.e)} · ${r.days} days`;
+  animateNum($('hbDone'),done); $('hbOf').textContent = `done · of ${tot} scheduled`;
+  const rt=$('hbRate'); rt.textContent = tot ? Math.round(done/tot*100)+'%' : ''; rt.className='hp-delta '+(tot&&done/tot>=.7?'down':tot&&done/tot<.4?'up':'');
+  $('kbDone').textContent=done; $('kbMiss').textContent=miss; $('kbBest').textContent=(hs.length?Math.max(0,...hs.map(habBest)):0)+' d';
+  const el=$('hbChart'), key=g+bk.length, same = el.children.length===bk.length && el.dataset.p===key;
+  if(!same){ el.innerHTML = bk.map((b,i)=>`<div class="hg" style="--d:${Math.min(i*22,500)}ms" onclick="habTip(this)"><span class="hb-tip"></span><i class="g"></i><i class="r"></i></div>`).join(''); el.dataset.p=key; }
+  const mx=Math.max(1,...bk.map(b=>Math.max(b.done,b.miss)));
+  const apply=()=>[...el.children].forEach((k,i)=>{ const b=bk[i], hg=b.done?Math.max(6,b.done/mx*100):0, hr=b.miss?Math.max(6,b.miss/mx*100):0;
+    k.classList.toggle('cur',!!b.cur); k.querySelector('.hb-tip').textContent=`✓ ${b.done}  ✗ ${b.miss}`;
+    k.querySelector('.g').style.setProperty('--h',hg); k.querySelector('.r').style.setProperty('--h',hr); k.style.setProperty('--m',Math.max(hg,hr)); });
+  if(!same) requestAnimationFrame(()=>requestAnimationFrame(apply)); else apply();
+  $('hbAxis').innerHTML = bk.map(b=>`<span>${b.label}</span>`).join('');
+}
+function habTip(el){ const on=el.classList.contains('on'); document.querySelectorAll('#hbChart .hg.on').forEach(x=>x.classList.remove('on')); if(!on) el.classList.add('on'); }
+function habFocusSet(id){ hab.focus=id; drawHabChart(); }
+function habRangeSet(n,u){ hab.n=n; hab.u=u; hab.custom=false; drawHabChart(); }
+let rngUnit='m';
+function openRangeForm(){
+  rngUnit = hab.custom ? hab.u : 'm';
+  openModal(`<div class="modal-head"><div class="modal-title">Custom range</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="field"><label>Show the last</label><input id="rf-n" type="number" min="1" inputmode="numeric" value="${hab.custom?hab.n:8}"></div>
+    <div class="field"><label>Unit</label><div class="rd-row ru-row">${[['d','Days'],['w','Weeks'],['m','Months'],['y','Years']].map(([u,l])=>`<button type="button" class="rd ${u===rngUnit?'on':''}" data-u="${u}" onclick="pickRu(this)">${l}</button>`).join('')}</div><div class="rd-hint">Between 1 week and 2 years.</div></div>
+    <div class="modal-actions"><button class="btn primary full" onclick="applyRange()">Apply</button></div>`);
+}
+function pickRu(b){ rngUnit=b.dataset.u; document.querySelectorAll('.ru-row .rd').forEach(x=>x.classList.toggle('on',x===b)); }
+function applyRange(){
+  let n=Math.max(1,Math.floor(+$('rf-n').value||0)), u=rngUnit; const per={d:1,w:7,m:30,y:365};
+  if(n*per[u]<7){ n=7; u='d'; } if(n*per[u]>730){ n=2; u='y'; }
+  hab.n=n; hab.u=u; hab.custom=!HAB_PRESETS.some(x=>x.n===n&&x.u===u); closeModal(); drawHabChart();
+}
+function openHabitForm(id){
+  const h = id ? state.habits.find(x=>x.id===id) : null; formColor = h ? h.color : NCOLORS[3]; habDays = h ? [...(h.days||[])] : [];
+  openModal(`<div class="modal-head"><div class="modal-title">${h?'Edit habit':'New habit'}</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="field"><label>Habit</label><input id="hf-name" type="text" value="${esc(h&&h.name)}"></div>
+    <div class="field"><label>Color</label>${catSw(formColor)}</div>
+    <div class="field"><label>Repeat on</label><div class="rd-row">${DAYS.map(d=>{ const idx=NAMES.indexOf(d); return `<button type="button" class="rd ${habDays.includes(idx)?'on':''}" data-d="${idx}" onclick="toggleRd(this)">${d.slice(0,1)}</button>`; }).join('')}</div><div class="rd-hint">Leave empty to repeat every day.</div></div>
+    <div class="modal-actions"><button class="btn primary full" onclick="saveHabit('${id||''}')">Save</button>${h?`<button class="btn danger-outline" onclick="deleteHabit('${h.id}')">Delete</button>`:''}</div>`);
+}
+function toggleRd(b){ const d=+b.dataset.d, k=habDays.indexOf(d); if(k>-1) habDays.splice(k,1); else habDays.push(d); b.classList.toggle('on'); }
+function saveHabit(id){
+  const name=$('hf-name').value.trim(); if(!name){ toast('Name your habit first'); return; }
+  const days = habDays.length===7 ? [] : [...habDays].sort();
+  if(id){ Object.assign(state.habits.find(x=>x.id===id),{name,color:formColor,days}); freshId=id; }
+  else { const h={id:uid('h'),name,color:formColor,days,ts:Date.now()}; state.habits.push(h); freshId=h.id; }
+  save(); closeModal(); toast('Habit saved'); renderAll();
+}
+function deleteHabit(id){
+  const h=state.habits.find(x=>x.id===id); if(!h) return; const idx=state.habits.indexOf(h);
+  state.habits.splice(idx,1); save(); closeModal(); renderAll();
+  notify({tone:'danger', icon:'trash', title:'Habit deleted', sub:h.name, duration:6000, undo:()=>{ state.habits.splice(Math.min(idx,state.habits.length),0,h); save(); renderAll(); toast('Habit restored'); }});
+}
+Object.assign(window,{habPick,habWeekShift,toggleHabit,habTip,habFocusSet,habRangeSet,openRangeForm,pickRu,applyRange,openHabitForm,toggleRd,saveHabit,deleteHabit});
 /* ---------- master render / init ---------- */
-function renderAll(){ renderDashboard(); renderMoney(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); freshId=null; stagger=false; }
+function renderAll(){ renderDashboard(); renderMoney(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); renderHabits(); freshId=null; stagger=false; }
 /* ---------- native (Capacitor) integration ---------- */
 const CAP = (window.Capacitor && window.Capacitor.Plugins) ? window.Capacitor.Plugins : null;
 if(CAP && CAP.App){
