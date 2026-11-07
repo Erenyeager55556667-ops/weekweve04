@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#12141a">
+<meta name="theme-color" content="#04060a">
 <title>Weekweave — Your Week, In Order</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================= TOKENS ============================= */
 :root{
@@ -28,8 +28,8 @@
   --radius-md:14px;
   --radius-sm:9px;
   --shadow: 0 8px 24px rgba(0,0,0,0.28);
-  --serif: 'Fraunces', serif;
-  --sans: 'Inter', sans-serif;
+  --serif: 'Sora', 'Cairo', system-ui, sans-serif;
+  --sans: 'Manrope', 'Cairo', system-ui, sans-serif;
 }
 [data-theme="light"]{
   --bg:#f3f1ea;
@@ -787,9 +787,31 @@ input,textarea{text-align:start;}
 .hg:last-child .hb-tip{left:auto; right:0; transform:translateX(0) scale(.8);} .hg:last-child.on .hb-tip{transform:translateX(0) scale(1);}
 .hp-kpis .kg{color:#4ade80;} .hp-kpis .kr{color:#f87171;}
 .ru-row{grid-template-columns:repeat(4,1fr);}
+
+/* ===== Midnight theme: much darker + new type ===== */
+[data-theme="midnight"]{
+  --bg:#03050a; --bg-elev:#070a10; --card:#0a0e15; --card-2:#0f141d; --border:#151b26;
+  --text:#e8ecf3; --text-dim:#8a93a4; --text-faint:#535d70; --accent-text:#04070a;
+  --shadow:0 12px 34px rgba(0,0,0,.7);
+}
+[data-theme="midnight"] body, body[data-theme="midnight"]{background:var(--bg);}
+[data-theme="midnight"] .hp-panel::before{opacity:.55;}
+[data-theme="midnight"] .hp-panel{background:linear-gradient(160deg, color-mix(in srgb, var(--accent) 8%, var(--card)), var(--card) 60%); border-color:color-mix(in srgb, var(--accent) 16%, var(--border));}
+[data-theme="midnight"] .habit{background:linear-gradient(135deg, color-mix(in srgb, var(--hc) 14%, var(--card)), var(--card) 72%);}
+[data-theme="midnight"] .bottom-nav-inner{background:rgba(7,10,16,.92); border-color:var(--border);}
+[data-theme="midnight"] .nfy,[data-theme="midnight"] .modal{background:var(--card);}
+[data-theme="midnight"] .hd.on{box-shadow:0 6px 18px color-mix(in srgb, var(--accent) 20%, transparent);}
+/* type refinements for Sora / Manrope */
+body{font-family:var(--sans);}
+.hero-name{font-size:34px; font-weight:700; letter-spacing:-1px;}
+.hp-total span{font-size:40px; font-weight:700; letter-spacing:-1.5px;}
+.hp-label,.cal-month{font-weight:700; letter-spacing:-.3px;}
+.nv-title{font-size:25px; font-weight:700; letter-spacing:-.4px;}
+.pp-title,.cf-t,.modal-title{font-weight:700; letter-spacing:-.3px;}
+.page-title{letter-spacing:-.6px;}
 </style>
 </head>
-<body data-theme="dark">
+<body data-theme="midnight">
 <div class="app">
   <aside class="sidebar">
     <div class="brand"><div class="brand-mark">W</div><div class="brand-name">Weekweave</div></div>
@@ -928,7 +950,7 @@ input,textarea{text-align:start;}
         </div>
         <div class="card">
           <div class="card-title">Appearance</div>
-          <div class="field"><label>Theme</label><div class="seg" id="segTheme"><span class="seg-pill"></span><button data-v="dark"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>Dark</button><button data-v="light"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>Light</button></div></div>
+          <div class="field"><label>Theme</label><div class="seg seg3" id="segTheme"><span class="seg-pill"></span><button data-v="midnight"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.7 4.6 4.8.4-3.7 3.2 1.2 4.7L12 13.8 8 16.4l1.2-4.7L5.5 8.5l4.8-.4z"/></svg>Midnight</button><button data-v="dark"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>Dark</button><button data-v="light"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>Light</button></div></div>
           <div class="field"><label>Accent color</label><div class="swatches" id="accentSwatches"></div></div>
           <div class="card-title" style="margin-top:20px;">Data</div>
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -981,7 +1003,7 @@ function slotNow(map){ const h=new Date().getHours(); return map[h<12?0:h<18?1:2
 
 /* ---------- data ---------- */
 function defaultData(){
-  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"dark", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], habits:[], habitLog:{}, taskCats:[{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}], installWeek: iso(new Date()) };
+  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"midnight", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], habits:[], habitLog:{}, taskCats:[{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}], installWeek: iso(new Date()) };
 }
 function migrate(s){
   if(!s.installWeek) s.installWeek = iso(new Date());
@@ -1045,7 +1067,7 @@ const weekExpenses = off => { const w = weekIsos(off); return state.expenses.fil
 /* ---------- toast / theme ---------- */
 let toastTimer;
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200); }
-function applyTheme(){ document.body.setAttribute('data-theme', state.settings.theme); document.documentElement.style.setProperty('--accent', state.settings.accent); if(typeof syncStatusBar==='function') syncStatusBar(); }
+function applyTheme(){ document.body.setAttribute('data-theme', state.settings.theme); const mt=document.querySelector('meta[name=theme-color]'); if(mt) mt.content = state.settings.theme==='midnight' ? '#04060a' : state.settings.theme==='dark' ? '#12141a' : '#f2f0e9'; document.documentElement.style.setProperty('--accent', state.settings.accent); if(typeof syncStatusBar==='function') syncStatusBar(); }
 
 /* ============================================================
    NAVIGATION (with working back button)
@@ -1986,8 +2008,8 @@ if(CAP && CAP.App){
 }
 function syncStatusBar(){
   if(!CAP || !CAP.StatusBar) return;
-  const dark = state.settings.theme==='dark';
-  try{ CAP.StatusBar.setBackgroundColor({color: dark?'#12141a':'#f2f0e9'}); CAP.StatusBar.setStyle({style: dark?'DARK':'LIGHT'}); }catch(e){}
+  const t = state.settings.theme, dark = t!=='light', col = t==='midnight' ? '#04060a' : t==='dark' ? '#12141a' : '#f2f0e9';
+  try{ CAP.StatusBar.setBackgroundColor({color: col}); CAP.StatusBar.setStyle({style: dark?'DARK':'LIGHT'}); }catch(e){}
 }
 paintIcons();
 $('segPeriod').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b||hp.p===b.dataset.v) return; hp.p=b.dataset.v; hp.off=0; hpSwap(); renderDashboard(); });
