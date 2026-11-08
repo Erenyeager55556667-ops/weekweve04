@@ -837,6 +837,28 @@ body{font-family:var(--sans);}
 .nv-wrap.editing{padding-bottom:96px;}
 [data-theme="dark"] .quickadd-opt,[data-theme="midnight"] .quickadd-opt{color:#fff;}
 [data-theme="dark"] .quickadd-opt .qa-ico,[data-theme="midnight"] .quickadd-opt .qa-ico{color:#fff;}
+.hg.best i.g{box-shadow:0 0 16px 3px rgba(74,222,128,.55), 0 0 42px 8px rgba(74,222,128,.28); opacity:1; animation:bestGlow 2.4s ease-in-out infinite;}
+.hg.best i.r{box-shadow:0 0 12px 2px rgba(248,113,113,.35); opacity:1; animation:bestGlowR 2.4s ease-in-out infinite;}
+@keyframes bestGlow{0%,100%{box-shadow:0 0 12px 2px rgba(74,222,128,.45), 0 0 30px 5px rgba(74,222,128,.2);}50%{box-shadow:0 0 22px 5px rgba(74,222,128,.75), 0 0 56px 12px rgba(74,222,128,.38);}}
+@keyframes bestGlowR{0%,100%{box-shadow:0 0 8px 1px rgba(248,113,113,.25);}50%{box-shadow:0 0 16px 3px rgba(248,113,113,.5);}}
+.res-boxes{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px;}
+.res-box{border-radius:18px; padding:16px 14px; display:flex; flex-direction:column; gap:6px; color:#fff;}
+.res-box.g{background:linear-gradient(145deg,#0f7a53,#0a5238);}
+.res-box.r{background:linear-gradient(145deg,#9a3733,#6d2522);}
+.res-box .rl{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; opacity:.95;}
+.res-box .rl i{width:9px; height:9px; border-radius:50%; background:#fff; opacity:.9;}
+.res-box b{font-size:34px; font-weight:800; line-height:1.1; letter-spacing:-1px;}
+.res-box small{font-size:11.5px; opacity:.8;}
+.res-rows{margin-top:18px; display:flex; flex-direction:column; gap:12px;}
+.res-rows div{display:flex; align-items:center; justify-content:space-between; font-size:14px; color:var(--text-dim);}
+.res-rows b{font-size:20px; color:var(--text);}
+.res-rows b.rate{color:#4ade80;}
+.res-bar{display:flex; height:14px; border-radius:999px; overflow:hidden; margin-top:16px; background:var(--card-2);}
+.res-bar span{display:block; height:100%; width:0; transition:width 1s cubic-bezier(.2,.8,.2,1);}
+.res-bar .rg{background:linear-gradient(90deg,#16a34a,#4ade80);}
+.res-bar .rr{background:linear-gradient(90deg,#ef4444,#d92b2b);}
+.res-leg{display:flex; justify-content:space-between; margin-top:10px; font-size:12px;}
+.res-leg .lg1{color:#4ade80;} .res-leg .lg2{color:#f87171;}
 </style>
 </head>
 <body data-theme="midnight">
@@ -950,10 +972,23 @@ body{font-family:var(--sans);}
         <div class="hp-chart" id="hbChart"></div>
         <div class="hp-axis" id="hbAxis"></div>
         <div class="hp-kpis">
-          <div><b class="kg" id="kbDone">-</b><span>Done</span></div>
-          <div><b class="kr" id="kbMiss">-</b><span>Not done</span></div>
           <div><b id="kbBest">-</b><span>Best streak</span></div>
+          <div><b id="kbCur">-</b><span>Current streak</span></div>
+          <div><b id="kbCount">-</b><span>Habits</span></div>
         </div>
+      </div>
+      <div class="hp-panel res-card" style="margin-top:16px">
+        <div class="hp-head"><span class="hp-title" id="resTitle">All habits · results</span></div>
+        <div class="res-boxes">
+          <div class="res-box g"><span class="rl"><i></i>Done</span><b id="resDone">0</b><small id="resDoneS">times done</small></div>
+          <div class="res-box r"><span class="rl"><i></i>Not done</span><b id="resMiss">0</b><small id="resMissS">times missed</small></div>
+        </div>
+        <div class="res-rows">
+          <div><span>Total</span><b id="resTotal">0</b></div>
+          <div><span>Success rate</span><b class="rate" id="resRate">0%</b></div>
+        </div>
+        <div class="res-bar"><span class="rg" id="resBarG"></span><span class="rr" id="resBarR"></span></div>
+        <div class="res-leg"><span class="lg1" id="resPG">0% done</span><span class="lg2" id="resPR">0% not done</span></div>
       </div>
     </section>
 
@@ -984,6 +1019,8 @@ body{font-family:var(--sans);}
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <button class="btn sm" id="exportBtn">Export data</button>
             <button class="btn sm" id="importBtn">Import data</button>
+            <button class="btn sm" id="importPackBtn">Import habit data</button>
+            <input type="file" id="importPackFile" accept="application/json,.json" style="display:none;">
             <input type="file" id="importFile" accept="application/json" style="display:none;">
             <button class="btn sm danger-outline" id="resetBtn">Reset data</button>
           </div>
@@ -1988,12 +2025,13 @@ function drawHabChart(){
   $('hbSpan').textContent = `${fmt(r.s)} – ${fmt(r.e)} · ${r.days} days`;
   animateNum($('hbDone'),done); $('hbOf').textContent = `done · of ${tot} scheduled`;
   const rt=$('hbRate'); rt.textContent = tot ? Math.round(done/tot*100)+'%' : ''; rt.className='hp-delta '+(tot&&done/tot>=.7?'down':tot&&done/tot<.4?'up':'');
-  $('kbDone').textContent=done; $('kbMiss').textContent=miss; $('kbBest').textContent=(hs.length?Math.max(0,...hs.map(habBest)):0)+' d';
+  $('kbBest').textContent=(hs.length?Math.max(0,...hs.map(habBest)):0)+' d'; $('kbCur').textContent=(hs.length?Math.max(0,...hs.map(habStreak)):0)+' d'; $('kbCount').textContent=hs.length; drawResults(hs,cur0);
   const el=$('hbChart'), key=g+bk.length, same = el.children.length===bk.length && el.dataset.p===key;
   if(!same){ el.innerHTML = bk.map((b,i)=>`<div class="hg" style="--d:${Math.min(i*22,500)}ms" onclick="habTip(this)"><span class="hb-tip"></span><i class="g"></i><i class="r"></i></div>`).join(''); el.dataset.p=key; }
   const mx=Math.max(1,...bk.map(b=>Math.max(b.done,b.miss)));
+  const dmax=Math.max(0,...bk.map(b=>b.done)), dmin=Math.min(...bk.map(b=>b.done)), glow=bk.map(b=>dmax>0 && dmax!==dmin && b.done===dmax);
   const apply=()=>[...el.children].forEach((k,i)=>{ const b=bk[i], hg=b.done?Math.max(6,b.done/mx*100):0, hr=b.miss?Math.max(6,b.miss/mx*100):0;
-    k.classList.toggle('cur',!!b.cur); k.querySelector('.hb-tip').textContent=`✓ ${b.done}  ✗ ${b.miss}`;
+    k.classList.toggle('cur',!!b.cur); k.classList.toggle('best',glow[i]); k.querySelector('.hb-tip').textContent=`✓ ${b.done}  ✗ ${b.miss}`;
     k.querySelector('.g').style.setProperty('--h',hg); k.querySelector('.r').style.setProperty('--h',hr); k.style.setProperty('--m',Math.max(hg,hr)); });
   if(!same) requestAnimationFrame(()=>requestAnimationFrame(apply)); else apply();
   $('hbAxis').innerHTML = bk.map(b=>`<span>${b.label}</span>`).join('');
@@ -2142,7 +2180,7 @@ function seedBHabit(){
   state.imports = state.imports || {};
   if(state.imports.bhabit) return;
   const months = [[2025,12,14,17],[2026,1,17,14],[2026,2,9,19],[2026,3,11,20],[2026,4,22,8],[2026,5,23,8],[2026,6,20,10],[2026,7,15,16],[2026,8,15,16],[2026,9,16,14],[2026,10,18,13],[2026,11,5,3]];
-  const h = {id:'h_bhabit', name:'B. Habit', color:'#e0a6a6', days:[], type:'neg', ts:new Date(2025,11,1).getTime()};
+  const h = {id:'h_bhabit', name:'B. Habit', color:'#e0a6a6', days:[], type:'neg', ts:new Date(2025,11,1,12).getTime()};
   state.habits.push(h);
   months.forEach(([y,m,red,green],idx)=>{
     const n = (idx===months.length-1) ? 7 : new Date(y,m,0).getDate();   // November: days 1-7 are complete, today (8th) is still pending
@@ -2150,6 +2188,33 @@ function seedBHabit(){
   });
   state.imports.bhabit = true; save();
 }
+
+function drawResults(hs,cur0){
+  let done=0, miss=0; const t=new Date(); t.setHours(0,0,0,0);
+  hs.forEach(h=>{ for(let d=new Date(habStart(h)+'T00:00:00'); d<=t; d=addDays(d,1)){ const o=habOutcome(h,iso(d)); if(o==='g') done++; else if(o==='r') miss++; } });
+  const total=done+miss, rate=total?done/total*100:0, allNeg=hs.length&&hs.every(h=>h.type==='neg'), allPos=hs.length&&hs.every(h=>h.type!=='neg');
+  $('resTitle').textContent=(cur0?cur0.name:'All habits')+' · results';
+  animateNum($('resDone'),done); animateNum($('resMiss'),miss); animateNum($('resTotal'),total);
+  $('resDoneS').textContent = allNeg?'clean days':allPos?'times done':'successes'; $('resMissS').textContent = allNeg?'days you slipped':allPos?'times missed':'misses';
+  $('resRate').textContent=rate.toFixed(2)+'%'; $('resPG').textContent=rate.toFixed(2)+'% done'; $('resPR').textContent=(total?100-rate:0).toFixed(2)+'% not done';
+  $('resBarG').style.width = (total?rate:0)+'%'; $('resBarR').style.width = (total?100-rate:0)+'%';
+}
+function mergePack(j){
+  if(!j || j.weekweavePack!=='habits' || !Array.isArray(j.habits)){ toast('This is not a habit data file'); return false; }
+  const ids=new Set();
+  j.habits.forEach(h=>{ if(!h||!h.id||!h.name) return; ids.add(String(h.id));
+    const c={id:String(h.id), name:String(h.name), color:String(h.color||'#e0a6a6'), days:Array.isArray(h.days)?h.days.filter(n=>n>=0&&n<=6):[], type:h.type==='neg'?'neg':'pos', ts:+h.ts||Date.now()};
+    const i=state.habits.findIndex(x=>x.id===c.id); if(i>-1) state.habits[i]=c; else state.habits.push(c); });
+  Object.keys(state.habitLog).forEach(d=>{ state.habitLog[d]=state.habitLog[d].filter(x=>!ids.has(x)); if(!state.habitLog[d].length) delete state.habitLog[d]; });
+  Object.entries(j.habitLog||{}).forEach(([d,list])=>{ if(!/^\d{4}-\d{2}-\d{2}$/.test(d)||!Array.isArray(list)) return; const cur=state.habitLog[d]||[]; list.forEach(id=>{ if(ids.has(String(id)) && !cur.includes(String(id))) cur.push(String(id)); }); if(cur.length) state.habitLog[d]=cur; });
+  state.imports=state.imports||{}; state.imports.bhabit=true; save(); renderAll(); return true;
+}
+$('importPackBtn').addEventListener('click', ()=>$('importPackFile').click());
+$('importPackFile').addEventListener('change', e=>{
+  const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ if(mergePack(JSON.parse(r.result))) notify({icon:'check', title:'Habit data imported', sub:'Your other data was not touched', duration:5000}); }catch(err){ toast('Could not read that file'); } };
+  r.readAsText(f); e.target.value='';
+});
 /* ---------- master render / init ---------- */
 function renderAll(){ renderDashboard(); renderMoney(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); renderHabits(); freshId=null; stagger=false; }
 /* ---------- native (Capacitor) integration ---------- */
