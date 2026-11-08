@@ -809,6 +809,32 @@ body{font-family:var(--sans);}
 .nv-title{font-size:25px; font-weight:700; letter-spacing:-.4px;}
 .pp-title,.cf-t,.modal-title{font-weight:700; letter-spacing:-.3px;}
 .page-title{letter-spacing:-.6px;}
+.habit.neg .hchk{border-color:rgba(239,68,68,.7); background:rgba(239,68,68,.08);}
+.habit.neg.done{box-shadow:0 0 26px rgba(239,68,68,.25); border-color:rgba(239,68,68,.55);}
+.habit.neg.done .hchk{background:#ef4444; border-color:#ef4444; box-shadow:0 0 20px rgba(239,68,68,.55);}
+.habit.neg .hchk.burst::after{border-color:#ef4444;}
+.habit.neg .hdot.done{background:#4ade80; border-color:#4ade80;}
+.hdot.bad{background:#ef4444; border-color:#ef4444;}
+.h-tag{display:inline-block; margin-left:8px; padding:2px 8px; border-radius:999px; font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#f87171; background:rgba(239,68,68,.14); vertical-align:middle;}
+#segHtype.neg .seg-pill{background:#ef4444;}
+#segHtype.neg button.on{color:#fff;}
+.nv-ed{min-height:42vh; outline:none; font-size:16.5px; line-height:1.8; word-break:break-word; position:relative; caret-color:var(--accent);}
+.nv-ed.empty::before{content:attr(data-ph); position:absolute; left:0; right:0; color:var(--text-faint); pointer-events:none;}
+.nv-ed div,.nv-text.rich div{margin:0;}
+.nv-ed ul,.nv-ed ol,.nv-text.rich ul,.nv-text.rich ol{margin:6px 0; padding-inline-start:1.5em;}
+.nv-ed li,.nv-text.rich li{margin:3px 0; padding-inline-start:4px;}
+.cl{display:flex; align-items:flex-start; gap:12px; margin:7px 0;}
+.cl .ct{flex:1; min-width:0; outline:none; transition:color .3s;}
+.cb{flex-shrink:0; width:22px; height:22px; margin-top:4px; border-radius:50%; border:2px solid var(--text-faint); display:inline-block; position:relative; cursor:pointer; transition:background .25s, border-color .25s, transform .25s cubic-bezier(.2,.9,.3,1.4);}
+.cb::after{content:""; position:absolute; left:6px; top:2px; width:5px; height:10px; border:solid var(--accent-text); border-width:0 2.4px 2.4px 0; transform:rotate(45deg) scale(0); transition:transform .25s .05s;}
+.cl.done .cb{background:var(--accent); border-color:var(--accent); transform:scale(1.08);}
+.cl.done .cb::after{transform:rotate(45deg) scale(1);}
+.cl.done .ct{color:var(--text-faint); text-decoration:line-through;}
+.ed-bar{position:fixed; left:50%; bottom:calc(80px + env(safe-area-inset-bottom)); transform:translateX(-50%); display:flex; gap:4px; padding:6px; border-radius:999px; background:var(--card-2); border:1px solid var(--border); box-shadow:0 12px 34px rgba(0,0,0,.5); z-index:130; animation:edBarIn .35s cubic-bezier(.2,.9,.3,1.2) both;}
+.ed-bar button{width:46px; height:42px; border-radius:999px; border:none; background:none; color:var(--text); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s, transform .15s, color .2s;}
+.ed-bar button:active{background:var(--accent-dim); color:var(--accent); transform:scale(.9);}
+@keyframes edBarIn{from{opacity:0; transform:translate(-50%,16px);} to{opacity:1; transform:translate(-50%,0);}}
+.nv-wrap.editing{padding-bottom:96px;}
 </style>
 </head>
 <body data-theme="midnight">
@@ -1526,27 +1552,28 @@ function renderNoteView(){
   const bar = `<div class="nv-bar"><button class="${n.locked?'on':''}" onclick="nvLock(this)" aria-label="Lock">${ic(n.locked?'lock':'unlock')}</button><button class="${n.pinned?'on':''}" onclick="nvPin(this)" aria-label="Pin">${ic('pin')}</button>${nvNew?'':`<button onclick="nvEdit()" aria-label="Edit">${ic('edit')}</button><button class="danger" onclick="nvDelete()" aria-label="Delete">${ic('trash')}</button>`}<button class="back-btn" onclick="history.back()" aria-label="Back">${ic('left')}</button></div>`;
   const dots = `<div class="nv-colors" id="nvColors" style="${catOf(n)?'display:none':''}">${NCOLORS.map(c=>`<button type="button" class="nc sm ${c===(n.color||'')?'on':''}" data-c="${c}" style="--nc:${c?dk(c):'transparent'}" onclick="nvColor('${c}')" aria-label="Color"></button>`).join('')}</div>`;
   const card = nvEditing
-    ? `<div class="nv-card"><div class="nv-edit"><input id="nv-title" type="text" placeholder="Title" value="${esc(n.title)}"><textarea id="nv-text" placeholder="Write your note...">${esc(n.text)}</textarea><div class="modal-actions"><button class="btn primary full" onclick="nvSave()">Save</button><button class="btn" onclick="nvCancel()">Cancel</button></div></div></div>`
-    : `<div class="nv-card" onclick="nvTap()">${n.title?`<div class="nv-title" dir="auto">${esc(n.title)}</div>`:''}<div class="nv-date">${fmt(new Date(n.ts))}</div><div class="nv-text" dir="auto">${esc(n.text)}</div></div>`;
-  host.innerHTML = `<div class="nv-wrap ${stagger?'nv-enter':''}" style="--nc:${ncol(n)?dk(ncol(n)):'var(--card)'}">${bar}${catMeta(n,dots)}${card}</div>`;
+    ? `<div class="nv-card"><div class="nv-edit"><input id="nv-title" type="text" placeholder="Title" value="${esc(n.title)}"><div id="nv-ed" class="nv-ed" contenteditable="true" dir="auto" data-ph="Write your note...">${edHtml(n)}</div><div class="modal-actions"><button class="btn primary full" onclick="nvSave()">Save</button><button class="btn" onclick="nvCancel()">Cancel</button></div></div></div>`
+    : `<div class="nv-card" onclick="nvTap(event)">${n.title?`<div class="nv-title" dir="auto">${esc(n.title)}</div>`:''}<div class="nv-date">${fmt(new Date(n.ts))}</div><div class="nv-text rich" dir="auto">${noteHtml(n)}</div></div>`;
+  host.innerHTML = `<div class="nv-wrap ${stagger?'nv-enter':''} ${nvEditing?'editing':''}" style="--nc:${ncol(n)?dk(ncol(n)):'var(--card)'}">${bar}${catMeta(n,dots)}${card}${nvEditing?edBarHTML():''}</div>`;
+  if(nvEditing) edBind();
 }
-function nvTap(){ const now=Date.now(); if(now-lastTap<320){ lastTap=0; nvEdit(); } else lastTap=now; }
+function nvTap(e){ const cb=e && e.target && e.target.closest && e.target.closest('.cb'); if(cb){ nvToggleCb(cb); return; } const now=Date.now(); if(now-lastTap<320){ lastTap=0; nvEdit(); } else lastTap=now; }
 function nvPin(btn){ const n=nvObj(); n.pinned=!n.pinned; if(!nvNew) save(); btn.classList.toggle('on',n.pinned); }
-function nvEdit(){ nvEditing=true; renderNoteView(); setTimeout(()=>{ const x=$('nv-text'); if(x){ x.focus(); x.setSelectionRange(x.value.length,x.value.length); } }, 80); }
+function nvEdit(){ nvEditing=true; renderNoteView(); setTimeout(()=>{ const ed=$('nv-ed'); if(ed){ ed.focus(); const r=document.createRange(); r.selectNodeContents(ed); r.collapse(false); const sl=getSelection(); sl.removeAllRanges(); sl.addRange(r); } }, 90); }
 function nvCancel(){ if(nvNew){ nvNew=false; nvEditing=false; history.back(); } else { nvEditing=false; renderNoteView(); } }
 function nvSave(){
-  const title=$('nv-title').value.trim(), text=$('nv-text').value.trim();
-  if(!title && !text){ toast('Write something first'); return; }
-  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,cat:nvDraft.cat||'',ts:Date.now()}; state.notes.push(n); viewId=n.id; nvNew=false; }
-  else { const n=curNote(); n.title=title; n.text=text; }
+  const title=$('nv-title').value.trim(), v=edVal();
+  if(!title && !v.text){ toast('Write something first'); return; }
+  if(nvNew){ const n={id:uid('n'),title,text:v.text,html:v.html,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,cat:nvDraft.cat||'',ts:Date.now()}; state.notes.push(n); viewId=n.id; nvNew=false; }
+  else { const n=curNote(); n.title=title; n.text=v.text; n.html=v.html; }
   nvEditing=false; save(); toast('Note saved'); renderNoteView();
 }
 function nvAutoSave(){
   if(!nvEditing) return;
-  const t=$('nv-title'), x=$('nv-text'); if(!t||!x) return;
-  const title=t.value.trim(), text=x.value.trim(); if(!title && !text) { nvNew=false; nvEditing=false; return; }
-  if(nvNew){ const n={id:uid('n'),title,text,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,cat:nvDraft.cat||'',ts:Date.now()}; state.notes.push(n); freshId=n.id; }
-  else { const n=curNote(); if(n){ n.title=title; n.text=text; } }
+  const t=$('nv-title'), ed=$('nv-ed'); if(!t||!ed) return;
+  const title=t.value.trim(), v=edVal(); if(!title && !v.text){ nvNew=false; nvEditing=false; return; }
+  if(nvNew){ const n={id:uid('n'),title,text:v.text,html:v.html,color:nvDraft.color,pinned:nvDraft.pinned,locked:nvDraft.locked,cat:nvDraft.cat||'',ts:Date.now()}; state.notes.push(n); freshId=n.id; }
+  else { const n=curNote(); if(n){ n.title=title; n.text=v.text; n.html=v.html; } }
   nvNew=false; nvEditing=false; save();
 }
 function nvColor(c){
@@ -1663,7 +1690,7 @@ async function forgotPin(){
   const cnt = state.notes.filter(n=>n.locked).length;
   const yes = await askConfirm({tone:'danger', icon:'key', title:'Forgot your passcode?', sub: cnt ? `The passcode will be removed and the content of ${cnt} locked note${cnt>1?'s':''} will be erased for good. Titles are kept.` : 'The passcode will be removed. You have no locked notes.', ok: cnt?'Erase & remove':'Remove'});
   if(!yes) return;
-  state.notes.forEach(n=>{ if(n.locked){ n.text=''; n.locked=false; } });
+  state.notes.forEach(n=>{ if(n.locked){ n.text=''; n.html=''; n.locked=false; } });
   state.settings.notesPin=''; unlockedIds.clear(); save(); renderAll();
   notify({tone:'warn', icon:'key', title:'Passcode removed', sub: cnt ? `${cnt} locked note${cnt>1?'s were':' was'} erased` : 'Notes can be locked again with a new code', duration:6500});
 }
@@ -1855,21 +1882,32 @@ let habDays = [];
 const habStart = h => iso(new Date(h.ts));
 const habSched = (h,d) => d>=habStart(h) && (!h.days || !h.days.length || h.days.includes(new Date(d+'T00:00:00').getDay()));
 const habDone = (h,d) => ((state.habitLog||{})[d]||[]).includes(h.id);
+function habOutcome(h,d){
+  if(d>TODAY_ISO || !habSched(h,d)) return '';
+  const c=habDone(h,d);
+  if(h.type==='neg') return c ? 'r' : (d<TODAY_ISO ? 'g' : '');
+  return c ? 'g' : (d<TODAY_ISO ? 'r' : '');
+}
 function habStreak(h){
   let n=0; const t=new Date(); t.setHours(0,0,0,0);
-  for(let i=0;i<400;i++){ const d=iso(addDays(t,-i)); if(d<habStart(h)) break; if(!habSched(h,d)) continue; if(habDone(h,d)) n++; else if(i===0) continue; else break; }
+  for(let i=0;i<400;i++){ const d=iso(addDays(t,-i)); if(d<habStart(h)) break; if(!habSched(h,d)) continue;
+    const o=habOutcome(h,d); if(o==='g') n++; else if(o==='r') break; }
   return n;
 }
 function habBest(h){
   let best=0, cur0=0; const t=new Date(); t.setHours(0,0,0,0);
-  for(let i=399;i>=0;i--){ const d=iso(addDays(t,-i)); if(d<habStart(h) || !habSched(h,d)) continue; if(habDone(h,d)){ cur0++; if(cur0>best) best=cur0; } else cur0=0; }
+  for(let i=399;i>=0;i--){ const d=iso(addDays(t,-i)); if(d<habStart(h) || !habSched(h,d)) continue;
+    const o=habOutcome(h,d); if(o==='g'){ cur0++; if(cur0>best) best=cur0; } else if(o==='r') cur0=0; }
   return best;
 }
 function habDots(h){
   const t=new Date(); t.setHours(0,0,0,0); let o='';
-  for(let k=13;k>=0;k--){ const d=iso(addDays(t,-k)); const st = !habSched(h,d) ? 'off' : habDone(h,d) ? 'done' : (d===TODAY_ISO?'now':'miss'); o+=`<i class="hdot ${st}"></i>`; }
+  for(let k=13;k>=0;k--){ const d=iso(addDays(t,-k)); let st='off';
+    if(habSched(h,d)){ const r=habOutcome(h,d); st = r==='g' ? 'done' : r==='r' ? (h.type==='neg'?'bad':'miss') : 'now'; }
+    o+=`<i class="hdot ${st}"></i>`; }
   return o;
 }
+const habStreakHTML = h => `${ic('flame')}<b>${habStreak(h)}</b> day ${h.type==='neg'?'clean ':''}streak`;
 function renderHabWeek(){
   const ws=startOf(new Date(hab.sel+'T00:00:00'));
   let h=`<button class="cal-arrow" onclick="habWeekShift(-1)" aria-label="Previous week">${ic('left')}</button><div class="hw-days">`;
@@ -1880,10 +1918,10 @@ function renderHabWeek(){
 function habPick(k){ hab.sel=k; stagger=true; renderHabits(); stagger=false; }
 function habWeekShift(n){ hab.sel=iso(addDays(new Date(hab.sel+'T00:00:00'),n*7)); renderHabits(); }
 function habCardHTML(h,i){
-  const done=habDone(h,hab.sel);
-  return `<div class="habit ${done?'done':''} ${enterCls(h.id)}" data-id="${h.id}" style="--hc:${dk(h.color)}; --i:${i}" onclick="openHabitForm('${h.id}')">
-    <div class="h-main"><div class="h-name" dir="auto">${esc(h.name)}</div>
-    <div class="h-streak">${ic('flame')}<b>${habStreak(h)}</b> day streak</div><div class="h-dots">${habDots(h)}</div></div>
+  const done=habDone(h,hab.sel), neg=h.type==='neg';
+  return `<div class="habit ${neg?'neg':''} ${done?'done':''} ${enterCls(h.id)}" data-id="${h.id}" style="--hc:${dk(h.color)}; --i:${i}" onclick="openHabitForm('${h.id}')">
+    <div class="h-main"><div class="h-name" dir="auto">${esc(h.name)}${neg?'<span class="h-tag">Avoid</span>':''}</div>
+    <div class="h-streak">${habStreakHTML(h)}</div><div class="h-dots">${habDots(h)}</div></div>
     <button class="hchk" onclick="event.stopPropagation(); toggleHabit('${h.id}',this)" aria-label="Done"><svg viewBox="0 0 24 24"><path d="m6.5 12.5 3.5 3.5 7.5-8"/></svg></button></div>`;
 }
 function renderHabits(){
@@ -1903,7 +1941,7 @@ function toggleHabit(id,btn){
   save();
   const done=habDone(h,hab.sel), card=btn.closest('.habit');
   card.classList.toggle('done',done); btn.classList.remove('burst'); void btn.offsetWidth; if(done) btn.classList.add('burst');
-  card.querySelector('.h-streak b').textContent=habStreak(h); card.querySelector('.h-dots').innerHTML=habDots(h);
+  card.querySelector('.h-streak').innerHTML=habStreakHTML(h); card.querySelector('.h-dots').innerHTML=habDots(h);
   const dayBtn=document.querySelector('.hd.on i'); if(dayBtn) dayBtn.classList.toggle('on',((state.habitLog||{})[hab.sel]||[]).length>0);
   drawHabChart();
 }
@@ -1919,7 +1957,7 @@ function habRange(){
 function habBuckets(){
   const r=habRange(), hs = hab.focus==='all' ? state.habits : state.habits.filter(h=>h.id===hab.focus);
   const calc=(a,b)=>{ let done=0, miss=0; for(let d=new Date(a); d<=b; d=addDays(d,1)){ const k=iso(d); if(k>TODAY_ISO) break;
-    hs.forEach(h=>{ if(habSched(h,k)){ if(habDone(h,k)) done++; else if(k<TODAY_ISO) miss++; } }); } return {done,miss}; };
+    hs.forEach(h=>{ const o=habOutcome(h,k); if(o==='g') done++; else if(o==='r') miss++; }); } return {done,miss}; };
   const g = r.days<=14 ? 'd' : r.days<=98 ? 'w' : 'm', out=[];
   if(g==='d'){ for(let d=new Date(r.s); d<=r.e; d=addDays(d,1)){ out.push({...calc(d,d), label: r.days<=7 ? NAMES[d.getDay()].slice(0,3) : String(d.getDate()), full:`${NAMES[d.getDay()].slice(0,3)} ${fmt(d)}`, cur:iso(d)===TODAY_ISO}); } }
   else if(g==='w'){ const n=Math.ceil(r.days/7), stride=Math.ceil(n/6);
@@ -1975,10 +2013,18 @@ function applyRange(){
   if(n*per[u]<7){ n=7; u='d'; } if(n*per[u]>730){ n=2; u='y'; }
   hab.n=n; hab.u=u; hab.custom=!HAB_PRESETS.some(x=>x.n===n&&x.u===u); closeModal(); drawHabChart();
 }
+let habTypeSel='pos';
 function openHabitForm(id){
+  const h0 = id ? state.habits.find(x=>x.id===id) : null; habTypeSel = h0 && h0.type==='neg' ? 'neg' : 'pos';
+  openHabitForm0(id);
+  setSeg('segHtype',habTypeSel); $('segHtype').classList.toggle('neg',habTypeSel==='neg');
+  $('segHtype').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; habTypeSel=b.dataset.v; setSeg('segHtype',habTypeSel); $('segHtype').classList.toggle('neg',habTypeSel==='neg'); });
+}
+function openHabitForm0(id){
   const h = id ? state.habits.find(x=>x.id===id) : null; formColor = h ? h.color : NCOLORS[3]; habDays = h ? [...(h.days||[])] : [];
   openModal(`<div class="modal-head"><div class="modal-title">${h?'Edit habit':'New habit'}</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
     <div class="field"><label>Habit</label><input id="hf-name" type="text" value="${esc(h&&h.name)}"></div>
+    <div class="field"><label>Type</label><div class="seg" id="segHtype"><span class="seg-pill"></span><button type="button" data-v="pos">Positive</button><button type="button" data-v="neg">Negative</button></div><div class="rd-hint">Negative = a habit to avoid. Ticking it means you slipped (red); a finished day without a tick counts as a success (green).</div></div>
     <div class="field"><label>Color</label>${catSw(formColor)}</div>
     <div class="field"><label>Repeat on</label><div class="rd-row">${DAYS.map(d=>{ const idx=NAMES.indexOf(d); return `<button type="button" class="rd ${habDays.includes(idx)?'on':''}" data-d="${idx}" onclick="toggleRd(this)">${d.slice(0,1)}</button>`; }).join('')}</div><div class="rd-hint">Leave empty to repeat every day.</div></div>
     <div class="modal-actions"><button class="btn primary full" onclick="saveHabit('${id||''}')">Save</button>${h?`<button class="btn danger-outline" onclick="deleteHabit('${h.id}')">Delete</button>`:''}</div>`);
@@ -1987,8 +2033,8 @@ function toggleRd(b){ const d=+b.dataset.d, k=habDays.indexOf(d); if(k>-1) habDa
 function saveHabit(id){
   const name=$('hf-name').value.trim(); if(!name){ toast('Name your habit first'); return; }
   const days = habDays.length===7 ? [] : [...habDays].sort();
-  if(id){ Object.assign(state.habits.find(x=>x.id===id),{name,color:formColor,days}); freshId=id; }
-  else { const h={id:uid('h'),name,color:formColor,days,ts:Date.now()}; state.habits.push(h); freshId=h.id; }
+  if(id){ Object.assign(state.habits.find(x=>x.id===id),{name,color:formColor,days,type:habTypeSel}); freshId=id; }
+  else { const h={id:uid('h'),name,color:formColor,days,type:habTypeSel,ts:Date.now()}; state.habits.push(h); freshId=h.id; }
   save(); closeModal(); toast('Habit saved'); renderAll();
 }
 function deleteHabit(id){
@@ -1997,6 +2043,97 @@ function deleteHabit(id){
   notify({tone:'danger', icon:'trash', title:'Habit deleted', sub:h.name, duration:6000, undo:()=>{ state.habits.splice(Math.min(idx,state.habits.length),0,h); save(); renderAll(); toast('Habit restored'); }});
 }
 Object.assign(window,{habPick,habWeekShift,toggleHabit,habTip,habFocusSet,habRangeSet,openRangeForm,pickRu,applyRange,openHabitForm,toggleRd,saveHabit,deleteHabit});
+
+/* ============================================================
+   RICH NOTE EDITOR (checklist circles, numbered list, bullets)
+   ============================================================ */
+const RICH_OK = {DIV:1,P:1,BR:1,B:1,STRONG:1,I:1,EM:1,U:1,UL:1,OL:1,LI:1,SPAN:1};
+function cleanHtml(html){
+  const doc=new DOMParser().parseFromString('<body>'+(html||'')+'</body>','text/html');
+  const walk=(src,dst)=>src.childNodes.forEach(n=>{
+    if(n.nodeType===3){ dst.appendChild(document.createTextNode(n.nodeValue)); return; }
+    if(n.nodeType!==1) return;
+    const tag=n.tagName;
+    if(!RICH_OK[tag]){ if(tag==='SCRIPT'||tag==='STYLE') return; walk(n,dst); return; }
+    const el=document.createElement(tag.toLowerCase());
+    if(tag==='SPAN'||tag==='DIV'){ const c=[...n.classList].filter(x=>['cl','done','cb','ct'].includes(x)); if(c.length) el.className=c.join(' '); if(c.includes('cb')) el.setAttribute('contenteditable','false'); }
+    if(['DIV','UL','OL','LI'].includes(tag)) el.setAttribute('dir','auto');
+    walk(n,el); dst.appendChild(el); });
+  const out=document.createElement('div'); walk(doc.body,out); return out.innerHTML;
+}
+function plainToHtml(t){ return String(t||'').split('\n').map(l=>l.trim()?`<div dir="auto">${esc(l)}</div>`:'<div><br></div>').join(''); }
+const noteHtml = n => cleanHtml(n.html || plainToHtml(n.text));
+const edHtml = n => noteHtml(n) || '<div><br></div>';
+function htmlToText(html){
+  const d=document.createElement('div'); d.innerHTML=cleanHtml(html); const lines=[], tx=el=>el.textContent.replace(/\u200b/g,'').trim();
+  const walkTxt=parent=>[...parent.childNodes].forEach(n=>{
+    if(n.nodeType===3){ if(n.nodeValue.trim()) lines.push(n.nodeValue.trim()); return; }
+    if(n.nodeType!==1) return;
+    if(n.classList.contains('cl')) lines.push((n.classList.contains('done')?'✓ ':'○ ')+tx(n.querySelector('.ct')||n));
+    else if(n.tagName==='UL') [...n.children].forEach(li=>lines.push('• '+tx(li)));
+    else if(n.tagName==='OL') [...n.children].forEach((li,i)=>lines.push((i+1)+'. '+tx(li)));
+    else if(n.querySelector('.cl,ul,ol')) walkTxt(n);
+    else lines.push(tx(n)); });
+  walkTxt(d);
+  return lines.join('\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+function edVal(){ const ed=$('nv-ed'); const html=cleanHtml(ed.innerHTML); return {html, text:htmlToText(html)}; }
+const EDIC = {
+  check:'<circle cx="6.5" cy="7" r="2.8"/><circle cx="6.5" cy="17" r="2.8"/><path d="M12.5 7H21M12.5 17H21"/>',
+  ol:'<path d="M11 7h10M11 12h10M11 17h10"/><path d="M4 6.2 5.6 5.4V10M4.2 14.6c.5-.7 2-.8 2 .3 0 1-2 1.7-2 2.8h2.2"/>',
+  ul:'<circle cx="5" cy="7" r="1.3"/><circle cx="5" cy="12" r="1.3"/><circle cx="5" cy="17" r="1.3"/><path d="M10 7h11M10 12h11M10 17h11"/>'
+};
+const edBarHTML = () => `<div class="ed-bar" id="edBar">${[['check','edCheck()','Checklist'],['ol',"edList('ol')",'Numbered list'],['ul',"edList('ul')",'Bullets']].map(([k,f,l])=>`<button type="button" onpointerdown="event.preventDefault()" onmousedown="event.preventDefault()" onclick="${f}" aria-label="${l}"><svg viewBox="0 0 24 24" class="i">${EDIC[k]}</svg></button>`).join('')}</div>`;
+function edBlockOf(node){
+  const ed=$('nv-ed'); if(!node||!ed.contains(node)||node===ed) return null;
+  while(node.parentNode!==ed) node=node.parentNode;
+  if(node.nodeType===3 || node.tagName==='BR'){ const d=document.createElement('div'); node.replaceWith(d); d.appendChild(node); node=d; }
+  return node;
+}
+function makeCl(done,inner){ const d=document.createElement('div'); d.className='cl'+(done?' done':''); d.setAttribute('dir','auto'); d.innerHTML='<span class="cb" contenteditable="false"></span><span class="ct">'+(inner&&inner.trim()?inner:'<br>')+'</span>'; return d; }
+function placeCaret(el,end){ const r=document.createRange(); r.selectNodeContents(el); r.collapse(!(end && el.textContent)); const s0=getSelection(); s0.removeAllRanges(); s0.addRange(r); }
+function edCheck(){
+  const ed=$('nv-ed'); ed.focus(); const sl=getSelection(); if(!sl.rangeCount) return;
+  let b=edBlockOf(sl.anchorNode); if(!b) return;
+  if(b.classList && b.classList.contains('cl')){ const d=document.createElement('div'); d.setAttribute('dir','auto'); d.innerHTML=b.querySelector('.ct').innerHTML||'<br>'; b.replaceWith(d); placeCaret(d,true); return; }
+  if(b.tagName==='UL'||b.tagName==='OL'){ document.execCommand(b.tagName==='UL'?'insertUnorderedList':'insertOrderedList'); b=edBlockOf(getSelection().anchorNode); if(!b) return; }
+  const cl=makeCl(false,b.innerHTML.replace(/<br>$/,'')); b.replaceWith(cl); placeCaret(cl.querySelector('.ct'),true); edPh();
+}
+function edList(kind){
+  const ed=$('nv-ed'); ed.focus(); const sl=getSelection(); if(!sl.rangeCount) return;
+  const b=edBlockOf(sl.anchorNode);
+  if(b && b.classList && b.classList.contains('cl')){ const d=document.createElement('div'); d.innerHTML=b.querySelector('.ct').innerHTML||'<br>'; b.replaceWith(d); placeCaret(d,true); }
+  document.execCommand(kind==='ol'?'insertOrderedList':'insertUnorderedList'); edPh();
+}
+function edPh(){ const ed=$('nv-ed'); if(ed) ed.classList.toggle('empty', !ed.textContent.replace(/\u200b/g,'').trim() && !ed.querySelector('.cl,li')); }
+function nvToggleCb(cb){
+  const cl=cb.closest('.cl'); if(!cl) return; cl.classList.toggle('done');
+  const n=curNote(); if(!n) return; const host=document.querySelector('.nv-text.rich'); if(!host) return;
+  n.html=cleanHtml(host.innerHTML); n.text=htmlToText(n.html); save();
+}
+function edBind(){
+  const ed=$('nv-ed'); if(!ed) return;
+  document.execCommand('defaultParagraphSeparator',false,'div');
+  ed.addEventListener('beforeinput', e=>{
+    const sl=getSelection(); if(!sl.rangeCount) return; const ct=(sl.anchorNode.nodeType===3?sl.anchorNode.parentNode:sl.anchorNode).closest && (sl.anchorNode.nodeType===3?sl.anchorNode.parentNode:sl.anchorNode).closest('.ct');
+    if(!ct) return; const cl=ct.closest('.cl'), range=sl.getRangeAt(0), empty=!ct.textContent.replace(/\u200b/g,'').trim();
+    if(e.inputType==='insertParagraph'){
+      e.preventDefault();
+      if(empty){ const d=document.createElement('div'); d.setAttribute('dir','auto'); d.innerHTML='<br>'; cl.replaceWith(d); placeCaret(d); }
+      else { const after=document.createRange(); after.selectNodeContents(ct); after.setStart(range.endContainer,range.endOffset); const frag=after.extractContents();
+        const nc=makeCl(false,''); const nct=nc.querySelector('.ct'); nct.innerHTML=''; nct.appendChild(frag); if(!nct.textContent) nct.innerHTML='<br>'; if(!ct.textContent) ct.innerHTML='<br>';
+        cl.after(nc); placeCaret(nct); }
+    } else if(e.inputType==='deleteContentBackward' && range.collapsed){
+      const pre=document.createRange(); pre.selectNodeContents(ct); pre.setEnd(range.startContainer,range.startOffset);
+      if(pre.toString()===''){ e.preventDefault(); const d=document.createElement('div'); d.setAttribute('dir','auto'); d.innerHTML=ct.innerHTML||'<br>'; cl.replaceWith(d); placeCaret(d); const dd=d; const r=document.createRange(); r.selectNodeContents(dd); r.collapse(true); sl.removeAllRanges(); sl.addRange(r); }
+    }
+  });
+  ed.addEventListener('input', edPh);
+  ed.addEventListener('click', e=>{ const cb=e.target.closest('.cb'); if(cb){ cb.closest('.cl').classList.toggle('done'); } });
+  ed.addEventListener('paste', e=>{ e.preventDefault(); const t=(e.clipboardData||window.clipboardData).getData('text/plain'); document.execCommand('insertText',false,t); });
+  edPh();
+}
+Object.assign(window,{edCheck,edList,nvToggleCb});
 /* ---------- master render / init ---------- */
 function renderAll(){ renderDashboard(); renderMoney(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); renderHabits(); freshId=null; stagger=false; }
 /* ---------- native (Capacitor) integration ---------- */
