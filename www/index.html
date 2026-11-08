@@ -835,6 +835,8 @@ body{font-family:var(--sans);}
 .ed-bar button:active{background:var(--accent-dim); color:var(--accent); transform:scale(.9);}
 @keyframes edBarIn{from{opacity:0; transform:translate(-50%,16px);} to{opacity:1; transform:translate(-50%,0);}}
 .nv-wrap.editing{padding-bottom:96px;}
+[data-theme="dark"] .quickadd-opt,[data-theme="midnight"] .quickadd-opt{color:#fff;}
+[data-theme="dark"] .quickadd-opt .qa-ico,[data-theme="midnight"] .quickadd-opt .qa-ico{color:#fff;}
 </style>
 </head>
 <body data-theme="midnight">
@@ -1393,7 +1395,7 @@ $('importFile').addEventListener('change', e=>{
   r.onload = ()=>{ try{ state = migrate(JSON.parse(r.result)); save(); applyTheme(); applyFirstDay(); resetWeekNav(); renderAll(); toast('Data imported'); }catch(err){ toast('Could not read that file'); } };
   r.readAsText(f);
 });
-$('resetBtn').addEventListener('click', ()=>{ if(confirm('This will erase all your data. Continue?')){ state = defaultData(); save(); applyTheme(); applyFirstDay(); resetWeekNav(); renderAll(); toast('Data reset'); } });
+$('resetBtn').addEventListener('click', ()=>{ if(confirm('This will erase all your data. Continue?')){ state = defaultData(); state.imports={bhabit:true}; save(); applyTheme(); applyFirstDay(); resetWeekNav(); renderAll(); toast('Data reset'); } });
 
 
 /* ============================================================
@@ -2134,6 +2136,20 @@ function edBind(){
   edPh();
 }
 Object.assign(window,{edCheck,edList,nvToggleCb});
+
+/* ---------- one-time import of the old "B. Habit" history (negative habit) ---------- */
+function seedBHabit(){
+  state.imports = state.imports || {};
+  if(state.imports.bhabit) return;
+  const months = [[2025,12,14,17],[2026,1,17,14],[2026,2,9,19],[2026,3,11,20],[2026,4,22,8],[2026,5,23,8],[2026,6,20,10],[2026,7,15,16],[2026,8,15,16],[2026,9,16,14],[2026,10,18,13],[2026,11,5,3]];
+  const h = {id:'h_bhabit', name:'B. Habit', color:'#e0a6a6', days:[], type:'neg', ts:new Date(2025,11,1).getTime()};
+  state.habits.push(h);
+  months.forEach(([y,m,red,green],idx)=>{
+    const n = (idx===months.length-1) ? 7 : new Date(y,m,0).getDate();   // November: days 1-7 are complete, today (8th) is still pending
+    for(let k=0;k<red;k++){ const day=Math.min(n,Math.floor((k+0.5)*n/red)+1); const d=`${y}-${p2(m)}-${p2(day)}`; (state.habitLog[d]=state.habitLog[d]||[]).push(h.id); }
+  });
+  state.imports.bhabit = true; save();
+}
 /* ---------- master render / init ---------- */
 function renderAll(){ renderDashboard(); renderMoney(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); renderHabits(); freshId=null; stagger=false; }
 /* ---------- native (Capacitor) integration ---------- */
@@ -2149,6 +2165,7 @@ function syncStatusBar(){
   try{ CAP.StatusBar.setBackgroundColor({color: col}); CAP.StatusBar.setStyle({style: dark?'DARK':'LIGHT'}); }catch(e){}
 }
 paintIcons();
+seedBHabit();
 $('segPeriod').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b||hp.p===b.dataset.v) return; hp.p=b.dataset.v; hp.off=0; hpSwap(); renderDashboard(); });
 applyTheme();
 history.replaceState({page:'dashboard'}, '');
