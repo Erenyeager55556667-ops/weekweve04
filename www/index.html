@@ -859,6 +859,26 @@ body{font-family:var(--sans);}
 .res-bar .rr{background:linear-gradient(90deg,#ef4444,#d92b2b);}
 .res-leg{display:flex; justify-content:space-between; margin-top:10px; font-size:12px;}
 .res-leg .lg1{color:#4ade80;} .res-leg .lg2{color:#f87171;}
+.hg.best i.g{opacity:1; box-shadow:0 0 10px 1px rgba(74,222,128,.28); animation:glowFlash .45s ease-in-out 2;}
+.hg.best i.r{opacity:1; box-shadow:0 0 6px rgba(248,113,113,.18); animation:glowFlashR .45s ease-in-out 2;}
+@keyframes glowFlash{0%,100%{box-shadow:0 0 10px 1px rgba(74,222,128,.28);}50%{box-shadow:0 0 26px 7px rgba(74,222,128,.95), 0 0 64px 16px rgba(74,222,128,.5);}}
+@keyframes glowFlashR{0%,100%{box-shadow:0 0 6px rgba(248,113,113,.18);}50%{box-shadow:0 0 18px 4px rgba(248,113,113,.6);}}
+.sw-field{display:flex; flex-direction:row; align-items:center; justify-content:space-between;}
+.sw-field label{margin:0;}
+.sw{position:relative; width:52px; height:30px; border-radius:999px; border:1px solid var(--border); background:var(--card-2); cursor:pointer; transition:background .3s, border-color .3s; padding:0;}
+.sw i{position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%; background:var(--text-faint); transition:transform .3s cubic-bezier(.2,.9,.3,1.3), background .3s;}
+.sw.on{background:var(--accent-dim); border-color:var(--accent);}
+.sw.on i{transform:translateX(22px); background:var(--accent);}
+.ip-list{display:flex; flex-direction:column; gap:10px; max-height:46vh; overflow-y:auto;}
+.ip-card{padding:14px; border-radius:14px; background:linear-gradient(135deg, color-mix(in srgb, var(--hc) 18%, var(--card)), var(--card)); border:1px solid color-mix(in srgb, var(--hc) 40%, var(--border));}
+.ip-top{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+.ip-top b{font-size:15px;}
+.ip-ex{font-size:10px; font-weight:700; padding:2px 8px; border-radius:999px; background:var(--accent-dim); color:var(--accent);}
+.ip-sub{font-size:12px; color:var(--text-faint); margin-top:4px;}
+.ip-nums{display:flex; gap:18px; margin-top:10px; font-size:13px;}
+.ip-nums b{font-size:18px; margin-left:4px;}
+.ip-nums .g{color:#4ade80;} .ip-nums .r{color:#f87171;}
+#segMtype.neg .seg-pill{background:#ef4444;} #segMtype.neg button.on{color:#fff;}
 </style>
 </head>
 <body data-theme="midnight">
@@ -1012,15 +1032,24 @@ body{font-family:var(--sans);}
           <div class="pc-btns"><button class="btn sm primary" id="pinBtn">Set passcode</button><button class="btn sm danger-outline" id="pinRemoveBtn" style="display:none">Remove passcode</button></div>
         </div>
         <div class="card">
+          <div class="card-title">Habit data</div>
+          <p class="pc-text">Bring a habit from a file or from monthly totals, or back up your habits.</p>
+          <div class="pc-btns">
+            <button class="btn sm primary" id="importPackBtn">Import habit data</button>
+            <button class="btn sm" id="monthlyBtn">From monthly totals</button>
+            <button class="btn sm" id="exportHabitsBtn">Export habits</button>
+          </div>
+          <input type="file" id="importPackFile" accept="application/json,.json" style="display:none;">
+        </div>
+        <div class="card">
           <div class="card-title">Appearance</div>
           <div class="field"><label>Theme</label><div class="seg seg3" id="segTheme"><span class="seg-pill"></span><button data-v="midnight"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.7 4.6 4.8.4-3.7 3.2 1.2 4.7L12 13.8 8 16.4l1.2-4.7L5.5 8.5l4.8-.4z"/></svg>Midnight</button><button data-v="dark"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>Dark</button><button data-v="light"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>Light</button></div></div>
+          <div class="field sw-field"><label>Glow effect</label><button type="button" class="sw" id="glowSw" role="switch" aria-label="Glow effect"><i></i></button></div>
           <div class="field"><label>Accent color</label><div class="swatches" id="accentSwatches"></div></div>
           <div class="card-title" style="margin-top:20px;">Data</div>
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <button class="btn sm" id="exportBtn">Export data</button>
             <button class="btn sm" id="importBtn">Import data</button>
-            <button class="btn sm" id="importPackBtn">Import habit data</button>
-            <input type="file" id="importPackFile" accept="application/json,.json" style="display:none;">
             <input type="file" id="importFile" accept="application/json" style="display:none;">
             <button class="btn sm danger-outline" id="resetBtn">Reset data</button>
           </div>
@@ -1068,7 +1097,7 @@ function slotNow(map){ const h=new Date().getHours(); return map[h<12?0:h<18?1:2
 
 /* ---------- data ---------- */
 function defaultData(){
-  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"midnight", accent:ACCENTS[0], notifications:true, notesPin:'' }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], habits:[], habitLog:{}, taskCats:[{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}], installWeek: iso(new Date()) };
+  return { settings:{ name:"", budget:0, currency:"MAD", firstDay:"Monday", theme:"midnight", accent:ACCENTS[0], notifications:true, notesPin:'', glow:true }, expenses:[], meals:{}, notes:[], tasks:[], noteCats:[{id:'c_personal',name:'Personal',color:'#e0c48a'},{id:'c_work',name:'Work',color:'#8faf8a'}], habits:[], habitLog:{}, taskCats:[{id:'tc_personal',name:'Personal',color:'#8ea7d9'},{id:'tc_work',name:'Work',color:'#e0c48a'}], installWeek: iso(new Date()) };
 }
 function migrate(s){
   if(!s.installWeek) s.installWeek = iso(new Date());
@@ -1402,7 +1431,7 @@ Object.assign(window,{hpShift,hpTip});
 function renderSettings(){
   const s = state.settings;
   $('setName').value = s.name; $('setBudget').value = s.budget; $('setCurrency').value = s.currency;
-  setSeg('segFirst',s.firstDay); $('setNotifications').checked = s.notifications; setSeg('segTheme',s.theme); $('pinBtn').textContent = s.notesPin ? 'Change passcode' : 'Set passcode'; $('pcStatus').classList.toggle('on', !!s.notesPin); $('pcStatus').querySelector('span').textContent = s.notesPin ? 'Passcode is set' : 'Not set'; $('pinRemoveBtn').style.display = s.notesPin ? '' : 'none';
+  setSeg('segFirst',s.firstDay); $('setNotifications').checked = s.notifications; setSeg('segTheme',s.theme); $('glowSw').classList.toggle('on', s.glow!==false); $('pinBtn').textContent = s.notesPin ? 'Change passcode' : 'Set passcode'; $('pcStatus').classList.toggle('on', !!s.notesPin); $('pcStatus').querySelector('span').textContent = s.notesPin ? 'Passcode is set' : 'Not set'; $('pinRemoveBtn').style.display = s.notesPin ? '' : 'none';
   $('accentSwatches').innerHTML = ACCENTS.map(c=>`<div class="swatch ${c===s.accent?'active':''}" style="background:${c}" onclick="pickAccent('${c}')"></div>`).join('');
 }
 window.pickAccent = c => { state.settings.accent=c; save(); applyTheme(); renderSettings(); };
@@ -2029,7 +2058,7 @@ function drawHabChart(){
   const el=$('hbChart'), key=g+bk.length, same = el.children.length===bk.length && el.dataset.p===key;
   if(!same){ el.innerHTML = bk.map((b,i)=>`<div class="hg" style="--d:${Math.min(i*22,500)}ms" onclick="habTip(this)"><span class="hb-tip"></span><i class="g"></i><i class="r"></i></div>`).join(''); el.dataset.p=key; }
   const mx=Math.max(1,...bk.map(b=>Math.max(b.done,b.miss)));
-  const dmax=Math.max(0,...bk.map(b=>b.done)), dmin=Math.min(...bk.map(b=>b.done)), glow=bk.map(b=>dmax>0 && dmax!==dmin && b.done===dmax);
+  const dmax=Math.max(0,...bk.map(b=>b.done)), dmin=Math.min(...bk.map(b=>b.done)), glow=bk.map(b=>state.settings.glow!==false && dmax>0 && dmax!==dmin && b.done===dmax);
   const apply=()=>[...el.children].forEach((k,i)=>{ const b=bk[i], hg=b.done?Math.max(6,b.done/mx*100):0, hr=b.miss?Math.max(6,b.miss/mx*100):0;
     k.classList.toggle('cur',!!b.cur); k.classList.toggle('best',glow[i]); k.querySelector('.hb-tip').textContent=`✓ ${b.done}  ✗ ${b.miss}`;
     k.querySelector('.g').style.setProperty('--h',hg); k.querySelector('.r').style.setProperty('--h',hr); k.style.setProperty('--m',Math.max(hg,hr)); });
@@ -2067,7 +2096,7 @@ function openHabitForm0(id){
     <div class="field"><label>Type</label><div class="seg" id="segHtype"><span class="seg-pill"></span><button type="button" data-v="pos">Positive</button><button type="button" data-v="neg">Negative</button></div><div class="rd-hint">Negative = a habit to avoid. Ticking it means you slipped (red); a finished day without a tick counts as a success (green).</div></div>
     <div class="field"><label>Color</label>${catSw(formColor)}</div>
     <div class="field"><label>Repeat on</label><div class="rd-row">${DAYS.map(d=>{ const idx=NAMES.indexOf(d); return `<button type="button" class="rd ${habDays.includes(idx)?'on':''}" data-d="${idx}" onclick="toggleRd(this)">${d.slice(0,1)}</button>`; }).join('')}</div><div class="rd-hint">Leave empty to repeat every day.</div></div>
-    <div class="modal-actions"><button class="btn primary full" onclick="saveHabit('${id||''}')">Save</button>${h?`<button class="btn danger-outline" onclick="deleteHabit('${h.id}')">Delete</button>`:''}</div>`);
+    <div class="modal-actions"><button class="btn primary full" onclick="saveHabit('${id||''}')">Save</button>${h?`<button class="btn" onclick="exportHabit('${h.id}')">Export</button><button class="btn danger-outline" onclick="deleteHabit('${h.id}')">Delete</button>`:''}</div>`);
 }
 function toggleRd(b){ const d=+b.dataset.d, k=habDays.indexOf(d); if(k>-1) habDays.splice(k,1); else habDays.push(d); b.classList.toggle('on'); }
 function saveHabit(id){
@@ -2199,22 +2228,87 @@ function drawResults(hs,cur0){
   $('resRate').textContent=rate.toFixed(2)+'%'; $('resPG').textContent=rate.toFixed(2)+'% done'; $('resPR').textContent=(total?100-rate:0).toFixed(2)+'% not done';
   $('resBarG').style.width = (total?rate:0)+'%'; $('resBarR').style.width = (total?100-rate:0)+'%';
 }
-function mergePack(j){
-  if(!j || j.weekweavePack!=='habits' || !Array.isArray(j.habits)){ toast('This is not a habit data file'); return false; }
+const PACK_OK = j => j && j.weekweavePack==='habits' && Array.isArray(j.habits) && j.habits.some(h=>h && h.id && h.name);
+function mergePack(j,mode){
   const ids=new Set();
   j.habits.forEach(h=>{ if(!h||!h.id||!h.name) return; ids.add(String(h.id));
     const c={id:String(h.id), name:String(h.name), color:String(h.color||'#e0a6a6'), days:Array.isArray(h.days)?h.days.filter(n=>n>=0&&n<=6):[], type:h.type==='neg'?'neg':'pos', ts:+h.ts||Date.now()};
-    const i=state.habits.findIndex(x=>x.id===c.id); if(i>-1) state.habits[i]=c; else state.habits.push(c); });
-  Object.keys(state.habitLog).forEach(d=>{ state.habitLog[d]=state.habitLog[d].filter(x=>!ids.has(x)); if(!state.habitLog[d].length) delete state.habitLog[d]; });
-  Object.entries(j.habitLog||{}).forEach(([d,list])=>{ if(!/^\d{4}-\d{2}-\d{2}$/.test(d)||!Array.isArray(list)) return; const cur=state.habitLog[d]||[]; list.forEach(id=>{ if(ids.has(String(id)) && !cur.includes(String(id))) cur.push(String(id)); }); if(cur.length) state.habitLog[d]=cur; });
+    const i=state.habits.findIndex(x=>x.id===c.id);
+    if(i<0) state.habits.push(c); else if(mode==='merge'){ state.habits[i].ts=Math.min(state.habits[i].ts,c.ts); } else state.habits[i]=c; });
+  if(mode!=='merge') Object.keys(state.habitLog).forEach(d=>{ state.habitLog[d]=state.habitLog[d].filter(x=>!ids.has(x)); if(!state.habitLog[d].length) delete state.habitLog[d]; });
+  Object.entries(j.habitLog||{}).forEach(([d,list])=>{ if(!/^\d{4}-\d{2}-\d{2}$/.test(d)||!Array.isArray(list)) return; const cur=state.habitLog[d]||[]; list.forEach(id=>{ id=String(id); if(ids.has(id) && !cur.includes(id)) cur.push(id); }); if(cur.length) state.habitLog[d]=cur; });
   state.imports=state.imports||{}; state.imports.bhabit=true; save(); renderAll(); return true;
+}
+function packStats(h,pack){
+  const logged=new Set(); Object.entries(pack.habitLog||{}).forEach(([d,l])=>{ if((l||[]).map(String).includes(String(h.id))) logged.add(d); });
+  const neg=h.type==='neg', days=Array.isArray(h.days)?h.days:[]; let done=0, miss=0; const t=new Date(); t.setHours(0,0,0,0);
+  for(let d=new Date(iso(new Date(+h.ts||Date.now()))+'T00:00:00'); d<=t; d=addDays(d,1)){
+    if(days.length && !days.includes(d.getDay())) continue; const k=iso(d), c=logged.has(k);
+    if(k===TODAY_ISO){ if(c){ if(neg) miss++; else done++; } continue; }
+    if(neg){ if(c) miss++; else done++; } else { if(c) done++; else miss++; } }
+  return {done,miss};
+}
+let pendingPack=null, impMode='merge';
+function showImportPreview(pack){
+  if(!PACK_OK(pack)){ toast('This is not a habit data file'); return; }
+  pendingPack=pack; const exists=pack.habits.some(h=>state.habits.some(x=>x.id===String(h.id)));
+  impMode = exists ? 'merge' : 'replace';
+  const cards=pack.habits.filter(h=>h&&h.id&&h.name).map(h=>{ const st=packStats(h,pack), neg=h.type==='neg', ex=state.habits.some(x=>x.id===String(h.id));
+    return `<div class="ip-card" style="--hc:${dk(h.color||'#e0a6a6')}"><div class="ip-top"><b dir="auto">${esc(h.name)}</b>${neg?'<span class="h-tag">Avoid</span>':''}${ex?'<span class="ip-ex">Already in app</span>':''}</div><div class="ip-sub">Since ${fmt(new Date(+h.ts||Date.now()))}</div><div class="ip-nums"><span class="g">Done <b>${st.done}</b></span><span class="r">Not done <b>${st.miss}</b></span></div></div>`; }).join('');
+  openModal(`<div class="modal-head"><div class="modal-title">Import preview</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="ip-list">${cards}</div>
+    ${exists?`<div class="field" style="margin-top:14px"><label>If a habit already exists</label><div class="seg" id="segImp"><span class="seg-pill"></span><button type="button" data-v="merge">Merge days</button><button type="button" data-v="replace">Replace history</button></div></div>`:''}
+    <div class="modal-actions" style="margin-top:14px"><button class="btn primary full" onclick="confirmImport()">Import</button><button class="btn" onclick="closeModal()">Cancel</button></div>`);
+  if(exists){ setSeg('segImp',impMode); $('segImp').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; impMode=b.dataset.v; setSeg('segImp',impMode); }); }
+}
+function confirmImport(){ const pk=pendingPack; if(!pk) return; closeModal(); mergePack(pk,impMode); pendingPack=null; notify({icon:'check', title:'Habit data imported', sub:'Your other data was not touched', duration:5000}); }
+async function saveJson(name,obj){
+  const json=JSON.stringify(obj,null,1);
+  if(CAP && CAP.Filesystem && CAP.Share){ try{ const f=await CAP.Filesystem.writeFile({path:name,data:json,directory:'CACHE',encoding:'utf8'}); await CAP.Share.share({title:name,url:f.uri}); return true; }catch(err){ if(/cancel/i.test(String(err))) return false; } }
+  const url=URL.createObjectURL(new Blob([json],{type:'application/json'})); const a=document.createElement('a'); a.href=url; a.download=name; a.click(); URL.revokeObjectURL(url); return true;
+}
+function habitPack(list){
+  const ids=new Set(list.map(h=>h.id)), log={};
+  Object.entries(state.habitLog).forEach(([d,l])=>{ const m=l.filter(x=>ids.has(x)); if(m.length) log[d]=m; });
+  return {weekweavePack:'habits', version:1, habits:list.map(h=>({id:h.id,name:h.name,color:h.color,days:h.days||[],type:h.type==='neg'?'neg':'pos',ts:h.ts})), habitLog:Object.fromEntries(Object.entries(log).sort())};
+}
+async function exportHabit(id){ const h=state.habits.find(x=>x.id===id); if(!h) return; if(await saveJson('habit-'+h.name.replace(/[^\w\u0600-\u06FF]+/g,'-')+'.json',habitPack([h]))) toast('Habit exported'); }
+async function exportAllHabits(){ if(!state.habits.length){ toast('No habits to export'); return; } if(await saveJson('weekweave-habits.json',habitPack(state.habits))) toast('Habits exported'); }
+let mType='neg';
+function openMonthlyImport(){
+  formColor=NCOLORS[1]; mType='neg';
+  openModal(`<div class="modal-head"><div class="modal-title">From monthly totals</div><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="field"><label>Habit name</label><input id="mi-name" type="text"></div>
+    <div class="field"><label>Type</label><div class="seg" id="segMtype"><span class="seg-pill"></span><button type="button" data-v="pos">Positive</button><button type="button" data-v="neg">Negative</button></div></div>
+    <div class="field"><label>Color</label>${catSw(formColor)}</div>
+    <div class="field"><label>Months (one per line)</label><textarea id="mi-lines" rows="6" placeholder="2025-12, 17, 14&#10;2026-01, 14, 17"></textarea><div class="rd-hint">Format: month, Done days, Not done days. Done = days you succeeded, Not done = days you failed. Each month should add up to its number of days (the current month: days so far).</div></div>
+    <div class="modal-actions"><button class="btn primary full" onclick="monthlyPreview()">Preview</button></div>`);
+  setSeg('segMtype',mType); $('segMtype').classList.toggle('neg',mType==='neg');
+  $('segMtype').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; mType=b.dataset.v; setSeg('segMtype',mType); $('segMtype').classList.toggle('neg',mType==='neg'); });
+}
+function monthlyPreview(){
+  const name=$('mi-name').value.trim(); if(!name){ toast('Name the habit first'); return; }
+  const rows=[]; for(const line of $('mi-lines').value.split('\n')){ const t=line.trim(); if(!t) continue; const m=t.match(/^(\d{4})-(\d{1,2})\s*[,;\s]\s*(\d+)\s*[,;\s]\s*(\d+)$/); if(!m){ toast('Check this line: '+t); return; } rows.push({y:+m[1],mo:+m[2],done:+m[3],miss:+m[4]}); }
+  if(!rows.length){ toast('Add at least one month'); return; }
+  rows.sort((a,b)=>a.y-b.y||a.mo-b.mo); const now=new Date(), log={}, id='h_'+uid('i');
+  for(const r of rows){ if(r.mo<1||r.mo>12){ toast('Invalid month '+r.y+'-'+r.mo); return; }
+    const dim=new Date(r.y,r.mo,0).getDate(), cur=(r.y===now.getFullYear()&&r.mo===now.getMonth()+1), tot=r.done+r.miss;
+    if(tot>dim){ toast(`${r.y}-${p2(r.mo)} has only ${dim} days`); return; }
+    const n=cur?tot:dim, ticked=mType==='neg'?r.miss:r.done;
+    for(let k=0;k<ticked;k++){ const day=Math.min(n,Math.floor((k+0.5)*n/ticked)+1), d=`${r.y}-${p2(r.mo)}-${p2(day)}`; (log[d]=log[d]||[]).push(id); } }
+  showImportPreview({weekweavePack:'habits', version:1, habits:[{id,name,color:formColor,days:[],type:mType,ts:new Date(rows[0].y,rows[0].mo-1,1,12).getTime()}], habitLog:log});
 }
 $('importPackBtn').addEventListener('click', ()=>$('importPackFile').click());
 $('importPackFile').addEventListener('change', e=>{
   const f=e.target.files[0]; if(!f) return; const r=new FileReader();
-  r.onload=()=>{ try{ if(mergePack(JSON.parse(r.result))) notify({icon:'check', title:'Habit data imported', sub:'Your other data was not touched', duration:5000}); }catch(err){ toast('Could not read that file'); } };
+  r.onload=()=>{ try{ showImportPreview(JSON.parse(r.result)); }catch(err){ toast('Could not read that file'); } };
   r.readAsText(f); e.target.value='';
 });
+$('monthlyBtn').addEventListener('click', openMonthlyImport);
+$('exportHabitsBtn').addEventListener('click', exportAllHabits);
+$('glowSw').addEventListener('click', ()=>{ state.settings.glow = state.settings.glow===false; save(); $('glowSw').classList.toggle('on', state.settings.glow!==false); drawHabChart(); });
+Object.assign(window,{confirmImport,exportHabit,monthlyPreview});
+
 /* ---------- master render / init ---------- */
 function renderAll(){ renderDashboard(); renderMoney(); renderSettings(); renderNotes(); renderTasks(); renderNoteView(); renderHabits(); freshId=null; stagger=false; }
 /* ---------- native (Capacitor) integration ---------- */
